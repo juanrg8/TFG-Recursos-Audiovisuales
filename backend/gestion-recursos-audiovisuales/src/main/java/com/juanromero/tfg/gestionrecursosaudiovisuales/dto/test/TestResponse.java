@@ -1,15 +1,20 @@
 package com.juanromero.tfg.gestionrecursosaudiovisuales.dto.test;
 
+import java.util.List;
+
+import com.juanromero.tfg.gestionrecursosaudiovisuales.entity.user.User;
+
 public class TestResponse {
 	
 	private String estadoPeticion;
 	private String descripcionPeticion;
+	private List<User> listaUsuarios;
 	
-	
-	public TestResponse(String estadoPeticion, String descripcionPeticion) {
+	public TestResponse(String estadoPeticion, String descripcionPeticion, List<User> listaUsuarios) {
 		super();
 		this.estadoPeticion = estadoPeticion;
 		this.descripcionPeticion = descripcionPeticion;
+		this.listaUsuarios = listaUsuarios;
 	}
 
 
@@ -35,6 +40,16 @@ public class TestResponse {
 
 	public void setDescripcionPeticion(String descripcionPeticion) {
 		this.descripcionPeticion = descripcionPeticion;
+	}
+
+
+	public List<User> getListaUsuarios() {
+		return listaUsuarios;
+	}
+
+
+	public void setListaUsuarios(List<User> listaUsuarios) {
+		this.listaUsuarios = listaUsuarios;
 	}
 	
 	

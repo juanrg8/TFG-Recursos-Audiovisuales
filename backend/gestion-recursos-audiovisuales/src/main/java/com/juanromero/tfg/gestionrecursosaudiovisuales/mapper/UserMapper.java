@@ -10,6 +10,7 @@ public class UserMapper {
 	public User dtoToEntity(TestRequest dto) {
 		User entity = new User();
 		
+		entity.setId(dto.getId());
 		entity.setUsername(dto.getUsername());
 		entity.setPassword(dto.getPassword());
 		entity.setEmail(dto.getEmail());
