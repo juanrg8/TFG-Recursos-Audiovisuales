@@ -5,15 +5,15 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.juanromero.tfg.gestionrecursosaudiovisuales.dto.test.TestRequest;
-import com.juanromero.tfg.gestionrecursosaudiovisuales.dto.test.TestResponse;
+import com.juanromero.tfg.gestionrecursosaudiovisuales.dto.user.UserRequest;
+import com.juanromero.tfg.gestionrecursosaudiovisuales.dto.user.UserResponse;
 import com.juanromero.tfg.gestionrecursosaudiovisuales.entity.user.User;
-import com.juanromero.tfg.gestionrecursosaudiovisuales.facade.TestFacade;
+import com.juanromero.tfg.gestionrecursosaudiovisuales.facade.UserFacade;
 import com.juanromero.tfg.gestionrecursosaudiovisuales.mapper.UserMapper;
 import com.juanromero.tfg.gestionrecursosaudiovisuales.service.UserService;
 
 @Service
-public class TestFacadeImpl implements TestFacade {
+public class UserFacadeImpl implements UserFacade {
 
 	@Autowired
 	private UserService userService;
@@ -27,9 +27,9 @@ public class TestFacadeImpl implements TestFacade {
 	private static final String response_encontrado_ok = "El usuario se ha encontrado correctamente.";
 
 	@Override
-	public TestResponse addUser(TestRequest test) {
+	public UserResponse addUser(UserRequest test) {
 
-		TestResponse response = new TestResponse();
+		UserResponse response = new UserResponse();
 		String descripcionPeticion = "";
 
 		User usuario = userMapper.dtoToEntity(test);
@@ -45,9 +45,9 @@ public class TestFacadeImpl implements TestFacade {
 	}
 
 	@Override
-	public TestResponse deleteUser(TestRequest test) {
+	public UserResponse deleteUser(UserRequest test) {
 
-		TestResponse response = new TestResponse();
+		UserResponse response = new UserResponse();
 		String descripcionPeticion = "";
 
 		User usuario = userMapper.dtoToEntity(test);
@@ -63,9 +63,9 @@ public class TestFacadeImpl implements TestFacade {
 	}
 
 	@Override
-	public TestResponse updateUser(TestRequest test) {
+	public UserResponse updateUser(UserRequest test) {
 
-		TestResponse response = new TestResponse();
+		UserResponse response = new UserResponse();
 		String descripcionPeticion = "";
 
 		User usuario = userMapper.dtoToEntity(test);
@@ -81,8 +81,8 @@ public class TestFacadeImpl implements TestFacade {
 	}
 
 	@Override
-	public TestResponse findUser() {
-		TestResponse response = new TestResponse();
+	public UserResponse findUser() {
+		UserResponse response = new UserResponse();
 
 		List<User> lista = userService.findAllUsers();
 		response.setListaUsuarios(lista);

@@ -9,29 +9,30 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.juanromero.tfg.gestionrecursosaudiovisuales.dto.test.TestRequest;
-import com.juanromero.tfg.gestionrecursosaudiovisuales.dto.test.TestResponse;
-import com.juanromero.tfg.gestionrecursosaudiovisuales.facade.TestFacade;
+import com.juanromero.tfg.gestionrecursosaudiovisuales.dto.user.UserRequest;
+import com.juanromero.tfg.gestionrecursosaudiovisuales.dto.user.UserResponse;
+import com.juanromero.tfg.gestionrecursosaudiovisuales.facade.UserFacade;
 
 @RestController
 @RequestMapping(path="/user")
-public class TestController {
+public class UserController {
 	@Autowired
-	private TestFacade testfacade;
+	private UserFacade testfacade;
+	
 	@PostMapping(path="/adduser")
-	public TestResponse add(@RequestBody TestRequest request) {
+	public UserResponse add(@RequestBody UserRequest request) {
 		return testfacade.addUser(request);
 	}
 	@DeleteMapping(path="/deleteuser")
-	public TestResponse delete(@RequestBody TestRequest request) {
+	public UserResponse delete(@RequestBody UserRequest request) {
 		return testfacade.deleteUser(request);
 	}
 	@PutMapping(path="/updateuser")
-	public TestResponse update(@RequestBody TestRequest request) {
+	public UserResponse update(@RequestBody UserRequest request) {
 		return testfacade.updateUser(request);
 	}
-	@PostMapping(path="/findusers")
-	public TestResponse findAllUsers() {
+	@GetMapping(path="/findusers")
+	public UserResponse findAllUsers() {
 		return testfacade.findUser();
 	}
 }

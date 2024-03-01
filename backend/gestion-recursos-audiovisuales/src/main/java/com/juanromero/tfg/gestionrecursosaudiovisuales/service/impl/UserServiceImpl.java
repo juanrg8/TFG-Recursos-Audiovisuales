@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import com.juanromero.tfg.gestionrecursosaudiovisuales.entity.user.User;
-import com.juanromero.tfg.gestionrecursosaudiovisuales.facade.TestFacade;
+import com.juanromero.tfg.gestionrecursosaudiovisuales.facade.UserFacade;
 import com.juanromero.tfg.gestionrecursosaudiovisuales.repository.UserRepository;
 import com.juanromero.tfg.gestionrecursosaudiovisuales.service.UserService;
 
