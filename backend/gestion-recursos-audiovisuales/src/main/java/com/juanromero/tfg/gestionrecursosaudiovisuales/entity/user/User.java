@@ -1,7 +1,7 @@
 package com.juanromero.tfg.gestionrecursosaudiovisuales.entity.user;
 
 
-import jakarta.persistence.Column; 
+import jakarta.persistence.Column;  
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

@@ -1,6 +1,6 @@
 package com.juanromero.tfg.gestionrecursosaudiovisuales.dto.user;
 
-import com.juanromero.tfg.gestionrecursosaudiovisuales.entity.user.Rol;
+import com.juanromero.tfg.gestionrecursosaudiovisuales.entity.user.Rol; 
 
 import lombok.Getter;
 import lombok.Setter;
