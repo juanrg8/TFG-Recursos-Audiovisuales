@@ -1,4 +1,4 @@
-package com.juanromero.tfg.gestionrecursosaudiovisuales.controller;
+package com.juanromero.tfg.gestionrecursosaudiovisuales.controller.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.juanromero.tfg.gestionrecursosaudiovisuales.dto.user.UserRequest;
 import com.juanromero.tfg.gestionrecursosaudiovisuales.dto.user.UserResponse;
-import com.juanromero.tfg.gestionrecursosaudiovisuales.facade.UserFacade;
+import com.juanromero.tfg.gestionrecursosaudiovisuales.facade.user.UserFacade;
 
 @RestController
 @RequestMapping(path="/user")

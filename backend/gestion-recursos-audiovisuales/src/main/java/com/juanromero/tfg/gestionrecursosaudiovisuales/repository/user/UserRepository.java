@@ -1,4 +1,4 @@
-package com.juanromero.tfg.gestionrecursosaudiovisuales.repository;
+package com.juanromero.tfg.gestionrecursosaudiovisuales.repository.user;
 
 
 import org.springframework.data.jpa.repository.Query;

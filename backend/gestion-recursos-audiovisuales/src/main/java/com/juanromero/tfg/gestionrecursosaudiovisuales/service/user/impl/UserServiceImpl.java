@@ -1,6 +1,6 @@
-package com.juanromero.tfg.gestionrecursosaudiovisuales.service.impl;
+package com.juanromero.tfg.gestionrecursosaudiovisuales.service.user.impl;
 
-import java.util.ArrayList; 
+import java.util.ArrayList;  
 import java.util.List;
 import java.util.Optional;
 
@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.juanromero.tfg.gestionrecursosaudiovisuales.entity.user.User;
-import com.juanromero.tfg.gestionrecursosaudiovisuales.repository.UserRepository;
-import com.juanromero.tfg.gestionrecursosaudiovisuales.service.UserService;
+import com.juanromero.tfg.gestionrecursosaudiovisuales.repository.user.UserRepository;
+import com.juanromero.tfg.gestionrecursosaudiovisuales.service.user.UserService;
 
 @Service
 public class UserServiceImpl implements UserService {

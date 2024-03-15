@@ -1,4 +1,4 @@
-package com.juanromero.tfg.gestionrecursosaudiovisuales.service;
+package com.juanromero.tfg.gestionrecursosaudiovisuales.service.user;
 
 
 import java.util.List;

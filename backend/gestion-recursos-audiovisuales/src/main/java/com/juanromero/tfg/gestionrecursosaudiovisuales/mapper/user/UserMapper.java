@@ -1,4 +1,4 @@
-package com.juanromero.tfg.gestionrecursosaudiovisuales.mapper;
+package com.juanromero.tfg.gestionrecursosaudiovisuales.mapper.user;
 
 import org.springframework.stereotype.Service; 
 

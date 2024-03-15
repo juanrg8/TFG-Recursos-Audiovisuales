@@ -1,0 +1,58 @@
+{
+  "usuarios": [
+    {
+      "username": "john_doe",
+      "nombre": "John Doe",
+      "bio": "Apasionado por la lectura y la escritura.",
+      "email": "john@example.com",
+      "password": "password123",
+      "rol": "USER"
+    },
+    {
+      "username": "jane_smith",
+      "nombre": "Jane Smith",
+      "bio": "Estudiante de literatura y amante de los clásicos.",
+      "email": "jane@example.com",
+      "password": "qwerty",
+      "rol": "USER"
+    }
+  ],
+  "libros": [
+    {
+      "title": "1984",
+      "author": "George Orwell",
+      "publishDate": "1949-06-08",
+      "genre": "FICTION"
+    },
+    {
+      "title": "To Kill a Mockingbird",
+      "author": "Harper Lee",
+      "publishDate": "1960-07-11",
+      "genre": "FICTION"
+    },
+    {
+      "title": "El Camino de los Reyes",
+      "author": "Brandon Sanderson",
+      "publishDate": "2010-08-31",
+      "genre": "FANTASY"
+    },
+    {
+      "title": "Palabras Radiantes",
+      "author": "Brandon Sanderson",
+      "publishDate": "2014-03-04",
+      "genre": "FANTASY"
+    },
+    {
+      "title": "Juramentada",
+      "author": "Brandon Sanderson",
+      "publishDate": "2017-11-14",
+      "genre": "FANTASY"
+    },
+    {
+      "title": "El Ritmo de la Guerra",
+      "author": "Brandon Sanderson",
+      "publishDate": "2020-11-17",
+      "genre": "FANTASY"
+    }
+  ]
+}
