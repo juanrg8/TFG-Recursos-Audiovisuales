@@ -4,6 +4,11 @@ import java.util.List;
 
 import com.juanromero.tfg.gestionrecursosaudiovisuales.entity.user.User;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class UserResponse {
 	
 	private String estadoPeticion;
@@ -21,37 +26,5 @@ public class UserResponse {
 	public UserResponse() {
 		
 	}
-
-
-	public String getEstadoPeticion() {
-		return estadoPeticion;
-	}
-
-
-	public void setEstadoPeticion(String estadoPeticion) {
-		this.estadoPeticion = estadoPeticion;
-	}
-
-
-	public String getDescripcionPeticion() {
-		return descripcionPeticion;
-	}
-
-
-	public void setDescripcionPeticion(String descripcionPeticion) {
-		this.descripcionPeticion = descripcionPeticion;
-	}
-
-
-	public List<User> getListaUsuarios() {
-		return listaUsuarios;
-	}
-
-
-	public void setListaUsuarios(List<User> listaUsuarios) {
-		this.listaUsuarios = listaUsuarios;
-	}
-	
-	
 
 }

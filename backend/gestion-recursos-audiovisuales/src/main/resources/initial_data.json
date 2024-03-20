@@ -54,5 +54,21 @@
       "publishDate": "2020-11-17",
       "genre": "FANTASY"
     }
+  ],
+  "albums": [
+    {
+      "title": "Dark Side of the Moon",
+      "artist": "Pink Floyd",
+      "publishDate": 1973,
+      "musicGenre": "ROCK",
+      "songTrack": ["Speak to Me", "Breathe", "On the Run", "Time", "The Great Gig in the Sky"]
+    },
+    {
+      "title": "Abbey Road",
+      "artist": "The Beatles",
+      "publishDate": 1969,
+      "musicGenre": "ROCK",
+      "songTrack": ["Come Together", "Something", "Maxwell's Silver Hammer", "Oh! Darling", "Octopus's Garden"]
+    }
   ]
 }

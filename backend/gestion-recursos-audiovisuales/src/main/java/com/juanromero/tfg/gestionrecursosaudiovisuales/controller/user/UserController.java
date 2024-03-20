@@ -17,22 +17,22 @@ import com.juanromero.tfg.gestionrecursosaudiovisuales.facade.user.UserFacade;
 @RequestMapping(path="/user")
 public class UserController {
 	@Autowired
-	private UserFacade testfacade;
+	private UserFacade userFacade;
 	
 	@PostMapping(path="/adduser")
 	public UserResponse add(@RequestBody UserRequest request) {
-		return testfacade.addUser(request);
+		return userFacade.addUser(request);
 	}
 	@DeleteMapping(path="/deleteuser")
 	public UserResponse delete(@RequestBody UserRequest request) {
-		return testfacade.deleteUser(request);
+		return userFacade.deleteUser(request);
 	}
 	@PutMapping(path="/updateuser")
 	public UserResponse update(@RequestBody UserRequest request) {
-		return testfacade.updateUser(request);
+		return userFacade.updateUser(request);
 	}
 	@GetMapping(path="/findusers")
 	public UserResponse findAllUsers() {
-		return testfacade.findUser();
+		return userFacade.findUser();
 	}
 }
