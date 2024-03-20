@@ -81,10 +81,14 @@ public class AlbumServiceImpl implements AlbumService {
         if (optionalAlbum.isPresent()) {
             Album album = optionalAlbum.get();
             List<String> songTrack = album.getSongTrack();
-            songTrack.add(song);
-            album.setSongTrack(songTrack);
-            albumRepository.save(album);
-            return "Canción agregada al álbum correctamente.";
+            if(!songTrack.contains(song)) {
+            	songTrack.add(song);
+            	album.setSongTrack(songTrack);
+            	albumRepository.save(album);
+            	return "Canción agregada al álbum correctamente.";
+            }else {
+            	return "La canción ya existe en el álbum";
+            }
         } else {
             return "No se encontró el álbum con el ID proporcionado.";
         }
@@ -114,18 +118,28 @@ public class AlbumServiceImpl implements AlbumService {
         if (optionalAlbum.isPresent()) {
             Album album = optionalAlbum.get();
             List<String> songTrack = album.getSongTrack();
-            if (songTrack.remove(oldSong)) {
+            System.out.println("Lista de canciones antes de la actualización: " + songTrack);
+            System.out.println("Canción que se va a actualizar:"+oldSong);
+            System.out.println("Nuevo título de la canción:"+newSong);
+            if (songTrack.contains(oldSong)) {
+                songTrack.remove(oldSong);
                 songTrack.add(newSong);
                 album.setSongTrack(songTrack);
                 albumRepository.save(album);
+                System.out.println("Lista de canciones después de la actualización: " + songTrack);
                 return "Canción actualizada en el álbum correctamente.";
             } else {
+                System.out.println("La canción no existe en el álbum.");
                 return "La canción no existe en el álbum.";
             }
         } else {
+            System.out.println("No se encontró el álbum con el ID proporcionado.");
             return "No se encontró el álbum con el ID proporcionado.";
         }
     }
+
+
+
 }
 
 
