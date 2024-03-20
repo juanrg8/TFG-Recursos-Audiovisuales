@@ -1,5 +1,7 @@
 package com.juanromero.tfg.gestionrecursosaudiovisuales.controller.album;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,21 +29,24 @@ public class AlbumController {
     }
 
     @PostMapping(path="/{albumId}/addsong")
-    public AlbumResponse addSongToAlbum(@PathVariable Integer albumId, @RequestBody String song) {
-        return albumFacade.addSongToAlbum(albumId, song);
+    public AlbumResponse addSongToAlbum(@PathVariable Integer albumId, @RequestBody Map<String, String> requestBody) {
+        String songTitle = requestBody.get("songTitle");
+        return albumFacade.addSongToAlbum(albumId, songTitle);
     }
 
     @DeleteMapping(path="/{albumId}/deletesong")
-    public AlbumResponse deleteSongFromAlbum(@PathVariable Integer albumId, @RequestBody String song) {
-        return albumFacade.deleteSongFromAlbum(albumId, song);
+    public AlbumResponse deleteSongFromAlbum(@PathVariable Integer albumId, @RequestBody Map<String, String> requestBody) {
+        String songTitle = requestBody.get("songTitle");
+        return albumFacade.deleteSongFromAlbum(albumId, songTitle);
     }
 
     @PutMapping(path="/{albumId}/updatesong")
-    public AlbumResponse updateSongInAlbum(@PathVariable Integer albumId, @RequestBody String[] songs) {
-        String oldSong = songs[0];
-        String newSong = songs[1];
-        return albumFacade.updateSongInAlbum(albumId, oldSong, newSong);
+    public AlbumResponse updateSongInAlbum(@PathVariable Integer albumId, @RequestBody Map<String, String> requestBody) {
+        String oldSongTitle = requestBody.get("oldSongTitle");
+        String newSongTitle = requestBody.get("newSongTitle");
+        return albumFacade.updateSongInAlbum(albumId, oldSongTitle, newSongTitle);
     }
+
 
     @DeleteMapping(path="/deletealbum")
     public AlbumResponse deleteAlbum(@RequestBody AlbumRequest request) {

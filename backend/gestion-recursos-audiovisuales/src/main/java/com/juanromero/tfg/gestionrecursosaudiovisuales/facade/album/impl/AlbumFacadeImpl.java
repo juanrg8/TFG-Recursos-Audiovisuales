@@ -97,7 +97,8 @@ public class AlbumFacadeImpl implements AlbumFacade {
 
         return response;
     }
-
+    
+    //TODO: no añadir canciones repetidas
     @Override
     public AlbumResponse addSongToAlbum(Integer albumId, String song) {
         AlbumResponse response = new AlbumResponse();
@@ -113,7 +114,8 @@ public class AlbumFacadeImpl implements AlbumFacade {
         }
         return response;
     }   
-
+    
+    //TODO: no borrar canciones que no están
     @Override
     public AlbumResponse deleteSongFromAlbum(Integer albumId, String song) {
         AlbumResponse response = new AlbumResponse();
@@ -129,7 +131,8 @@ public class AlbumFacadeImpl implements AlbumFacade {
         }
         return response;
     }
-
+    
+    //TODO: no actualizar canciones que no están
     @Override
     public AlbumResponse updateSongInAlbum(Integer albumId, String oldSong, String newSong) {
         AlbumResponse response = new AlbumResponse();
