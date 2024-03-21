@@ -11,10 +11,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.juanromero.tfg.gestionrecursosaudiovisuales.entity.album.Album;
 import com.juanromero.tfg.gestionrecursosaudiovisuales.entity.book.Book;
 import com.juanromero.tfg.gestionrecursosaudiovisuales.entity.user.User;
+import com.juanromero.tfg.gestionrecursosaudiovisuales.entity.videogame.Videogame;
 import com.juanromero.tfg.gestionrecursosaudiovisuales.model.DataModel;
 import com.juanromero.tfg.gestionrecursosaudiovisuales.repository.album.AlbumRepository;
 import com.juanromero.tfg.gestionrecursosaudiovisuales.repository.book.BookRepository;
 import com.juanromero.tfg.gestionrecursosaudiovisuales.repository.user.UserRepository;
+import com.juanromero.tfg.gestionrecursosaudiovisuales.repository.videogame.VideogameRepository;
 
 @Component
 public class DataLoader implements ApplicationRunner {
@@ -22,11 +24,14 @@ public class DataLoader implements ApplicationRunner {
     private final UserRepository userRepository;
     private final BookRepository bookRepository;
     private final AlbumRepository albumRepository;
+    private final VideogameRepository videogameRepository;
 
-    public DataLoader(UserRepository userRepository, BookRepository bookRepository, AlbumRepository albumRepository) {
+    public DataLoader(UserRepository userRepository, BookRepository bookRepository, AlbumRepository albumRepository,
+            VideogameRepository videogameRepository) {
         this.userRepository = userRepository;
         this.bookRepository = bookRepository;
         this.albumRepository = albumRepository;
+        this.videogameRepository = videogameRepository;
     }
 
     @Override
@@ -37,6 +42,7 @@ public class DataLoader implements ApplicationRunner {
         List<User> users = data.getUsuarios();
         List<Book> books = data.getLibros();
         List<Album> albums = data.getAlbums();
+        List<Videogame> videogames = data.getVideojuegos();
 
         for (User user : users) {
             User existingUser = userRepository.findByUsername(user.getUsername());
@@ -58,6 +64,12 @@ public class DataLoader implements ApplicationRunner {
                 albumRepository.save(album);
             }
         }
+
+        for (Videogame videogame : videogames) {
+            Videogame existingVideogame = videogameRepository.findByTitle(videogame.getTitle());
+            if (existingVideogame == null) {
+                videogameRepository.save(videogame);
+            }
+        }
     }
 }
-

@@ -70,5 +70,23 @@
       "musicGenre": "ROCK",
       "songTrack": ["Come Together", "Something", "Maxwell's Silver Hammer", "Oh! Darling", "Octopus's Garden"]
     }
+  ],
+  "videojuegos": [
+    {
+      "title": "The Legend of Zelda: Breath of the Wild",
+      "platform": "Nintendo Switch",
+      "genre": "ACTION_ADVENTURE",
+      "releaseYear": 2017,
+      "developer": "Nintendo EPD",
+      "publisher": "Nintendo"
+    },
+    {
+      "title": "The Witcher 3: Wild Hunt",
+      "platform": "PlayStation 4, Xbox One, Microsoft Windows, Nintendo Switch",
+      "genre": "ACTION_ROLE_PLAYING",
+      "releaseYear": 2015,
+      "developer": "CD Projekt Red",
+      "publisher": "CD Projekt"
+    }
   ]
 }
