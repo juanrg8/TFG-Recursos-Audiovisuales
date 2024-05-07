@@ -5,8 +5,6 @@ import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -24,8 +22,7 @@ public class Movie {
     private String title;
 
     @Column(name = "genre")
-    @Enumerated(EnumType.STRING)
-    private MovieGenre genre;
+    private String genre;
 
     @Column(name = "release_date")
     private LocalDate releaseDate;
@@ -39,7 +36,7 @@ public class Movie {
     public Movie() {
     }
 
-    public Movie(String title, MovieGenre genre, LocalDate releaseDate, String director, String studio) {
+    public Movie(String title, String genre, LocalDate releaseDate, String director, String studio) {
         this.title = title;
         this.genre = genre;
         this.releaseDate = releaseDate;

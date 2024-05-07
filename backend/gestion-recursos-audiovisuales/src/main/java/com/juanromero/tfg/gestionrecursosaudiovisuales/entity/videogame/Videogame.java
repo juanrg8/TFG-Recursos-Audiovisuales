@@ -2,10 +2,8 @@ package com.juanromero.tfg.gestionrecursosaudiovisuales.entity.videogame;
 
 
 
-import jakarta.persistence.Column;
+import jakarta.persistence.Column; 
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -30,9 +28,8 @@ public class Videogame {
     @Column(name = "platform")
     private String platform;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "genre")
-    private VideogameGenre genre;
+    private String genre;
 
     @Column(name = "release_year")
     private Integer releaseYear;

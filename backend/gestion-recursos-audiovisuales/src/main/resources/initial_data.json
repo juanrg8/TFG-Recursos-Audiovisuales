@@ -22,37 +22,37 @@
       "title": "1984",
       "author": "George Orwell",
       "publishDate": "1949-06-08",
-      "genre": "FICTION"
+      "genre": "Fiction"
     },
     {
       "title": "To Kill a Mockingbird",
       "author": "Harper Lee",
       "publishDate": "1960-07-11",
-      "genre": "FICTION"
+      "genre": "Fiction"
     },
     {
       "title": "El Camino de los Reyes",
       "author": "Brandon Sanderson",
       "publishDate": "2010-08-31",
-      "genre": "FANTASY"
+      "genre": "Fantasy"
     },
     {
       "title": "Palabras Radiantes",
       "author": "Brandon Sanderson",
       "publishDate": "2014-03-04",
-      "genre": "FANTASY"
+      "genre": "Fantasy"
     },
     {
       "title": "Juramentada",
       "author": "Brandon Sanderson",
       "publishDate": "2017-11-14",
-      "genre": "FANTASY"
+      "genre": "Fantasy"
     },
     {
       "title": "El Ritmo de la Guerra",
       "author": "Brandon Sanderson",
       "publishDate": "2020-11-17",
-      "genre": "FANTASY"
+      "genre": "Fantasy"
     }
   ],
   "albums": [
@@ -60,14 +60,14 @@
       "title": "Dark Side of the Moon",
       "artist": "Pink Floyd",
       "publishDate": 1973,
-      "musicGenre": "ROCK",
+      "musicGenre": "Rock",
       "songTrack": ["Speak to Me", "Breathe", "On the Run", "Time", "The Great Gig in the Sky"]
     },
     {
       "title": "Abbey Road",
       "artist": "The Beatles",
       "publishDate": 1969,
-      "musicGenre": "ROCK",
+      "musicGenre": "Rock",
       "songTrack": ["Come Together", "Something", "Maxwell's Silver Hammer", "Oh! Darling", "Octopus's Garden"]
     }
   ],
@@ -75,7 +75,7 @@
     {
       "title": "The Legend of Zelda: Breath of the Wild",
       "platform": "Nintendo Switch",
-      "genre": "ACTION_ADVENTURE",
+      "genre": "Action Adventure",
       "releaseYear": 2017,
       "developer": "Nintendo EPD",
       "publisher": "Nintendo"
@@ -83,7 +83,7 @@
     {
       "title": "The Witcher 3: Wild Hunt",
       "platform": "PlayStation 4, Xbox One, Microsoft Windows, Nintendo Switch",
-      "genre": "ACTION_ROLE_PLAYING",
+      "genre": "Action RPG",
       "releaseYear": 2015,
       "developer": "CD Projekt Red",
       "publisher": "CD Projekt"

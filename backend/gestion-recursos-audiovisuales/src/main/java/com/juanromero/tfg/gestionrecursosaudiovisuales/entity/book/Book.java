@@ -32,7 +32,7 @@ public class Book {
 	private String author;
 	
 	@Column(name = "genre")
-	private Genre genre;
+	private String genre;
 	
 	
 }

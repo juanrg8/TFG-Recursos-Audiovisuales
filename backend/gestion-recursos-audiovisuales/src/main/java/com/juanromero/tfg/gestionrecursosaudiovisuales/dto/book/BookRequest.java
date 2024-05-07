@@ -1,8 +1,7 @@
 package com.juanromero.tfg.gestionrecursosaudiovisuales.dto.book;
 
-import java.util.Date;
+import java.util.Date; 
 
-import com.juanromero.tfg.gestionrecursosaudiovisuales.entity.book.Genre;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,9 +14,9 @@ public class BookRequest {
     private String title;
     private Date publishDate;
     private String author;
-    private Genre genre;
+    private String genre;
 
-    public BookRequest(Integer id, String title, Date publishDate, String author, Genre genre) {
+    public BookRequest(Integer id, String title, Date publishDate, String author, String genre) {
         super();
         this.id = id;
         this.title = title;

@@ -36,12 +36,17 @@ public class Album {
     private Integer publishDate;
     
     @Column(name = "genre")
-    private MusicGenre musicGenre;
+    private String musicGenre;
     
     @ElementCollection
     @CollectionTable(name="tracks", joinColumns=@JoinColumn(name="album_id"))
     @Column(name="track")
     private List<String> songTrack;
+    
+    public Album(Integer id) {
+        this.id = id;
+    }
+    
     
     public Album() {
 

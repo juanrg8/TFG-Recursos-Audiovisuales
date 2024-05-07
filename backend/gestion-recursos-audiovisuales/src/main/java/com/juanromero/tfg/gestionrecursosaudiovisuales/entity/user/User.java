@@ -1,11 +1,14 @@
 package com.juanromero.tfg.gestionrecursosaudiovisuales.entity.user;
 
 
-import jakarta.persistence.Column;  
+import java.util.List;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -38,8 +41,18 @@ public class User {
 	@Column(name = "rol")
 	private Rol rol;
 	
+    @OneToMany(mappedBy = "usuario")
+    private List<UserAlbumPending> albumesPendientes;
+    
+    @OneToMany(mappedBy = "usuario")
+    private List<UserAlbumConsumed> albumesConsumidos;
+	
 	public User() {
 
+	}
+
+	public User(Integer id) {
+		this.id = id;
 	}
 
 	public Boolean isAdmin() {

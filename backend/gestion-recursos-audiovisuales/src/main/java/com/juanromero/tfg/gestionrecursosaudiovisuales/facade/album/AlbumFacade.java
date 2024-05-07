@@ -1,7 +1,7 @@
 package com.juanromero.tfg.gestionrecursosaudiovisuales.facade.album;
 
 import com.juanromero.tfg.gestionrecursosaudiovisuales.dto.album.AlbumRequest;
-import com.juanromero.tfg.gestionrecursosaudiovisuales.dto.album.AlbumResponse;
+import com.juanromero.tfg.gestionrecursosaudiovisuales.dto.album.AlbumResponse; 
 
 public interface AlbumFacade {
     
