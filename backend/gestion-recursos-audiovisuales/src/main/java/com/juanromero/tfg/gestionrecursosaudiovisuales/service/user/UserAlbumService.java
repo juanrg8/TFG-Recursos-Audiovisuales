@@ -1,15 +1,21 @@
 package com.juanromero.tfg.gestionrecursosaudiovisuales.service.user;
 
-import com.juanromero.tfg.gestionrecursosaudiovisuales.dto.user.UserAlbumConsumedRequest;
-import com.juanromero.tfg.gestionrecursosaudiovisuales.dto.user.UserAlbumPendingRequest;
+import java.util.List;
+
+import com.juanromero.tfg.gestionrecursosaudiovisuales.entity.user.UserAlbum;
+import com.juanromero.tfg.gestionrecursosaudiovisuales.entity.user.AlbumStatus;
 
 public interface UserAlbumService {
     
-    String addAlbumToPendingList(UserAlbumPendingRequest request);
+    String addUserAlbum(UserAlbum userAlbum);
 
-    String addAlbumToConsumedList(UserAlbumConsumedRequest request);
+    String deleteUserAlbum(Integer usuarioId, Integer albumId);
 
-    String deleteAlbumFromPendingList(UserAlbumPendingRequest request);
+    List<UserAlbum> findAllUserAlbums(Integer usuarioId);
 
-    String deleteAlbumFromConsumedList(UserAlbumConsumedRequest request);
+    List<UserAlbum> findUserAlbumsByStatus(Integer usuarioId, AlbumStatus status);
+
+    String moveUserAlbumToStatus(Integer usuarioId, Integer albumId);
+
+	UserAlbum findUserAlbumById(Integer id);
 }

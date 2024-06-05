@@ -2,7 +2,9 @@ package com.juanromero.tfg.gestionrecursosaudiovisuales.entity.videogame;
 
 
 
-import jakarta.persistence.Column; 
+import java.time.LocalDate;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -31,8 +33,8 @@ public class Videogame {
     @Column(name = "genre")
     private String genre;
 
-    @Column(name = "release_year")
-    private Integer releaseYear;
+    @Column(name = "release_date")
+    private LocalDate releaseDate;
 
     @Column(name = "developer")
     private String developer;

@@ -1,7 +1,8 @@
 package com.juanromero.tfg.gestionrecursosaudiovisuales.facade.album;
 
+
 import com.juanromero.tfg.gestionrecursosaudiovisuales.dto.album.AlbumRequest;
-import com.juanromero.tfg.gestionrecursosaudiovisuales.dto.album.AlbumResponse; 
+import com.juanromero.tfg.gestionrecursosaudiovisuales.dto.album.AlbumResponse;
 
 public interface AlbumFacade {
     
@@ -11,8 +12,18 @@ public interface AlbumFacade {
     
     AlbumResponse updateAlbum(AlbumRequest albumRequest);
     
-    AlbumResponse findAlbums();
+    AlbumResponse findAllAlbums();
     
+    AlbumResponse findAlbumsByTitle(String title);
+    
+    AlbumResponse findAlbumsByGenre(String musicGenre);
+    
+    AlbumResponse findAlbumsByArtist(String artist);
+    
+    AlbumResponse findAlbumsByPublishDate(String releaseDate);
+    
+    AlbumResponse findAlbumsBySong(String song);
+
     AlbumResponse addSongToAlbum(Integer albumId, String song);
 
     AlbumResponse deleteSongFromAlbum(Integer albumId, String song);

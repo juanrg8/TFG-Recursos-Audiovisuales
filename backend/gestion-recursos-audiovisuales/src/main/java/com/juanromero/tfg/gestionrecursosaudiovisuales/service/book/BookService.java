@@ -13,5 +13,13 @@ public interface BookService {
     String updateBook(Book book);
     
     List<Book> findAllBooks();
+    
+    Book findByTitle(String title);
+    
+    List<Book> findByPublishDate(String publishDate);
+    
+    List<Book> findByAuthor(String author);
+    
+    List<Book> findByGenre(String genre);
 }
 

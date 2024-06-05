@@ -1,8 +1,7 @@
 package com.juanromero.tfg.gestionrecursosaudiovisuales.dto.book;
 
-import java.util.List;
+import java.util.List; 
 
-import com.juanromero.tfg.gestionrecursosaudiovisuales.entity.book.Book;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,9 +12,9 @@ public class BookResponse {
 
 	private String estadoPeticion;
 	private String descripcionPeticion;
-	private List<Book> listaLibros;
+	private List<BookRequest> listaLibros;
 
-	public BookResponse(String estadoPeticion, String descripcionPeticion, List<Book> listaLibros) {
+	public BookResponse(String estadoPeticion, String descripcionPeticion, List<BookRequest> listaLibros) {
 		super();
 		this.estadoPeticion = estadoPeticion;
 		this.descripcionPeticion = descripcionPeticion;

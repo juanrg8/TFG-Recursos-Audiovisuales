@@ -42,10 +42,8 @@ public class User {
 	private Rol rol;
 	
     @OneToMany(mappedBy = "usuario")
-    private List<UserAlbumPending> albumesPendientes;
+    private List<UserAlbum> userAlbum;
     
-    @OneToMany(mappedBy = "usuario")
-    private List<UserAlbumConsumed> albumesConsumidos;
 	
 	public User() {
 

@@ -1,6 +1,6 @@
 package com.juanromero.tfg.gestionrecursosaudiovisuales.service.book.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Autowired; 
 import org.springframework.stereotype.Service;
 
 import com.juanromero.tfg.gestionrecursosaudiovisuales.entity.book.Book;
@@ -9,6 +9,8 @@ import com.juanromero.tfg.gestionrecursosaudiovisuales.service.book.BookService;
 
 
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -75,5 +77,30 @@ public class BookServiceImpl implements BookService {
         }
         return null;
     }
+
+	@Override
+	public Book findByTitle(String title) {
+        Book book = bookRepository.findByTitle(title);
+        return book;
+    }
+
+	@Override
+	public List<Book> findByPublishDate(String publishDate) {
+        LocalDate date = LocalDate.parse(publishDate);
+        List<Book> books = bookRepository.findByPublishDate(date);
+        return books.isEmpty() ? null : books;
+    }
+
+	@Override
+	public List<Book> findByAuthor(String author) {
+	      List<Book> books = bookRepository.findByAuthor(author);
+	        return books.isEmpty() ? null : books;
+	    }
+
+	@Override
+	public List<Book> findByGenre(String genre) {
+	      List<Book> books = bookRepository.findByGenre(genre);
+	        return books.isEmpty() ? null : books;
+	    }
 }
 

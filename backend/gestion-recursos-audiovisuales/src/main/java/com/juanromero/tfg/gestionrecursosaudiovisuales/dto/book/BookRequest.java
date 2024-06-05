@@ -1,7 +1,6 @@
 package com.juanromero.tfg.gestionrecursosaudiovisuales.dto.book;
 
-import java.util.Date; 
-
+import java.time.LocalDate;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -12,11 +11,11 @@ public class BookRequest {
 
     private Integer id;
     private String title;
-    private Date publishDate;
+    private LocalDate publishDate;
     private String author;
     private String genre;
 
-    public BookRequest(Integer id, String title, Date publishDate, String author, String genre) {
+    public BookRequest(Integer id, String title, LocalDate publishDate, String author, String genre) {
         super();
         this.id = id;
         this.title = title;
@@ -24,4 +23,7 @@ public class BookRequest {
         this.author = author;
         this.genre = genre;
     }
+
+	public BookRequest() {
+	}
 }

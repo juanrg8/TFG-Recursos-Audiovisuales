@@ -1,7 +1,7 @@
 package com.juanromero.tfg.gestionrecursosaudiovisuales.service.user;
 
 
-import java.util.List;
+import java.util.List;  
 
 import com.juanromero.tfg.gestionrecursosaudiovisuales.entity.user.User;
 
@@ -15,7 +15,6 @@ public interface UserService {
 	public String updateUser(User usuario);
 
 	public List<User> findAllUsers();
-
 	
-
+    
 }

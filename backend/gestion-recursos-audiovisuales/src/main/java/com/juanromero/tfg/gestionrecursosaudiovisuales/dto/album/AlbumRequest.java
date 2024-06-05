@@ -1,5 +1,6 @@
 package com.juanromero.tfg.gestionrecursosaudiovisuales.dto.album;
 
+import java.time.LocalDate;
 import java.util.List; 
 
 
@@ -12,12 +13,12 @@ public class AlbumRequest {
 
     private Integer id;
     private String title;
-    private Integer publishDate;
+    private LocalDate publishDate;
     private String artist;
     private String musicGenre;
     private List<String> songTrack;
 
-    public AlbumRequest(Integer id, String title, Integer publishDate, String artist, String musicGenre, List<String> songTrack) {
+    public AlbumRequest(Integer id, String title, LocalDate publishDate, String artist, String musicGenre, List<String> songTrack) {
         super();
         this.id = id;
         this.title = title;
@@ -26,5 +27,8 @@ public class AlbumRequest {
         this.musicGenre = musicGenre;
         this.songTrack = songTrack;
     }
+
+	public AlbumRequest() {
+	}
 }
 

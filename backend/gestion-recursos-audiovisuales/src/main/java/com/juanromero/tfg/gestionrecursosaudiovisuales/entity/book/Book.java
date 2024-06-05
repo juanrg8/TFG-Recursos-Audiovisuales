@@ -1,7 +1,7 @@
 package com.juanromero.tfg.gestionrecursosaudiovisuales.entity.book;
 
 
-import java.util.Date;
+import java.time.LocalDate; 
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -26,7 +26,7 @@ public class Book {
 	private String title;
 	
 	@Column(name = "publish_date")
-	private Date publishDate;
+	private LocalDate publishDate;
 	
 	@Column(name = "author")
 	private String author;

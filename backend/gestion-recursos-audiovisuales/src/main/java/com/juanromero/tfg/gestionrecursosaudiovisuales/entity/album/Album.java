@@ -1,6 +1,7 @@
 package com.juanromero.tfg.gestionrecursosaudiovisuales.entity.album;
 
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -32,8 +33,8 @@ public class Album {
     @Column(name = "artist")
     private String artist;
     
-    @Column(name = "release_year")
-    private Integer publishDate;
+    @Column(name = "publish_date")
+    private LocalDate publishDate;
     
     @Column(name = "genre")
     private String musicGenre;

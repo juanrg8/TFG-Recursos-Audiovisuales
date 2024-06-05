@@ -1,19 +1,16 @@
 package com.juanromero.tfg.gestionrecursosaudiovisuales.service.user.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.juanromero.tfg.gestionrecursosaudiovisuales.dto.user.UserAlbumConsumedRequest;
-import com.juanromero.tfg.gestionrecursosaudiovisuales.dto.user.UserAlbumPendingRequest;
-import com.juanromero.tfg.gestionrecursosaudiovisuales.entity.album.Album;
+import com.juanromero.tfg.gestionrecursosaudiovisuales.entity.user.AlbumStatus;
 import com.juanromero.tfg.gestionrecursosaudiovisuales.entity.user.User;
-import com.juanromero.tfg.gestionrecursosaudiovisuales.entity.user.UserAlbumConsumed;
-import com.juanromero.tfg.gestionrecursosaudiovisuales.entity.user.UserAlbumPending;
-import com.juanromero.tfg.gestionrecursosaudiovisuales.repository.album.AlbumRepository;
-import com.juanromero.tfg.gestionrecursosaudiovisuales.repository.user.UserAlbumConsumedRepository;
-import com.juanromero.tfg.gestionrecursosaudiovisuales.repository.user.UserAlbumPendingRepository;
+import com.juanromero.tfg.gestionrecursosaudiovisuales.entity.user.UserAlbum;
+import com.juanromero.tfg.gestionrecursosaudiovisuales.repository.user.UserAlbumRepository;
 import com.juanromero.tfg.gestionrecursosaudiovisuales.repository.user.UserRepository;
 import com.juanromero.tfg.gestionrecursosaudiovisuales.service.user.UserAlbumService;
 
@@ -21,76 +18,80 @@ import com.juanromero.tfg.gestionrecursosaudiovisuales.service.user.UserAlbumSer
 public class UserAlbumServiceImpl implements UserAlbumService {
 
     @Autowired
-    private UserAlbumPendingRepository userAlbumPendingRepository;
-
-    @Autowired
-    private UserAlbumConsumedRepository userAlbumConsumedRepository;
+    private UserAlbumRepository userAlbumRepository;
 
     @Autowired
     private UserRepository userRepository;
-    
-    @Autowired
-    private AlbumRepository albumRepository;
-    
-    @Override
-    public String addAlbumToPendingList(UserAlbumPendingRequest request) {
-        // Verificar si el álbum ya está en la lista de pendientes
-        Optional<UserAlbumPending> existingAlbum = userAlbumPendingRepository.findByUserAndAlbum(request.getUsuarioId(), request.getAlbumId());
-        User usuario = userRepository.findById(request.getUsuarioId()).orElse(null);
-        Album album = albumRepository.findById(request.getUsuarioId()).orElse(null);
-        
+
+    @Transactional
+    public String addUserAlbum(UserAlbum userAlbum) {
+        // Verificar si el álbum ya está en la lista del usuario
+        Optional<UserAlbum> existingAlbum = userAlbumRepository.findByUsuarioIdAndAlbumId(userAlbum.getUsuario().getId(), userAlbum.getAlbum().getId());
         if (existingAlbum.isPresent()) {
-            return "El álbum ya está en la lista de pendientes.";
+            return "El álbum ya está en la lista del usuario.";
         }
 
-        if(usuario == null | album == null) {
-        	return "No existe el album o usuario";
-        }else {
-        // Agregar el álbum a la lista de pendientes
-        UserAlbumPending userAlbumPending = new UserAlbumPending();
-        userAlbumPending.setUsuario(usuario);
-        userAlbumPending.setAlbum(album);
-        userAlbumPendingRepository.save(userAlbumPending);
+        // Guardar el UserAlbum
+        userAlbumRepository.save(userAlbum);
+
+        // Añadir el UserAlbum a la lista del usuario
+        User user = userAlbum.getUsuario();
+        user.getUserAlbum().add(userAlbum);
+        userRepository.save(user);
+
+        return "Álbum añadido a la lista del usuario.";
+    }
+
+    @Transactional
+    public String deleteUserAlbum(Integer usuarioId, Integer albumId) {
+        // Verificar si el álbum está en la lista del usuario
+        Optional<UserAlbum> existingAlbum = userAlbumRepository.findByUsuarioIdAndAlbumId(usuarioId, albumId);
+        if (!existingAlbum.isPresent()) {
+            return "El álbum no está en la lista del usuario.";
         }
-        return "Álbum añadido a la lista de pendientes.";
+
+        // Eliminar el UserAlbum
+        UserAlbum userAlbum = existingAlbum.get();
+        userAlbumRepository.delete(userAlbum);
+
+        // Eliminar el UserAlbum de la lista del usuario
+        User user = userAlbum.getUsuario();
+        user.getUserAlbum().remove(userAlbum);
+        userRepository.save(user);
+
+        return "Álbum eliminado de la lista del usuario.";
+    }
+
+
+    @Override
+    public List<UserAlbum> findAllUserAlbums(Integer usuarioId) {
+        return userAlbumRepository.findByUsuarioId(usuarioId);
     }
 
     @Override
-    public String addAlbumToConsumedList(UserAlbumConsumedRequest request) {
-        // Verificar si el álbum ya está en la lista de consumidos
-        Optional<UserAlbumConsumed> existingAlbum = userAlbumConsumedRepository.findByUserAndAlbum(request.getUsuarioId(), request.getAlbumId());
-        User usuario = userRepository.findById(request.getUsuarioId()).orElse(null);
-        Album album = albumRepository.findById(request.getUsuarioId()).orElse(null);
-        
-        if (existingAlbum.isPresent()) {
-            return "El álbum ya está en la lista de consumidos.";
-        }
-        if(usuario == null | album == null) {
-        	return "No existe el album o usuario";
-        }else {
-        // Agregar el álbum a la lista de consumidos
-        UserAlbumConsumed userAlbumConsumed = new UserAlbumConsumed();
-        userAlbumConsumed.setUsuario(usuario);
-        userAlbumConsumed.setAlbum(album);
-        userAlbumConsumedRepository.save(userAlbumConsumed);
-        }
-        // Verificar y eliminar el álbum de la lista de pendientes si es necesario
-        userAlbumPendingRepository.deleteByUserAndAlbum(request.getUsuarioId(), request.getAlbumId());
-
-        return "Álbum añadido a la lista de consumidos.";
+    public List<UserAlbum> findUserAlbumsByStatus(Integer usuarioId, AlbumStatus status) {
+        return userAlbumRepository.findByUsuarioIdAndStatus(usuarioId, status);
     }
 
     @Override
-    public String deleteAlbumFromPendingList(UserAlbumPendingRequest request) {
-        // Eliminar el álbum de la lista de pendientes
-        userAlbumPendingRepository.deleteByUserAndAlbum(request.getUsuarioId(), request.getAlbumId());
-        return "Álbum eliminado de la lista de pendientes.";
+    public String moveUserAlbumToStatus(Integer usuarioId, Integer albumId) {
+        Optional<UserAlbum> userAlbumOpt = userAlbumRepository.findByUsuarioIdAndAlbumId(usuarioId, albumId);
+        if (userAlbumOpt.isPresent()) {
+            UserAlbum userAlbum = userAlbumOpt.get();
+            AlbumStatus status = userAlbum.getStatus();
+            if(status.equals(AlbumStatus.PENDING)) {
+            	userAlbum.setStatus(AlbumStatus.CONSUMED);
+            }else {
+            	userAlbum.setStatus(AlbumStatus.PENDING);
+            }
+            userAlbumRepository.save(userAlbum);
+            return "Álbum movido a la lista de " + userAlbum.getStatus() + ".";
+        }
+        return "El álbum no está en la lista.";
     }
 
     @Override
-    public String deleteAlbumFromConsumedList(UserAlbumConsumedRequest request) {
-        // Eliminar el álbum de la lista de consumidos
-        userAlbumConsumedRepository.deleteByUserAndAlbum(request.getUsuarioId(), request.getAlbumId());
-        return "Álbum eliminado de la lista de consumidos.";
+    public UserAlbum findUserAlbumById(Integer id) {
+        return userAlbumRepository.findById(id).orElse(null); 
     }
 }

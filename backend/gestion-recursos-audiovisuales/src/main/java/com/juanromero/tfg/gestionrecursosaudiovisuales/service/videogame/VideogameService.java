@@ -13,4 +13,16 @@ public interface VideogameService {
     String updateVideogame(Videogame videogame);
     
     List<Videogame> findAllVideogames();
+    
+    Videogame findByTitle(String title);
+
+    List<Videogame> findByPlatform(String platform);
+
+    List<Videogame> findByGenre(String genre);
+
+    List<Videogame> findByReleaseDate(String releaseDate);
+
+    List<Videogame> findByDeveloper(String developer);
+
+    List<Videogame> findByPublisher(String publisher);
 }

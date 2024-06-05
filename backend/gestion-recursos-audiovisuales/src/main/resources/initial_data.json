@@ -59,16 +59,39 @@
     {
       "title": "Dark Side of the Moon",
       "artist": "Pink Floyd",
-      "publishDate": 1973,
+      "publishDate": "1973-03-01",
       "musicGenre": "Rock",
       "songTrack": ["Speak to Me", "Breathe", "On the Run", "Time", "The Great Gig in the Sky"]
     },
     {
       "title": "Abbey Road",
       "artist": "The Beatles",
-      "publishDate": 1969,
+      "publishDate": "1969-09-26",
       "musicGenre": "Rock",
       "songTrack": ["Come Together", "Something", "Maxwell's Silver Hammer", "Oh! Darling", "Octopus's Garden"]
+    }
+  ],
+  "peliculas": [
+    {
+      "title": "The Shawshank Redemption",
+      "director": "Frank Darabont",
+      "releaseDate": "1994-09-22",
+      "genre": "Drama",
+      "studio": "Castle Rock Entertainment"
+    },
+    {
+      "title": "The Godfather",
+      "director": "Francis Ford Coppola",
+      "releaseDate": "1972-03-24",
+      "genre": "Crime",
+      "studio": "Paramount Pictures"
+    },
+    {
+      "title": "The Dark Knight",
+      "director": "Christopher Nolan",
+      "releaseDate": "2008-07-18",
+      "genre": "Action",
+      "studio": "Warner Bros. Pictures"
     }
   ],
   "videojuegos": [
@@ -76,7 +99,7 @@
       "title": "The Legend of Zelda: Breath of the Wild",
       "platform": "Nintendo Switch",
       "genre": "Action Adventure",
-      "releaseYear": 2017,
+      "releaseDate": "2017-03-03",
       "developer": "Nintendo EPD",
       "publisher": "Nintendo"
     },
@@ -84,7 +107,7 @@
       "title": "The Witcher 3: Wild Hunt",
       "platform": "PlayStation 4, Xbox One, Microsoft Windows, Nintendo Switch",
       "genre": "Action RPG",
-      "releaseYear": 2015,
+      "releaseDate": "2015-05-18",
       "developer": "CD Projekt Red",
       "publisher": "CD Projekt"
     }

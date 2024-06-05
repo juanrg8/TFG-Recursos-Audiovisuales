@@ -1,6 +1,8 @@
 package com.juanromero.tfg.gestionrecursosaudiovisuales.dto.videogame;
 
 
+import java.time.LocalDate;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,18 +14,22 @@ public class VideogameRequest {
     private String title;
     private String platform;
     private String genre;
-    private Integer releaseYear;
+    private LocalDate releaseDate;
     private String developer;
     private String publisher;
 
-    public VideogameRequest(Integer id, String title, String platform, String genre, Integer releaseYear, String developer, String publisher) {
+    public VideogameRequest(Integer id, String title, String platform, String genre, LocalDate releaseDate, String developer, String publisher) {
         super();
         this.id = id;
         this.title = title;
         this.platform = platform;
         this.genre = genre;
-        this.releaseYear = releaseYear;
+        this.releaseDate = releaseDate;
         this.developer = developer;
         this.publisher = publisher;
+    }
+    
+    public VideogameRequest() {
+
     }
 }

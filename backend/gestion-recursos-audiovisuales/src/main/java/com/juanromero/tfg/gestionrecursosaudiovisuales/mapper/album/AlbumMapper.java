@@ -20,5 +20,18 @@ public class AlbumMapper {
 
         return entity;
     }
+
+	public AlbumRequest entityToDTO(Album entity) {
+		AlbumRequest dto = new AlbumRequest();
+
+        dto.setId(entity.getId());
+        dto.setTitle(entity.getTitle());
+        dto.setArtist(entity.getArtist());
+        dto.setPublishDate(entity.getPublishDate());
+        dto.setMusicGenre(entity.getMusicGenre());
+        dto.setSongTrack(entity.getSongTrack());
+
+        return dto;
+    }
 }
 

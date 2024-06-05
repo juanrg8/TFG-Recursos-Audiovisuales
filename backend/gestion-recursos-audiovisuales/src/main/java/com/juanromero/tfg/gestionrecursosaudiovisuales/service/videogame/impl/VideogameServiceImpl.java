@@ -1,6 +1,6 @@
 package com.juanromero.tfg.gestionrecursosaudiovisuales.service.videogame.impl;
 
-import java.util.ArrayList; 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,46 +18,73 @@ public class VideogameServiceImpl implements VideogameService {
 
 	@Override
 	public String addVideogame(Videogame videogame) {
-		try {
-			videogameRepository.save(videogame);
-			return "Videojuego guardado con éxito.";
-		} catch (Exception e) {
-			return "Error al guardar el videojuego: " + e.getMessage();
-		}
-	}
+        Videogame existingVideogame = videogameRepository.findByTitle(videogame.getTitle());
+
+        if (existingVideogame == null) {
+        	videogameRepository.save(videogame);
+            return "Videojuego guardado con éxito";
+        } else {
+            return "No ha sido posible guardar el videojuego, título duplicado";
+        }
+    }
 
 	@Override
 	public String deleteVideogame(Videogame videogame) {
-		try {
+		if (videogame.getId() != null && videogameRepository.existsById(videogame.getId())) {
 			videogameRepository.delete(videogame);
-			return "El videojuego se ha borrado correctamente.";
-		} catch (Exception e) {
-			return "Error al borrar el videojuego: " + e.getMessage();
+			return "El videojuego se ha borrado correctamente";
+		} else {
+			return "Videojuego no encontrado";
 		}
 	}
 
 	@Override
 	public String updateVideogame(Videogame videogame) {
-		try {
+		if (videogame.getId() != null && videogameRepository.existsById(videogame.getId())) {
 			videogameRepository.save(videogame);
-			return "El videojuego se ha actualizado correctamente.";
-		} catch (Exception e) {
-			return "Error al actualizar el videojuego: " + e.getMessage();
+			return "El videojuego se ha actualizado correctamente";
 		}
+		return "Videojuego no encontrado";
 	}
 
 	@Override
 	public List<Videogame> findAllVideogames() {
-		Iterable<Videogame> allVideogames = videogameRepository.findAll();
-		if (allVideogames != null) {
-			List<Videogame> lista = new ArrayList<>();
-			for (Videogame elemento : allVideogames) {
-				lista.add(elemento);
-			}
-			if (lista.size() > 0) {
-				return lista;
-			}
-		}
-		return null;
+		return (List<Videogame>) videogameRepository.findAll();
+	}
+
+	@Override
+	public Videogame findByTitle(String title) {
+		return videogameRepository.findByTitle(title);
+	}
+
+	@Override
+	public List<Videogame> findByPlatform(String platform) {
+		List<Videogame> videogames = videogameRepository.findByPlatform(platform);
+		return videogames.isEmpty() ? null : videogames;
+	}
+
+	@Override
+	public List<Videogame> findByGenre(String genre) {
+		List<Videogame> videogames = videogameRepository.findByGenre(genre);
+		return videogames.isEmpty() ? null : videogames;
+	}
+
+	@Override
+	public List<Videogame> findByReleaseDate(String releaseDate) {
+		LocalDate date = LocalDate.parse(releaseDate);
+		List<Videogame> videogames = videogameRepository.findByReleaseDate(date);
+		return videogames.isEmpty() ? null : videogames;
+	}
+
+	@Override
+	public List<Videogame> findByDeveloper(String developer) {
+		List<Videogame> videogames = videogameRepository.findByDeveloper(developer);
+		return videogames.isEmpty() ? null : videogames;
+	}
+
+	@Override
+	public List<Videogame> findByPublisher(String publisher) {
+		List<Videogame> videogames = videogameRepository.findByPublisher(publisher);
+		return videogames.isEmpty() ? null : videogames;
 	}
 }

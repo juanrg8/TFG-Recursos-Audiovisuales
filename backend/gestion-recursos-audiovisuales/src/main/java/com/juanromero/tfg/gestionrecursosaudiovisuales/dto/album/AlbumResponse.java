@@ -1,8 +1,7 @@
 package com.juanromero.tfg.gestionrecursosaudiovisuales.dto.album;
 
-import java.util.List;
+import java.util.List; 
 
-import com.juanromero.tfg.gestionrecursosaudiovisuales.entity.album.Album;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,9 +11,9 @@ public class AlbumResponse {
 
     private String estadoPeticion;
     private String descripcionPeticion;
-    private List<Album> listaAlbumes;
+    private List<AlbumRequest> listaAlbumes;
 
-    public AlbumResponse(String estadoPeticion, String descripcionPeticion, List<Album> listaAlbumes) {
+    public AlbumResponse(String estadoPeticion, String descripcionPeticion, List<AlbumRequest> listaAlbumes) {
         this.estadoPeticion = estadoPeticion;
         this.descripcionPeticion = descripcionPeticion;
         this.listaAlbumes = listaAlbumes;

@@ -1,5 +1,6 @@
 package com.juanromero.tfg.gestionrecursosaudiovisuales.controller.album;
 
+import java.util.List; 
 import java.util.Map; 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,9 +59,34 @@ public class AlbumController {
         return albumFacade.updateAlbum(request);
     }
 
-    @GetMapping(path="/findalbums")
-    public AlbumResponse findAllAlbums() {
-        return albumFacade.findAlbums();
+    @GetMapping(path="/all")
+    public List<AlbumRequest> findAllAlbums() {
+        return albumFacade.findAllAlbums().getListaAlbumes();
+    }
+    
+    @GetMapping(path="/title")
+    public List<AlbumRequest> findAlbumsByTitle(@RequestBody AlbumRequest request) {
+        return albumFacade.findAlbumsByTitle(request.getTitle()).getListaAlbumes();
+    }
+    
+    @GetMapping(path="/genre")
+    public List<AlbumRequest> findAlbumsByGenre(@RequestBody AlbumRequest request) {
+        return albumFacade.findAlbumsByGenre(request.getMusicGenre()).getListaAlbumes();
+    }
+    
+    @GetMapping(path="/artist")
+    public List<AlbumRequest> findAlbumsByArtist(@RequestBody AlbumRequest request) {
+        return albumFacade.findAlbumsByArtist(request.getArtist()).getListaAlbumes();
+    }
+    
+    @GetMapping(path="/date")
+    public List<AlbumRequest> findAlbumsByPublishDate(@RequestBody AlbumRequest request) {
+        return albumFacade.findAlbumsByPublishDate(request.getPublishDate().toString()).getListaAlbumes();
+    }
+    
+    @GetMapping(path="/song")
+    public List<AlbumRequest> findAlbumsBySong(@RequestBody AlbumRequest request) {
+        return albumFacade.findAlbumsBySong(request.getSongTrack().get(0)).getListaAlbumes();
     }
 }
 

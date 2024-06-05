@@ -1,6 +1,8 @@
 package com.juanromero.tfg.gestionrecursosaudiovisuales.facade.book.impl;
 
+import java.util.ArrayList; 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,84 +17,170 @@ import com.juanromero.tfg.gestionrecursosaudiovisuales.service.book.BookService;
 @Service
 public class BookFacadeImpl implements BookFacade {
 
-    @Autowired
-    private BookService bookService;
+	@Autowired
+	private BookService bookService;
 
-    @Autowired
-    private BookMapper bookMapper;
+	@Autowired
+	private BookMapper bookMapper;
 
-    private static final String response_guardado_ok = "Libro guardado con éxito";
-    private static final String response_borrado_ok = "El libro se ha borrado correctamente.";
-    private static final String response_actualizado_ok = "El libro se ha actualizado correctamente.";
-    private static final String response_encontrado_ok = "Libros encontrados correctamente.";
+	private static final String response_guardado_ok = "Libro guardado con éxito";
+	private static final String response_borrado_ok = "El libro se ha borrado correctamente.";
+	private static final String response_actualizado_ok = "El libro se ha actualizado correctamente.";
+	private static final String response_encontrado_ok = "Libros encontrados correctamente.";
 
-    @Override
-    public BookResponse addBook(BookRequest bookRequest) {
-        BookResponse response = new BookResponse();
-        String descripcionPeticion = "";
+	@Override
+	public BookResponse addBook(BookRequest bookRequest) {
+		BookResponse response = new BookResponse();
+		String descripcionPeticion = "";
 
-        Book book = bookMapper.dtoToEntity(bookRequest);
-        descripcionPeticion = bookService.addBook(book);
-        response.setDescripcionPeticion(descripcionPeticion);
+		Book book = bookMapper.dtoToEntity(bookRequest);
+		descripcionPeticion = bookService.addBook(book);
+		response.setDescripcionPeticion(descripcionPeticion);
+		bookRequest.setId(book.getId());
 
-        if (descripcionPeticion.equalsIgnoreCase(response_guardado_ok)) {
-            response.setEstadoPeticion("OK");
-        } else {
-            response.setEstadoPeticion("KO");
-        }
-        return response;
-    }
+		if (descripcionPeticion.equalsIgnoreCase(response_guardado_ok)) {
+			List<BookRequest> libros = new ArrayList<>();
+			response.setListaLibros(libros);
+			response.getListaLibros().add(bookRequest);
+			response.setEstadoPeticion("OK");
+		} else {
+			response.setEstadoPeticion("KO");
+		}
+		return response;
+	}
 
-    @Override
-    public BookResponse deleteBook(BookRequest bookRequest) {
-        BookResponse response = new BookResponse();
-        String descripcionPeticion = "";
+	@Override
+	public BookResponse deleteBook(BookRequest bookRequest) {
+		BookResponse response = new BookResponse();
+		String descripcionPeticion = "";
 
-        Book book = bookMapper.dtoToEntity(bookRequest);
-        descripcionPeticion = bookService.deleteBook(book);
-        response.setDescripcionPeticion(descripcionPeticion);
+		Book book = bookMapper.dtoToEntity(bookRequest);
+		descripcionPeticion = bookService.deleteBook(book);
+		response.setDescripcionPeticion(descripcionPeticion);
 
-        if (descripcionPeticion.equalsIgnoreCase(response_borrado_ok)) {
-            response.setEstadoPeticion("OK");
-        } else {
-            response.setEstadoPeticion("KO");
-        }
-        return response;
-    }
+		if (descripcionPeticion.equalsIgnoreCase(response_borrado_ok)) {
+			response.setEstadoPeticion("OK");
+		} else {
+			response.setEstadoPeticion("KO");
+		}
+		return response;
+	}
 
-    @Override
-    public BookResponse updateBook(BookRequest bookRequest) {
-        BookResponse response = new BookResponse();
-        String descripcionPeticion = "";
+	@Override
+	public BookResponse updateBook(BookRequest bookRequest) {
+		BookResponse response = new BookResponse();
+		String descripcionPeticion = "";
 
-        Book book = bookMapper.dtoToEntity(bookRequest);
-        descripcionPeticion = bookService.updateBook(book);
-        response.setDescripcionPeticion(descripcionPeticion);
+		Book book = bookMapper.dtoToEntity(bookRequest);
+		descripcionPeticion = bookService.updateBook(book);
+		response.setDescripcionPeticion(descripcionPeticion);
 
-        if (descripcionPeticion.equalsIgnoreCase(response_actualizado_ok)) {
-            response.setEstadoPeticion("OK");
-        } else {
-            response.setEstadoPeticion("KO");
-        }
-        return response;
-    }
+		if (descripcionPeticion.equalsIgnoreCase(response_actualizado_ok)) {
+			response.setEstadoPeticion("OK");
+		} else {
+			response.setEstadoPeticion("KO");
+		}
+		return response;
+	}
 
-    @Override
-    public BookResponse findBooks() {
-        BookResponse response = new BookResponse();
-        String descripcionPeticion = "No se han encontrado libros";
+	@Override
+	public BookResponse findAllBooks() {
+		BookResponse response = new BookResponse();
+		String descripcionPeticion = "No se han encontrado libros";
 
-        List<Book> lista = bookService.findAllBooks();
-        response.setListaLibros(lista);
-        if (lista.isEmpty()) {
-            response.setEstadoPeticion("KO");
-            response.setDescripcionPeticion(descripcionPeticion);
-        } else {
-            response.setEstadoPeticion("OK");
-            response.setDescripcionPeticion(response_encontrado_ok);
-        }
+		List<Book> lista = bookService.findAllBooks();
+		List<BookRequest> listaDTO = lista.stream().map(bookMapper::entityToDto).collect(Collectors.toList());
+		response.setListaLibros(listaDTO);
 
-        return response;
-    }
+		if (lista.isEmpty()) {
+			response.setEstadoPeticion("KO");
+			response.setDescripcionPeticion(descripcionPeticion);
+		} else {
+			response.setEstadoPeticion("OK");
+			response.setDescripcionPeticion(response_encontrado_ok);
+		}
+
+		return response;
+	}
+
+	@Override
+	public BookResponse findByTitle(String title) {
+		BookResponse response = new BookResponse();
+		String descripcionPeticion = "No se han encontrado libros";
+
+		Book libro = bookService.findByTitle(title);
+
+		if (libro == null) {
+			response.setEstadoPeticion("KO");
+			response.setDescripcionPeticion(descripcionPeticion);
+		} else {
+			List<BookRequest> listaDTO = List.of(bookMapper.entityToDto(libro));
+			response.setListaLibros(listaDTO);
+			;
+			response.setEstadoPeticion("OK");
+			response.setDescripcionPeticion("Libro encontrada correctamente");
+		}
+
+		return response;
+	}
+
+	@Override
+	public BookResponse findByPublishDate(String publishDate) {
+		BookResponse response = new BookResponse();
+		String descripcionPeticion = "No se han encontrado libros";
+
+		List<Book> lista = bookService.findByPublishDate(publishDate);
+
+		if (lista == null) {
+			response.setEstadoPeticion("KO");
+			response.setDescripcionPeticion(descripcionPeticion);
+		} else {
+			List<BookRequest> listaDTO = lista.stream().map(bookMapper::entityToDto).collect(Collectors.toList());
+			response.setListaLibros(listaDTO);
+			response.setEstadoPeticion("OK");
+			response.setDescripcionPeticion(response_encontrado_ok);
+		}
+
+		return response;
+	}
+
+	@Override
+	public BookResponse findByAuthor(String author) {
+		BookResponse response = new BookResponse();
+		String descripcionPeticion = "No se han encontrado libros";
+
+		List<Book> lista = bookService.findByAuthor(author);
+
+		if (lista == null) {
+			response.setEstadoPeticion("KO");
+			response.setDescripcionPeticion(descripcionPeticion);
+		} else {
+			List<BookRequest> listaDTO = lista.stream().map(bookMapper::entityToDto).collect(Collectors.toList());
+			response.setListaLibros(listaDTO);
+			response.setEstadoPeticion("OK");
+			response.setDescripcionPeticion(response_encontrado_ok);
+		}
+
+		return response;
+	}
+
+	@Override
+	public BookResponse findByGenre(String genre) {
+		BookResponse response = new BookResponse();
+		String descripcionPeticion = "No se han encontrado libros";
+
+		List<Book> lista = bookService.findByGenre(genre);
+
+		if (lista == null) {
+			response.setEstadoPeticion("KO");
+			response.setDescripcionPeticion(descripcionPeticion);
+		} else {
+			List<BookRequest> listaDTO = lista.stream().map(bookMapper::entityToDto).collect(Collectors.toList());
+			response.setListaLibros(listaDTO);
+			response.setEstadoPeticion("OK");
+			response.setDescripcionPeticion(response_encontrado_ok);
+		}
+
+		return response;
+	}
 }
-
