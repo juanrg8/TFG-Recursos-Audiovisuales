@@ -30,6 +30,9 @@ public class Album {
     @Column(name = "title")
     private String title;
     
+    @Column(name = "duration")
+    private Integer duration;
+    
     @Column(name = "artist")
     private String artist;
     

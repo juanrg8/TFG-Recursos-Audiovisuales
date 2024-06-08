@@ -1,7 +1,6 @@
 package com.juanromero.tfg.gestionrecursosaudiovisuales.entity.movie;
 
-import java.time.LocalDate; 
-
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,35 +13,38 @@ import jakarta.persistence.Table;
 @Table(name = "movie")
 public class Movie {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
 
-    @Column(name = "title")
-    private String title;
+	@Column(name = "title")
+	private String title;
 
-    @Column(name = "genre")
-    private String genre;
+	@Column(name = "duration")
+	private Integer duration;
 
-    @Column(name = "release_date")
-    private LocalDate releaseDate;
+	@Column(name = "genre")
+	private String genre;
 
-    @Column(name = "director")
-    private String director;
+	@Column(name = "release_date")
+	private LocalDate releaseDate;
 
-    @Column(name = "studio")
-    private String studio;
+	@Column(name = "director")
+	private String director;
 
-    public Movie() {
-    }
+	@Column(name = "studio")
+	private String studio;
 
-    public Movie(String title, String genre, LocalDate releaseDate, String director, String studio) {
-        this.title = title;
-        this.genre = genre;
-        this.releaseDate = releaseDate;
-        this.director = director;
-        this.studio = studio;
-    }
+	public Movie() {
+	}
+
+	public Movie(String title, String genre, LocalDate releaseDate, String director, String studio) {
+		this.title = title;
+		this.genre = genre;
+		this.releaseDate = releaseDate;
+		this.director = director;
+		this.studio = studio;
+	}
 
 	public Integer getId() {
 		return id;
@@ -58,6 +60,14 @@ public class Movie {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public Integer getDuration() {
+		return duration;
+	}
+
+	public void setDuration(Integer duration) {
+		this.duration = duration;
 	}
 
 	public String getGenre() {

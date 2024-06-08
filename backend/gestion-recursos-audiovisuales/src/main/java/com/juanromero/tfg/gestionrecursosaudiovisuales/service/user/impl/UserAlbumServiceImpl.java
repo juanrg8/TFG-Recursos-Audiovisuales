@@ -1,5 +1,6 @@
 package com.juanromero.tfg.gestionrecursosaudiovisuales.service.user.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,7 +37,7 @@ public class UserAlbumServiceImpl implements UserAlbumService {
 
         // Añadir el UserAlbum a la lista del usuario
         User user = userAlbum.getUsuario();
-        user.getUserAlbum().add(userAlbum);
+        user.getUserAlbums().add(userAlbum);
         userRepository.save(user);
 
         return "Álbum añadido a la lista del usuario.";
@@ -56,7 +57,7 @@ public class UserAlbumServiceImpl implements UserAlbumService {
 
         // Eliminar el UserAlbum de la lista del usuario
         User user = userAlbum.getUsuario();
-        user.getUserAlbum().remove(userAlbum);
+        user.getUserAlbums().remove(userAlbum);
         userRepository.save(user);
 
         return "Álbum eliminado de la lista del usuario.";
@@ -93,5 +94,31 @@ public class UserAlbumServiceImpl implements UserAlbumService {
     @Override
     public UserAlbum findUserAlbumById(Integer id) {
         return userAlbumRepository.findById(id).orElse(null); 
+    }
+
+    @Override
+    @Transactional
+    public String updateUserAlbumReview(Integer userId, Integer albumId, String review) {
+        Optional<UserAlbum> userAlbumOpt = userAlbumRepository.findByUsuarioIdAndAlbumId(userId, albumId);
+        if (userAlbumOpt.isPresent()) {
+            UserAlbum userAlbum = userAlbumOpt.get();
+            userAlbum.setReview(review);
+            userAlbumRepository.save(userAlbum);
+            return "Revisión actualizada correctamente.";
+        }
+        return "No se pudo encontrar el álbum en la lista del usuario.";
+    }
+
+    @Override
+    @Transactional
+    public String updateUserAlbumRating(Integer userId, Integer albumId, BigDecimal rating) {
+        Optional<UserAlbum> userAlbumOpt = userAlbumRepository.findByUsuarioIdAndAlbumId(userId, albumId);
+        if (userAlbumOpt.isPresent()) {
+            UserAlbum userAlbum = userAlbumOpt.get();
+            userAlbum.setRating(rating);
+            userAlbumRepository.save(userAlbum);
+            return "Calificación actualizada correctamente.";
+        }
+        return "No se pudo encontrar el álbum en la lista del usuario.";
     }
 }

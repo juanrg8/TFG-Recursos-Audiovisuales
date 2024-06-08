@@ -1,6 +1,6 @@
 package com.juanromero.tfg.gestionrecursosaudiovisuales.controller.user;
 
-import java.util.List;   
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,14 +21,12 @@ import com.juanromero.tfg.gestionrecursosaudiovisuales.facade.user.UserAlbumFaca
 @RequestMapping(path = "/useralbum")
 public class UserAlbumController {
 
-
 	@Autowired
 	private UserAlbumFacade userAlbumFacade;
 
 	@PostMapping(path = "/add")
 	public UserAlbumResponse add(@RequestBody UserAlbumRequest request) {
 		UserAlbumResponse response = userAlbumFacade.addUserAlbum(request);
-
 
 		return response;
 	}
@@ -44,12 +42,23 @@ public class UserAlbumController {
 	}
 
 	@GetMapping(path = "/findbystatus/{usuarioId}/{status}")
-	public List<UserAlbumRequest> findUserAlbumsByStatus(@PathVariable Integer usuarioId, @PathVariable AlbumStatus status) {
+	public List<UserAlbumRequest> findUserAlbumsByStatus(@PathVariable Integer usuarioId,
+			@PathVariable AlbumStatus status) {
 		return userAlbumFacade.findUserAlbumsByStatus(usuarioId, status).getListaUserAlbums();
 	}
 
 	@PutMapping(path = "/movetostatus")
 	public UserAlbumResponse moveUserAlbumToStatus(@RequestBody UserAlbumRequest request) {
 		return userAlbumFacade.moveUserAlbumToStatus(request.getUsuarioId(), request.getAlbumId());
+	}
+
+	@PutMapping(path = "/updatereview")
+	public UserAlbumResponse updateUserAlbumReview(@RequestBody UserAlbumRequest request) {
+		return userAlbumFacade.updateUserAlbumReview(request.getUsuarioId(), request.getAlbumId(), request.getReview());
+	}
+
+	@PutMapping(path = "/updaterating")
+	public UserAlbumResponse updateUserAlbumRating(@RequestBody UserAlbumRequest request) {
+		return userAlbumFacade.updateUserAlbumRating(request.getUsuarioId(), request.getAlbumId(), request.getRating());
 	}
 }

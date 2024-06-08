@@ -20,36 +20,42 @@
   "libros": [
     {
       "title": "1984",
+      "pages": 328,
       "author": "George Orwell",
       "publishDate": "1949-06-08",
       "genre": "Fiction"
     },
     {
       "title": "To Kill a Mockingbird",
+      "pages": 281,
       "author": "Harper Lee",
       "publishDate": "1960-07-11",
       "genre": "Fiction"
     },
     {
       "title": "El Camino de los Reyes",
+      "pages": 1007,
       "author": "Brandon Sanderson",
       "publishDate": "2010-08-31",
       "genre": "Fantasy"
     },
     {
       "title": "Palabras Radiantes",
+      "pages": 1007,
       "author": "Brandon Sanderson",
       "publishDate": "2014-03-04",
       "genre": "Fantasy"
     },
     {
       "title": "Juramentada",
+      "pages": 1248,
       "author": "Brandon Sanderson",
       "publishDate": "2017-11-14",
       "genre": "Fantasy"
     },
     {
       "title": "El Ritmo de la Guerra",
+      "pages": 1232,
       "author": "Brandon Sanderson",
       "publishDate": "2020-11-17",
       "genre": "Fantasy"
@@ -58,6 +64,7 @@
   "albums": [
     {
       "title": "Dark Side of the Moon",
+      "duration": 43,
       "artist": "Pink Floyd",
       "publishDate": "1973-03-01",
       "musicGenre": "Rock",
@@ -65,6 +72,7 @@
     },
     {
       "title": "Abbey Road",
+      "duration": 47,
       "artist": "The Beatles",
       "publishDate": "1969-09-26",
       "musicGenre": "Rock",
@@ -74,6 +82,7 @@
   "peliculas": [
     {
       "title": "The Shawshank Redemption",
+      "duration": 142,
       "director": "Frank Darabont",
       "releaseDate": "1994-09-22",
       "genre": "Drama",
@@ -81,6 +90,7 @@
     },
     {
       "title": "The Godfather",
+      "duration": 175,
       "director": "Francis Ford Coppola",
       "releaseDate": "1972-03-24",
       "genre": "Crime",
@@ -88,6 +98,7 @@
     },
     {
       "title": "The Dark Knight",
+      "duration": 152,
       "director": "Christopher Nolan",
       "releaseDate": "2008-07-18",
       "genre": "Action",

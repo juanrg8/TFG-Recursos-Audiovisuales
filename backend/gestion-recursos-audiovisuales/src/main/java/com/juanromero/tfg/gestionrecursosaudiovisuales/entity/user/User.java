@@ -42,9 +42,18 @@ public class User {
 	private Rol rol;
 	
     @OneToMany(mappedBy = "usuario")
-    private List<UserAlbum> userAlbum;
+    private List<UserAlbum> userAlbums;
     
-	
+    @OneToMany(mappedBy = "usuario")
+    private List<UserVideogame> userVideogames;
+    
+    @OneToMany(mappedBy = "usuario")
+    private List<UserBook> userBooks;
+    
+    @OneToMany(mappedBy = "usuario")
+    private List<UserMovie> userMovies;
+    
+    
 	public User() {
 
 	}

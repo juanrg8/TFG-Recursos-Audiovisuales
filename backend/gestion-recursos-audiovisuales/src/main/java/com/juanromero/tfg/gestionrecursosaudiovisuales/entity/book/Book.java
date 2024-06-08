@@ -25,6 +25,9 @@ public class Book {
 	@Column(name = "title")
 	private String title;
 	
+    @Column(name = "pages")
+    private Integer pages;
+	
 	@Column(name = "publish_date")
 	private LocalDate publishDate;
 	

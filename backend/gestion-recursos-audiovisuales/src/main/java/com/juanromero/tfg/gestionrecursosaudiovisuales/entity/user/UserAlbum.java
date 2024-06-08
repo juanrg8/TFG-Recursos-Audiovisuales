@@ -1,7 +1,9 @@
 package com.juanromero.tfg.gestionrecursosaudiovisuales.entity.user;
 
-//import com.fasterxml.jackson.annotation.JsonIgnore; 
-import com.juanromero.tfg.gestionrecursosaudiovisuales.entity.album.Album; 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
+import com.juanromero.tfg.gestionrecursosaudiovisuales.entity.album.Album;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -33,6 +35,15 @@ public class UserAlbum {
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private AlbumStatus status;
+    
+    @Column(name = "review")
+    private String review;
+
+    @Column(name = "rating")
+    private BigDecimal rating;
+
+    @Column(name = "date_listened")
+    private LocalDate dateListened;
 
 	public Integer getId() {
 		return id;
@@ -65,7 +76,29 @@ public class UserAlbum {
 	public void setStatus(AlbumStatus status) {
 		this.status = status;
 	}
-    
-    
+
+	public String getReview() {
+		return review;
+	}
+
+	public void setReview(String review) {
+		this.review = review;
+	}
+
+	public BigDecimal getRating() {
+		return rating;
+	}
+
+	public void setRating(BigDecimal rating) {
+		this.rating = rating;
+	}
+
+	public LocalDate getDateListened() {
+		return dateListened;
+	}
+
+	public void setDateListened(LocalDate dateListened) {
+		this.dateListened = dateListened;
+	}
     
 }

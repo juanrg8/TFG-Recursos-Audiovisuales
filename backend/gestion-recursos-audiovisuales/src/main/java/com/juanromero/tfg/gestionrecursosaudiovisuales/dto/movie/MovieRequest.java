@@ -7,6 +7,8 @@ public class MovieRequest {
 	private Integer id;
 
 	private String title;
+	
+	private Integer duration;
 
 	private String genre;
 
@@ -19,8 +21,9 @@ public class MovieRequest {
 	public MovieRequest() {
 	}
 
-	public MovieRequest(String title, String genre, LocalDate releaseDate, String director, String studio) {
+	public MovieRequest(String title, Integer duration, String genre, LocalDate releaseDate, String director, String studio) {
 		this.title = title;
+		this.duration = duration;
 		this.genre = genre;
 		this.releaseDate = releaseDate;
 		this.director = director;
@@ -41,6 +44,14 @@ public class MovieRequest {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+	
+	public Integer getDuration() {
+		return duration;
+	}
+
+	public void setDuration(Integer duration) {
+		this.duration = duration;
 	}
 
 	public String getGenre() {

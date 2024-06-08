@@ -1,27 +1,34 @@
 package com.juanromero.tfg.gestionrecursosaudiovisuales.dto.user;
 
-import com.juanromero.tfg.gestionrecursosaudiovisuales.entity.user.AlbumStatus; 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
-
-
+import com.juanromero.tfg.gestionrecursosaudiovisuales.entity.user.AlbumStatus;
 
 public class UserAlbumRequest {
 
-    private Integer id;
-    private Integer usuarioId;
-    private Integer albumId;
-    private AlbumStatus status;
+	private Integer id;
+	private Integer usuarioId;
+	private Integer albumId;
+	private AlbumStatus status;
+	private String review;
+	private BigDecimal rating;
+	private LocalDate fechaCambioEstado;
 
-    public UserAlbumRequest(Integer id, Integer usuarioId, Integer albumId, AlbumStatus status) {
-        this.id = id;
-        this.usuarioId = usuarioId;
-        this.albumId = albumId;
-        this.status = status;
-    }
-    
-    public UserAlbumRequest() {
-    	
-    }
+	public UserAlbumRequest(Integer id, Integer usuarioId, Integer albumId, AlbumStatus status, String review,
+			BigDecimal rating, LocalDate fechaCambioEstado) {
+		this.id = id;
+		this.usuarioId = usuarioId;
+		this.albumId = albumId;
+		this.status = status;
+		this.review = review;
+		this.rating = rating;
+		this.fechaCambioEstado = fechaCambioEstado;
+	}
+
+	public UserAlbumRequest() {
+
+	}
 
 	public Integer getId() {
 		return id;
@@ -54,9 +61,28 @@ public class UserAlbumRequest {
 	public void setStatus(AlbumStatus status) {
 		this.status = status;
 	}
-    
-    
-    
-    
-}
 
+	public String getReview() {
+		return review;
+	}
+
+	public void setReview(String review) {
+		this.review = review;
+	}
+
+	public BigDecimal getRating() {
+		return rating;
+	}
+
+	public void setRating(BigDecimal rating) {
+		this.rating = rating;
+	}
+
+	public LocalDate getFechaCambioEstado() {
+		return fechaCambioEstado;
+	}
+
+	public void setFechaCambioEstado(LocalDate fechaCambioEstado) {
+		this.fechaCambioEstado = fechaCambioEstado;
+	}
+}
