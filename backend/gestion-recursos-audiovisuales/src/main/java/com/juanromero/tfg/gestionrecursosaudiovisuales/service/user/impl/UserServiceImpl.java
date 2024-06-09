@@ -20,9 +20,9 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public String addUser(User user) {
-		User usuario = userRepository.findByUsername(user.getUsername());
+		Optional<User> usuario = userRepository.findByUsername(user.getUsername());
 
-		if (usuario == null) {
+		if (!usuario.isPresent()) {
 			userRepository.save(user);
 			return "Usuario guardado con exito";
 		} else {
@@ -32,22 +32,23 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-    @Transactional
-    public String deleteUser(User user) {
-        User usuario = userRepository.findByUsername(user.getUsername());
-        if (usuario != null) {
-            userRepository.delete(usuario);
-            // Intentar cargar el usuario borrado nuevamente
-            User usuarioBorrado = userRepository.findByUsername(user.getUsername());
-            if (usuarioBorrado == null) {
-                return "El usuario se ha borrado correctamente.";
-            } else {
-                return "Error: El usuario no se ha podido borrar.";
-            }
-        } else {
-            return "Error: El usuario no existe.";
-        }
-    }
+	@Transactional
+	public String deleteUser(User user) {
+	    Optional<User> usuario = userRepository.findByUsername(user.getUsername());
+	    if (usuario.isPresent()) {
+	        userRepository.delete(usuario.get());
+	        // Intentar cargar el usuario borrado nuevamente
+	        Optional<User> usuarioBorradoOpt = userRepository.findByUsername(user.getUsername());
+	        if (!usuarioBorradoOpt.isPresent()) {
+	            return "El usuario se ha borrado correctamente.";
+	        } else {
+	            return "Error: El usuario no se ha podido borrar.";
+	        }
+	    } else {
+	        return "Error: El usuario no existe.";
+	    }
+	}
+
     
     @Override
     @Transactional

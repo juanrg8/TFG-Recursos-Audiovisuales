@@ -2,9 +2,11 @@ package com.juanromero.tfg.gestionrecursosaudiovisuales.initializer;
 
 import java.io.File; 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,14 +31,16 @@ public class DataLoader implements ApplicationRunner {
 	private final AlbumRepository albumRepository;
 	private final VideogameRepository videogameRepository;
 	private final MovieRepository movieRepository;
+	private final PasswordEncoder passwordEncoder;
 
 	public DataLoader(UserRepository userRepository, BookRepository bookRepository, AlbumRepository albumRepository,
-			VideogameRepository videogameRepository, MovieRepository movieRepository) {
+			VideogameRepository videogameRepository, MovieRepository movieRepository,PasswordEncoder passwordEncoder) {
 		this.userRepository = userRepository;
 		this.bookRepository = bookRepository;
 		this.albumRepository = albumRepository;
 		this.videogameRepository = videogameRepository;
 		this.movieRepository = movieRepository;
+		this.passwordEncoder = passwordEncoder;
 	}
 
 	@Override
@@ -51,14 +55,17 @@ public class DataLoader implements ApplicationRunner {
 		List<Videogame> videogames = data.getVideojuegos();
 		List<Movie> movies = data.getPeliculas();
 
-		if (users != null) {
-			for (User user : users) {
-				User existingUser = userRepository.findByUsername(user.getUsername());
-				if (existingUser == null) {
-					userRepository.save(user);
-				}
-			}
-		}
+        if (users != null) {
+            for (User user : users) {
+                Optional<User> existingUser = userRepository.findByUsername(user.getUsername());
+                if (!existingUser.isPresent()) {
+                    // Codifica la contraseña antes de guardarla
+                    String encodedPassword = passwordEncoder.encode(user.getPassword());
+                    user.setPassword(encodedPassword);
+                    userRepository.save(user);
+                }
+            }
+        }
 
 		if (books != null) {
 			for (Book book : books) {

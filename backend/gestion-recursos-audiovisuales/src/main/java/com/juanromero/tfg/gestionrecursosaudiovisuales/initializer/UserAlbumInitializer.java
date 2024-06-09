@@ -2,8 +2,10 @@ package com.juanromero.tfg.gestionrecursosaudiovisuales.initializer;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
@@ -14,8 +16,6 @@ import com.juanromero.tfg.gestionrecursosaudiovisuales.entity.user.UserAlbum;
 import com.juanromero.tfg.gestionrecursosaudiovisuales.repository.album.AlbumRepository;
 import com.juanromero.tfg.gestionrecursosaudiovisuales.repository.user.UserAlbumRepository;
 import com.juanromero.tfg.gestionrecursosaudiovisuales.repository.user.UserRepository;
-
-import org.springframework.boot.ApplicationArguments;
 
 @Component
 public class UserAlbumInitializer implements ApplicationRunner {
@@ -32,7 +32,8 @@ public class UserAlbumInitializer implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         // Verificar y crear usuarios si no existen
-        User user1 = userRepository.findByUsername("john_doe");
+        Optional<User> user1Opt = userRepository.findByUsername("john_doe");
+        User user1 = user1Opt.get();
         if (user1 == null) {
             user1 = new User();
             user1.setUsername("john_doe");
@@ -40,7 +41,8 @@ public class UserAlbumInitializer implements ApplicationRunner {
             user1 = userRepository.save(user1);
         }
 
-        User user2 = userRepository.findByUsername("jane_smith");
+        Optional<User> user2Opt = userRepository.findByUsername("jane_smith");
+        User user2 = user2Opt.get();
         if (user2 == null) {
             user2 = new User();
             user2.setUsername("jane_smith");
