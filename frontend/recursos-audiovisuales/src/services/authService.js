@@ -1,0 +1,13 @@
+import axios from '../axios/axios';
+
+const API_URL = 'http://localhost:8082'; 
+
+export const register = (user) => {
+    return axios.post(`${API_URL}/register`, user);
+  };
+  
+export const login = (user) => {
+    return axios.post(`${API_URL}/login`, user);
+  };
+
+
