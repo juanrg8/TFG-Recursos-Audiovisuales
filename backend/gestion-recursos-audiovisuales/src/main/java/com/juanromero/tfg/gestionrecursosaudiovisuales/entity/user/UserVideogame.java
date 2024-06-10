@@ -15,6 +15,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "uservideogame")
@@ -23,29 +25,33 @@ public class UserVideogame {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@ManyToOne
-	@JoinColumn(name = "usuario_id")
-	private User usuario;
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    @NotNull(message = "User cannot be null")
+    private User usuario;
 
-	@ManyToOne
-	@JoinColumn(name = "videogame_id")
-	private Videogame videogame;
+    @ManyToOne
+    @JoinColumn(name = "videogame_id")
+    @NotNull(message = "Videogame cannot be null")
+    private Videogame videogame;
 
-	@Enumerated(EnumType.STRING)
-	@Column(name = "status")
-	private VideogameStatus status;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    @NotNull(message = "Status cannot be null")
+    private VideogameStatus status;
 
-	@Column(name = "review")
-	private String review;
+    @Column(name = "review")
+    @Size(max = 255, message = "Review must be less than 255 characters")
+    private String review;
 
-	@Column(name = "rating")
-	private BigDecimal rating;
+    @Column(name = "rating")
+    private BigDecimal rating;
 
-	@Column(name = "date_started")
-	private LocalDate dateStarted;
+    @Column(name = "date_started")
+    private LocalDate dateStarted;
 
-	@Column(name = "date_played")
-	private LocalDate datePlayed;
+    @Column(name = "date_played")
+    private LocalDate datePlayed;
 
 	// Getters y setters
 	public Integer getId() {

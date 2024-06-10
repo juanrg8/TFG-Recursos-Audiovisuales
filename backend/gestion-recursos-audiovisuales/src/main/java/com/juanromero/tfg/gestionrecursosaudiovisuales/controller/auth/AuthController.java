@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import com.juanromero.tfg.gestionrecursosaudiovisuales.config.JwtTokenUtil;
 import com.juanromero.tfg.gestionrecursosaudiovisuales.dto.auth.AuthRequest;
 import com.juanromero.tfg.gestionrecursosaudiovisuales.dto.auth.AuthResponse;
@@ -27,66 +26,68 @@ import com.juanromero.tfg.gestionrecursosaudiovisuales.service.user.impl.UserDet
 @RequestMapping("/auth")
 public class AuthController {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+	@Autowired
+	private AuthenticationManager authenticationManager;
 
-    @Autowired
-    private UserDetailServiceImpl userDetailsService;
+	@Autowired
+	private UserDetailServiceImpl userDetailsService;
 
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
+	@Autowired
+	private JwtTokenUtil jwtTokenUtil;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    
-    private final UserRepository userRepository;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
-    public AuthController(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
+	private final UserRepository userRepository;
 
-    @PostMapping("/login")
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthRequest authenticationRequest) {
-        // Intenta autenticar al usuario
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),
-                        authenticationRequest.getPassword())
-        );
+	public AuthController(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+		this.userRepository = userRepository;
+		this.passwordEncoder = passwordEncoder;
+	}
 
-        // Obtiene los detalles del usuario autenticado
-        UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+	@PostMapping("/login")
+	public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthRequest authenticationRequest) {
+		// Intenta autenticar al usuario
+		authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),
+				authenticationRequest.getPassword()));
 
-        // Genera el token JWT
-        final String token = jwtTokenUtil.generateToken(userDetails);
+		// Obtiene los detalles del usuario autenticado
+		UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
 
-        // Devuelve la respuesta con el token JWT
-        return ResponseEntity.ok(new AuthResponse(token));
-    }
+		// Genera el token JWT
+		final String token = jwtTokenUtil.generateToken(userDetails);
 
+		// Devuelve la respuesta con el token JWT
+		return ResponseEntity.ok(new AuthResponse(token));
+	}
 
+	@PostMapping("/register")
+	public ResponseEntity<String> registerUser(@RequestBody AuthRequest registrationRequest) {
+		// Verifica si el nombre de usuario ya está en uso
+		Optional<User> usuario = userRepository.findByUsername(registrationRequest.getUsername());
+		if (usuario.isPresent()) {
+			return new ResponseEntity<>("El nombre de usuario ya está en uso", HttpStatus.BAD_REQUEST);
+		}
 
-    @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestBody AuthRequest registrationRequest) {
-        // Verifica si el nombre de usuario ya está en uso
-    	Optional<User> usuario = userRepository.findByUsername(registrationRequest.getUsername());
-        if (usuario.isPresent()) {
-            return new ResponseEntity<>("El nombre de usuario ya está en uso", HttpStatus.BAD_REQUEST);
-        }
+		// Codifica la contraseña antes de guardarla en la base de datos
+		String encodedPassword = passwordEncoder.encode(registrationRequest.getPassword());
 
-        // Codifica la contraseña antes de guardarla en la base de datos
-        String encodedPassword = passwordEncoder.encode(registrationRequest.getPassword());
+		// Crea un nuevo usuario
+		User newUser = new User();
+		newUser.setUsername(registrationRequest.getUsername());
+		newUser.setPassword(encodedPassword);
+		// Establece el rol del usuario como "USER"
+		newUser.setRol(Rol.USER);
 
-        // Crea un nuevo usuario
-        User newUser = new User();
-        newUser.setUsername(registrationRequest.getUsername());
-        newUser.setPassword(encodedPassword);
-        // Establece el rol del usuario como "USER"
-        newUser.setRol(Rol.USER);
+		newUser.setBio(registrationRequest.getBio());
 
-        // Guarda el nuevo usuario en la base de datos
-        userRepository.save(newUser);
+		newUser.setEmail(registrationRequest.getEmail());
+		
+		newUser.setNombre(registrationRequest.getName());
 
-        return new ResponseEntity<>("Usuario registrado exitosamente", HttpStatus.CREATED);
-    }
+		// Guarda el nuevo usuario en la base de datos
+		userRepository.save(newUser);
+
+		return new ResponseEntity<>("Usuario registrado exitosamente", HttpStatus.CREATED);
+	}
 }

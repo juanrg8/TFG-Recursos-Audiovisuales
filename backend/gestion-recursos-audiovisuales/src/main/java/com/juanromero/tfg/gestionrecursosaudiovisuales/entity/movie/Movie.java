@@ -8,6 +8,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 
 @Entity
 @Table(name = "movie")
@@ -17,23 +20,29 @@ public class Movie {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@Column(name = "title")
-	private String title;
+    @NotBlank(message = "Title cannot be blank")
+    @Column(name = "title")
+    private String title;
 
-	@Column(name = "duration")
-	private Integer duration;
+    @PositiveOrZero(message = "Duration must be positive or zero")
+    @Column(name = "duration")
+    private Integer duration;
 
-	@Column(name = "genre")
-	private String genre;
+    @NotBlank(message = "Genre cannot be blank")
+    @Column(name = "genre")
+    private String genre;
 
-	@Column(name = "release_date")
-	private LocalDate releaseDate;
+    @NotNull(message = "Release date cannot be null")
+    @Column(name = "release_date")
+    private LocalDate releaseDate;
 
-	@Column(name = "director")
-	private String director;
+    @NotBlank(message = "Director cannot be blank")
+    @Column(name = "director")
+    private String director;
 
-	@Column(name = "studio")
-	private String studio;
+    @NotBlank(message = "Studio cannot be blank")
+    @Column(name = "studio")
+    private String studio;
 
 	public Movie() {
 	}

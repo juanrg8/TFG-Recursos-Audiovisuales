@@ -15,6 +15,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 
 @Entity
@@ -26,17 +28,21 @@ public class UserAlbum {
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
+    @NotNull(message = "User cannot be null")
     private User usuario;
-    
+
     @ManyToOne
     @JoinColumn(name = "album_id")
+    @NotNull(message = "Album cannot be null")
     private Album album;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
+    @NotNull(message = "Status cannot be null")
     private AlbumStatus status;
-    
+
     @Column(name = "review")
+    @Size(max = 255, message = "Review must be less than 255 characters")
     private String review;
 
     @Column(name = "rating")
