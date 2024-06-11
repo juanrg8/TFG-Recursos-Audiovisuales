@@ -3,7 +3,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import UserRegister from '../components/UserRegister.vue';
-import UserLogin from '../components/Login.vue';
+import UserLogin from '../components/auth/UserLogin.vue'; 
 import HomeScreen from '../components/HomeScreen.vue';
 
 Vue.use(VueRouter);

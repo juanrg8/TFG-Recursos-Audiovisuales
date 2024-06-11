@@ -1,15 +1,16 @@
-<!-- src/components/Home.vue -->
-
 <template>
-    <div>
-      <h1>Bienvenido a la Aplicación</h1>
-      <p>Por favor, <router-link to="/login">inicia sesión</router-link> o <router-link to="/register">regístrate</router-link>.</p>
-    </div>
-  </template>
-  
-  <script>
-  export default {
-    name: 'HomeScreen',
-  };
-  </script>
-  
+  <div>
+    <Navbar />
+    <h1>Bienvenido a la Aplicación</h1>
+  </div>
+</template>
+
+<script>
+import Navbar from './Navbar.vue'; 
+export default {
+  name: 'HomeScreen',
+  components: {
+    Navbar,
+  },
+};
+</script>
