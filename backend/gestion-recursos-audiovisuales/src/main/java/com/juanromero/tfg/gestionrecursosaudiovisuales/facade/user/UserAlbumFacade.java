@@ -12,13 +12,13 @@ public interface UserAlbumFacade {
 
     UserAlbumResponse deleteUserAlbum(UserAlbumRequest userAlbumRequest);
 
-    UserAlbumResponse findAllUserAlbums(Integer usuarioId);
+    UserAlbumResponse findAllUserAlbums(String usuarioNombre);
 
-    UserAlbumResponse findUserAlbumsByStatus(Integer usuarioId, AlbumStatus status);
+    UserAlbumResponse findUserAlbumsByStatus(String usuarioNombre, AlbumStatus status);
 
-    UserAlbumResponse moveUserAlbumToStatus(Integer usuarioId, Integer albumId);
+    UserAlbumResponse moveUserAlbumToStatus(String usuarioNombre, Integer albumId);
     
-    UserAlbumResponse updateUserAlbumReview(Integer userId, Integer albumId, String review);
+    UserAlbumResponse updateUserAlbumReview(String usuarioNombre, Integer albumId, String review);
 
-    UserAlbumResponse updateUserAlbumRating(Integer userId, Integer albumId, BigDecimal rating);
+    UserAlbumResponse updateUserAlbumRating(String usuarioNombre, Integer albumId, BigDecimal rating);
 }

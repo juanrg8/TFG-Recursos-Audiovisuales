@@ -35,23 +35,18 @@ public class Album {
     @Column(name = "title")
     private String title;
 
-    @PositiveOrZero(message = "Duration must be positive or zero")
     @Column(name = "duration")
     private Integer duration;
 
-    @NotBlank(message = "Artist cannot be blank")
     @Column(name = "artist")
     private String artist;
 
-    @NotNull(message = "Publish date cannot be null")
     @Column(name = "publish_date")
     private LocalDate publishDate;
 
-    @NotBlank(message = "Music genre cannot be blank")
     @Column(name = "genre")
     private String musicGenre;
 
-    @Size(min = 1, message = "At least one track must be provided")
     @ElementCollection
     @CollectionTable(name = "tracks", joinColumns = @JoinColumn(name = "album_id"))
     @Column(name = "track")

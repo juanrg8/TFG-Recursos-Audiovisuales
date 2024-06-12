@@ -7,14 +7,20 @@
     <ul>
       <li><router-link to="/albums">Álbumes</router-link></li>
       <li v-if="isAuthenticated"><router-link to="/useralbums">Mis álbumes</router-link></li>
-      <li v-if="!isAuthenticated"><button @click="navigateTo('/login')"><span class="text">Inicia sesión/Regístrate</span></button></li>
+      <li v-if="!isAuthenticated"><button @click="navigateTo('/login')"><span class="text">Inicia
+            sesión/Regístrate</span></button></li>
       <li v-if="isAuthenticated"><a href="#" @click="logout">Logout</a></li>
     </ul>
   </nav>
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex';
+
 export default {
+  computed: {
+    ...mapState(['sharedVariable']) // Mapea la variable del estado de Vuex a una propiedad computada
+  },
   data() {
     return {
       isAuthenticated: false,
@@ -24,12 +30,17 @@ export default {
     this.checkAuthentication();
   },
   methods: {
+    ...mapActions(['updateSharedVariable']), // Mapea la acción de Vuex a un método local
+    cambiarValor() {
+      this.updateSharedVariable(''); // Llama a la acción para actualizar el valor
+    },
     checkAuthentication() {
       const token = localStorage.getItem('token');
       this.isAuthenticated = !!token;
     },
     logout() {
       localStorage.removeItem('token');
+      this.cambiarValor();
       this.isAuthenticated = false;
       this.$router.push('/'); // Redirige a la página principal
     },
@@ -53,14 +64,20 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #230745; /* Cambia el color de fondo */
+  background-color: #230745;
+  /* Cambia el color de fondo */
   padding: 1em;
-  border-radius: 15px; /* Bordes redondeados */
-  margin: 1em; /* Margen alrededor de la navbar */
+  border-radius: 15px;
+  /* Bordes redondeados */
+  margin: 1em;
+  /* Margen alrededor de la navbar */
 }
+
 nav .logo img {
-  height: 60px; /* Ajusta el tamaño del logo según sea necesario */
+  height: 60px;
+  /* Ajusta el tamaño del logo según sea necesario */
 }
+
 nav ul {
   list-style: none;
   display: flex;
@@ -68,66 +85,77 @@ nav ul {
   margin: 0;
   padding: 0;
 }
+
 nav ul li {
   display: inline;
 }
+
 nav ul li a {
-  color: white; /* Cambia el color del texto a blanco */
-  text-decoration: none; /* Elimina el subrayado del enlace */
+  color: white;
+  /* Cambia el color del texto a blanco */
+  text-decoration: none;
+  /* Elimina el subrayado del enlace */
 }
+
 nav ul li a:hover {
-  color: #ddd; /* Color del texto al pasar el mouse */
+  color: #ddd;
+  /* Color del texto al pasar el mouse */
 }
+
 nav ul li a:visited {
-  color: white; /* Mantén el color blanco para los enlaces visitados */
+  color: white;
+  /* Mantén el color blanco para los enlaces visitados */
 }
+
 nav ul li a:active {
-  color: #ddd; /* Color del texto cuando el enlace está activo */
+  color: #ddd;
+  /* Color del texto cuando el enlace está activo */
 }
+
 button {
- align-items: center;
- background-image: linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB);
- border: 0;
- border-radius: 8px;
- box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
- box-sizing: border-box;
- color: #FFFFFF;
- display: flex;
- font-family: Phantomsans, sans-serif;
- font-size: 18px;
- justify-content: center;
- line-height: 1em;
- max-width: 100%;
- min-width: 140px;
- padding: 3px;
- text-decoration: none;
- user-select: none;
- -webkit-user-select: none;
- touch-action: manipulation;
- white-space: nowrap;
- cursor: pointer;
- transition: all .3s;
+  align-items: center;
+  background-image: linear-gradient(144deg, #AF40FF, #5B42F3 50%, #00DDEB);
+  border: 0;
+  border-radius: 8px;
+  box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  display: flex;
+  font-family: Phantomsans, sans-serif;
+  font-size: 18px;
+  justify-content: center;
+  line-height: 1em;
+  max-width: 100%;
+  min-width: 140px;
+  padding: 3px;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all .3s;
 }
 
 button:active,
 button:hover {
- outline: 0;
+  outline: 0;
 }
 
 button span {
- background-color: rgb(5, 6, 45);
- padding: 6px 14px;
- border-radius: 6px;
- width: 100%;
- height: 100%;
- transition: 300ms;
+  background-color: rgb(5, 6, 45);
+  padding: 6px 14px;
+  border-radius: 6px;
+  width: 100%;
+  height: 100%;
+  transition: 300ms;
 }
 
 button:hover span {
- background: none;
+  background: none;
 }
 
 button:active {
- transform: scale(0.9);
+  transform: scale(0.9);
 }
 </style>

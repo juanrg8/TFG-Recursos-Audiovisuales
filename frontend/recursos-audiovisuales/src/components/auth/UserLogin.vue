@@ -29,19 +29,28 @@
 <script>
 import { login } from '../../services/authService';
 import Navbar from '@/components/Navbar.vue'; // Importa el componente Navbar
+import { mapState, mapActions } from 'vuex';
 
 export default {
   name: 'UserLogin',
   components: {
     Navbar // Registra el componente Navbar en el componente UserLogin
+  }, computed: {
+    ...mapState(['sharedVariable']) // Mapea la variable del estado de Vuex a una propiedad computada
   },
   data() {
     return {
       username: '',
       password: '',
+      nuevoValor: '' // Variable local para el nuevo valor
     };
   },
   methods: {
+    ...mapActions(['updateSharedVariable']), // Mapea la acción de Vuex a un método local
+    cambiarValor() {
+      this.updateSharedVariable(this.nuevoValor); // Llama a la acción para actualizar el valor
+      this.nuevoValor = ''; // Limpia el input después de actualizar
+    },
     async handleLogin() {
       try {
         const response = await login({
@@ -52,6 +61,9 @@ export default {
         if (response && response.data && response.data.token) {
           alert('Login successful!');
           localStorage.setItem('token', response.data.token);
+          this.nuevoValor = response.data.username;
+          this.cambiarValor();
+          console.table(response);
           this.$router.push('/'); // Redirige a la página principal
         } else {
           throw new Error('Invalid response from server');
@@ -137,59 +149,59 @@ p {
 }
 
 hover-button {
- outline: 0;
- border: 0;
- display: flex;
- flex-direction: column;
- width: 100%;
- max-width: 200px;
- height: 40px;
- border-radius: 0.5em;
- box-shadow: 0 0.625em 1em 0 rgba(87, 59, 138, 0.35);
- overflow: hidden;
+  outline: 0;
+  border: 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 200px;
+  height: 40px;
+  border-radius: 0.5em;
+  box-shadow: 0 0.625em 1em 0 rgba(87, 59, 138, 0.35);
+  overflow: hidden;
 }
 
 hover-button div {
- transform: translateY(0px);
- width: 100%;
+  transform: translateY(0px);
+  width: 100%;
 }
 
 hover-button,
 hover-button div {
- transition: 0.6s cubic-bezier(.16,1,.3,1);
+  transition: 0.6s cubic-bezier(.16, 1, .3, 1);
 }
 
 hover-button div span {
- display: flex;
- align-items: center;
- justify-content: space-between;
- height: 25px;
- padding: 0.75em 1.125em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 25px;
+  padding: 0.75em 1.125em;
 }
 
 hover-button div:nth-child(1) {
- background-color: rgb(87, 59, 138);
+  background-color: rgb(87, 59, 138);
 }
 
 hover-button div:nth-child(2) {
- background-color: rgb(109, 68, 184);
+  background-color: rgb(109, 68, 184);
 }
 
 hover-button:hover {
- box-shadow: 0 0.625em 1em 0 rgba(109, 68, 184, 0.35);
+  box-shadow: 0 0.625em 1em 0 rgba(109, 68, 184, 0.35);
 }
 
 hover-button:hover div {
- transform: translateY(-50px);
+  transform: translateY(-50px);
 }
 
 hover-button p {
- font-size: 17px;
- font-weight: bold;
- color: #ffffff;
+  font-size: 17px;
+  font-weight: bold;
+  color: #ffffff;
 }
 
 hover-button:active {
- transform: scale(0.95);
+  transform: scale(0.95);
 }
 </style>

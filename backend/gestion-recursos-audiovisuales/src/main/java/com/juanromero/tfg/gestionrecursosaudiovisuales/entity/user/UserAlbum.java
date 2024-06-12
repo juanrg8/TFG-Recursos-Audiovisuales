@@ -18,38 +18,40 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-
 @Entity
-@Table(name="useralbum")
+@Table(name = "useralbum")
 public class UserAlbum {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "usuario_id")
-    @NotNull(message = "User cannot be null")
-    private User usuario;
+	@Column(name = "spotify_id")
+	private String spotifyId;
 
-    @ManyToOne
-    @JoinColumn(name = "album_id")
-    @NotNull(message = "Album cannot be null")
-    private Album album;
+	@ManyToOne
+	@JoinColumn(name = "usuario_id")
+	@NotNull(message = "User cannot be null")
+	private User usuario;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status")
-    @NotNull(message = "Status cannot be null")
-    private AlbumStatus status;
+	@ManyToOne
+	@JoinColumn(name = "album_id")
+	@NotNull(message = "Album cannot be null")
+	private Album album;
 
-    @Column(name = "review")
-    @Size(max = 255, message = "Review must be less than 255 characters")
-    private String review;
+	@Enumerated(EnumType.STRING)
+	@Column(name = "status")
+	@NotNull(message = "Status cannot be null")
+	private AlbumStatus status;
 
-    @Column(name = "rating")
-    private BigDecimal rating;
+	@Column(name = "review")
+	@Size(max = 255, message = "Review must be less than 255 characters")
+	private String review;
 
-    @Column(name = "date_listened")
-    private LocalDate dateListened;
+	@Column(name = "rating")
+	private BigDecimal rating;
+
+	@Column(name = "date_listened")
+	private LocalDate dateListened;
 
 	public Integer getId() {
 		return id;
@@ -57,6 +59,14 @@ public class UserAlbum {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public String getSpotifyId() {
+		return spotifyId;
+	}
+
+	public void setSpotifyId(String spotifyId) {
+		this.spotifyId = spotifyId;
 	}
 
 	public User getUsuario() {
@@ -106,5 +116,5 @@ public class UserAlbum {
 	public void setDateListened(LocalDate dateListened) {
 		this.dateListened = dateListened;
 	}
-    
+
 }

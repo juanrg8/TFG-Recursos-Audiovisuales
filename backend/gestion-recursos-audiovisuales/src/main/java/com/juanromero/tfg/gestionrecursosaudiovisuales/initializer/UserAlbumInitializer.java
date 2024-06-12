@@ -68,6 +68,7 @@ public class UserAlbumInitializer implements ApplicationRunner {
         // Verificar y crear relaciones UserAlbum si no existen
         if (!userAlbumRepository.existsByUsuarioAndAlbum(user1, album1)) {
             UserAlbum userAlbum1 = new UserAlbum();
+            userAlbum1.setSpotifyId("0k17h0D3J5VfsdmQ1iZtE9");
             userAlbum1.setUsuario(user1);
             userAlbum1.setAlbum(album1);
             userAlbum1.setStatus(AlbumStatus.PENDING);
@@ -78,6 +79,7 @@ public class UserAlbumInitializer implements ApplicationRunner {
 
         if (!userAlbumRepository.existsByUsuarioAndAlbum(user2, album1)) {
             UserAlbum userAlbum2 = new UserAlbum();
+            userAlbum2.setSpotifyId("0hIG9FXgjQxT8fKaYceFbA");
             userAlbum2.setUsuario(user2);
             userAlbum2.setAlbum(album1);
             userAlbum2.setStatus(AlbumStatus.CONSUMED);

@@ -26,9 +26,14 @@ public class UserAlbumMapper {
         if (dto.getId() != null) {
             entity.setId(dto.getId());
         }
+        
+        // Asignar el ID de Spotify si está presente en el DTO
+        if (dto.getSpotifyId() != null) {
+            entity.setSpotifyId(dto.getSpotifyId());
+        }
 
         // Encontrar y asignar el usuario
-        User usuario = userRepository.findById(dto.getUsuarioId()).orElse(null);
+        User usuario = userRepository.findByUsername(dto.getUsuarioNombre()).orElse(null);
         if (usuario == null) {
             throw new IllegalArgumentException("Usuario no encontrado");
         }
@@ -53,7 +58,11 @@ public class UserAlbumMapper {
         // Asignar el ID si está presente en el DTO
         if (entity.getId() != null) {
             dto.setId(entity.getId());
-            System.out.println(dto.getId());
+        }
+        
+        // Asignar el ID de Spotify si está presente en el DTO
+        if (entity.getSpotifyId() != null) {
+            dto.setSpotifyId(entity.getSpotifyId());
         }
 
         // Encontrar y asignar el usuario
@@ -61,7 +70,7 @@ public class UserAlbumMapper {
         if (usuario == null) {
             throw new IllegalArgumentException("Usuario no encontrado");
         }
-        dto.setUsuarioId(usuario.getId());
+        dto.setUsuarioNombre(usuario.getUsername());
         
         // Encontrar y asignar el álbum
         Album album = albumRepository.findById(entity.getAlbum().getId()).orElse(null);

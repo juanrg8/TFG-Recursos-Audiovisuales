@@ -47,6 +47,7 @@ public class AuthController {
 
 	@PostMapping("/login")
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthRequest authenticationRequest) {
+
 		// Intenta autenticar al usuario
 		authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),
 				authenticationRequest.getPassword()));
@@ -58,7 +59,7 @@ public class AuthController {
 		final String token = jwtTokenUtil.generateToken(userDetails);
 
 		// Devuelve la respuesta con el token JWT
-		return ResponseEntity.ok(new AuthResponse(token));
+		return ResponseEntity.ok(new AuthResponse(token, authenticationRequest.getUsername()));
 	}
 
 	@PostMapping("/register")
@@ -82,7 +83,7 @@ public class AuthController {
 		newUser.setBio(registrationRequest.getBio());
 
 		newUser.setEmail(registrationRequest.getEmail());
-		
+
 		newUser.setNombre(registrationRequest.getName());
 
 		// Guarda el nuevo usuario en la base de datos

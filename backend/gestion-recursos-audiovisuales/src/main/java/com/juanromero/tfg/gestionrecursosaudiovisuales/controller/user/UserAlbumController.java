@@ -36,29 +36,29 @@ public class UserAlbumController {
 		return userAlbumFacade.deleteUserAlbum(request);
 	}
 
-	@GetMapping(path = "/findall/{usuarioId}")
-	public List<UserAlbumRequest> findAllUserAlbums(@PathVariable Integer usuarioId) {
-		return userAlbumFacade.findAllUserAlbums(usuarioId).getListaUserAlbums();
+	@GetMapping(path = "/findall/{usuarioNombre}")
+	public List<UserAlbumRequest> findAllUserAlbums(@PathVariable String usuarioNombre) {
+		return userAlbumFacade.findAllUserAlbums(usuarioNombre).getListaUserAlbums();
 	}
 
-	@GetMapping(path = "/findbystatus/{usuarioId}/{status}")
-	public List<UserAlbumRequest> findUserAlbumsByStatus(@PathVariable Integer usuarioId,
+	@GetMapping(path = "/findbystatus/{usuarioNombre}/{status}")
+	public List<UserAlbumRequest> findUserAlbumsByStatus(@PathVariable String usuarioNombre,
 			@PathVariable AlbumStatus status) {
-		return userAlbumFacade.findUserAlbumsByStatus(usuarioId, status).getListaUserAlbums();
+		return userAlbumFacade.findUserAlbumsByStatus(usuarioNombre, status).getListaUserAlbums();
 	}
 
 	@PutMapping(path = "/movetostatus")
 	public UserAlbumResponse moveUserAlbumToStatus(@RequestBody UserAlbumRequest request) {
-		return userAlbumFacade.moveUserAlbumToStatus(request.getUsuarioId(), request.getAlbumId());
+		return userAlbumFacade.moveUserAlbumToStatus(request.getUsuarioNombre(), request.getAlbumId());
 	}
 
 	@PutMapping(path = "/updatereview")
 	public UserAlbumResponse updateUserAlbumReview(@RequestBody UserAlbumRequest request) {
-		return userAlbumFacade.updateUserAlbumReview(request.getUsuarioId(), request.getAlbumId(), request.getReview());
+		return userAlbumFacade.updateUserAlbumReview(request.getUsuarioNombre(), request.getAlbumId(), request.getReview());
 	}
 
 	@PutMapping(path = "/updaterating")
 	public UserAlbumResponse updateUserAlbumRating(@RequestBody UserAlbumRequest request) {
-		return userAlbumFacade.updateUserAlbumRating(request.getUsuarioId(), request.getAlbumId(), request.getRating());
+		return userAlbumFacade.updateUserAlbumRating(request.getUsuarioNombre(), request.getAlbumId(), request.getRating());
 	}
 }
