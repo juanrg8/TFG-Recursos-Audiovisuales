@@ -5,6 +5,7 @@ import VueRouter from 'vue-router';
 import UserRegister from '../components/UserRegister.vue';
 import UserLogin from '../components/auth/UserLogin.vue'; 
 import HomeScreen from '../components/HomeScreen.vue';
+import Albums from '../components/albums/Albums.vue';
 
 Vue.use(VueRouter);
 
@@ -12,6 +13,7 @@ const routes = [
   { path: '/', component: HomeScreen },
   { path: '/register', component: UserRegister },
   { path: '/login', component: UserLogin },
+  { path: '/albums', component: Albums },
 ];
 
 const router = new VueRouter({
