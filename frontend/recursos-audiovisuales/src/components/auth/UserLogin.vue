@@ -176,7 +176,7 @@ hover-button div span {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 25px;
+  height: 50px;
   padding: 0.75em 1.125em;
 }
 
