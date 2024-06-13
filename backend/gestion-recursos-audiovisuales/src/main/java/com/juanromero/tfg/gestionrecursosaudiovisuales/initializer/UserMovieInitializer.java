@@ -18,7 +18,6 @@ import com.juanromero.tfg.gestionrecursosaudiovisuales.repository.user.UserRepos
 
 import org.springframework.boot.ApplicationArguments;
 
-@Component
 public class UserMovieInitializer implements ApplicationRunner {
 
     @Autowired

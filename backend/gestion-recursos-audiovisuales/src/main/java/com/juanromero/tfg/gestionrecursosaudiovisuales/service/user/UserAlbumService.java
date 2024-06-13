@@ -16,7 +16,7 @@ public interface UserAlbumService {
 
     List<UserAlbum> findUserAlbumsByStatus(Integer usuarioId, AlbumStatus status);
 
-    String moveUserAlbumToStatus(Integer usuarioId, Integer albumId);
+    String moveUserAlbumToStatus(Integer usuarioId, Integer albumId, AlbumStatus status);
     
     String updateUserAlbumReview(Integer userId, Integer albumId, String review);
 

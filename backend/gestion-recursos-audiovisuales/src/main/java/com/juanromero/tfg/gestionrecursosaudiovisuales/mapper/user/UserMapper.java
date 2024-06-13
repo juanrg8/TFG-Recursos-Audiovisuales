@@ -17,6 +17,17 @@ public class UserMapper {
 		entity.setPassword(dto.getPassword());
 		entity.setEmail(dto.getEmail());
 		entity.setRol(dto.getRol());
+		entity.setImage(dto.getImage());
 		return entity;
+	}
+	public UserRequest entityToDto(User entity) {
+		UserRequest dto = new UserRequest();
+		
+		dto.setUsername(entity.getUsername());
+		dto.setNombre(entity.getNombre());
+		dto.setBio(entity.getBio());
+		dto.setEmail(entity.getEmail());
+		dto.setImage(entity.getImage());
+		return dto;
 	}
 }

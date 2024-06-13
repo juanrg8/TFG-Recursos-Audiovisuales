@@ -49,6 +49,10 @@ public class UserAlbumMapper {
         // Asignar el estado
         entity.setStatus(dto.getStatus());
         
+        entity.setReview(dto.getReview());
+        
+        entity.setRating(dto.getRating());
+        
         return entity;
     }
     
@@ -81,6 +85,10 @@ public class UserAlbumMapper {
         
         // Asignar el estado
         dto.setStatus(entity.getStatus());
+        
+        dto.setReview(entity.getReview());
+        
+        dto.setRating(entity.getRating());
         
         return dto;
     }

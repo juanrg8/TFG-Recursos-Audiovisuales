@@ -13,6 +13,7 @@
     "bootstrap-vue": "^2.23.1",
     "core-js": "^3.8.3",
     "vue": "^3.4.16",
+    "vue-cookies": "^1.8.4",
     "vue-router": "^4.0.13",
     "vue-template-compiler": "^2.7.16",
     "vuex": "^4.1.0"

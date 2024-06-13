@@ -29,28 +29,19 @@
 <script>
 import { login } from '../../services/authService';
 import Navbar from '@/components/Navbar.vue'; // Importa el componente Navbar
-import { mapState, mapActions } from 'vuex';
 
 export default {
   name: 'UserLogin',
   components: {
     Navbar // Registra el componente Navbar en el componente UserLogin
-  }, computed: {
-    ...mapState(['sharedVariable']) // Mapea la variable del estado de Vuex a una propiedad computada
   },
   data() {
     return {
       username: '',
-      password: '',
-      nuevoValor: '' // Variable local para el nuevo valor
+      password: ''
     };
   },
   methods: {
-    ...mapActions(['updateSharedVariable']), // Mapea la acción de Vuex a un método local
-    cambiarValor() {
-      this.updateSharedVariable(this.nuevoValor); // Llama a la acción para actualizar el valor
-      this.nuevoValor = ''; // Limpia el input después de actualizar
-    },
     async handleLogin() {
       try {
         const response = await login({
@@ -61,8 +52,7 @@ export default {
         if (response && response.data && response.data.token) {
           alert('Login successful!');
           localStorage.setItem('token', response.data.token);
-          this.nuevoValor = response.data.username;
-          this.cambiarValor();
+          await this.buscarUsuario(response.data.username);
           console.table(response);
           this.$router.push('/'); // Redirige a la página principal
         } else {
@@ -79,6 +69,17 @@ export default {
         alert(errorMessage);
       }
     },
+    async buscarUsuario(username) {
+      await fetch(`http://localhost:8082/user/finduser/${username}`)
+        .then(response => response.json())
+        .then(async data => {
+          this.$cookies.set('user', JSON.stringify(data.usuario));
+
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }
   },
 };
 </script>

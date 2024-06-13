@@ -3,6 +3,7 @@ package com.juanromero.tfg.gestionrecursosaudiovisuales.controller.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,5 +35,9 @@ public class UserController {
 	@GetMapping(path="/findusers")
 	public UserResponse findAllUsers() {
 		return userFacade.findUser();
+	}
+	@GetMapping(path="/finduser/{usuarioNombre}")
+	public UserResponse findUsers(@PathVariable String usuarioNombre) {
+		return userFacade.findUserByUsername(usuarioNombre);
 	}
 }

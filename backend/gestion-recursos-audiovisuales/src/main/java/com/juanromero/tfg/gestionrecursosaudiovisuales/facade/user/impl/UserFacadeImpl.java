@@ -1,6 +1,7 @@
 package com.juanromero.tfg.gestionrecursosaudiovisuales.facade.user.impl;
 
-import java.util.List; 
+import java.util.ArrayList; 
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -81,18 +82,19 @@ public class UserFacadeImpl implements UserFacade {
 	public UserResponse updateUser(UserRequest userRequest) {
 	    UserResponse response = new UserResponse();
 	    String descripcionPeticion = "";
-
-	    // Verificar si se está actualizando la contraseña
-	    if (userRequest.getPassword() != null && !userRequest.getPassword().isEmpty()) {
-	        // Codificar la nueva contraseña
-	        String encodedPassword = passwordEncoder.encode(userRequest.getPassword());
-	        userRequest.setPassword(encodedPassword);
+	    User usuarioPorNombre = userService.findUserByUsername(userRequest.getUsername());
+	    if(usuarioPorNombre!=null) {
+	    userRequest.setId(usuarioPorNombre.getId());
+	    userRequest.setPassword(usuarioPorNombre.getPassword());
+	    userRequest.setRol(usuarioPorNombre.getRol());
+	    if(userRequest.getImage()==null||(userRequest.getImage()!=null&&userRequest.getImage().isBlank())) {
+	    	userRequest.setImage(usuarioPorNombre.getImage());
 	    }
-
+	    
 	    User usuario = userMapper.dtoToEntity(userRequest);
 	    descripcionPeticion = userService.updateUser(usuario);
 	    response.setDescripcionPeticion(descripcionPeticion);
-
+	    }
 	    if (descripcionPeticion.equalsIgnoreCase(response_actualizado_ok)) {
 	        response.setEstadoPeticion("OK");
 	    } else {
@@ -106,10 +108,33 @@ public class UserFacadeImpl implements UserFacade {
 	public UserResponse findUser() {
 		UserResponse response = new UserResponse();
 		String descripcionPeticion = "No se han encontrado usuarios";
-		
+		List<UserRequest> listaUserReq = new ArrayList<>();
 		List<User> lista = userService.findAllUsers();
-		response.setListaUsuarios(lista);
+		for (User u : lista) {
+			listaUserReq.add(userMapper.entityToDto(u));
+		}
+		response.setListaUsuarios(listaUserReq);
 		if(lista.isEmpty()) {
+			response.setEstadoPeticion("KO");
+			response.setDescripcionPeticion(descripcionPeticion);
+		} else {
+			response.setEstadoPeticion("OK");
+			response.setDescripcionPeticion(response_encontrado_ok);
+		}
+		
+		return response;
+	}
+
+
+	@Override
+	public UserResponse findUserByUsername(String username) {
+		UserResponse response = new UserResponse();
+		String descripcionPeticion = "No se ha encontrado usuario";
+		
+		User usuario = userService.findUserByUsername(username);
+		UserRequest userReq = userMapper.entityToDto(usuario);
+		response.setUsuario(userReq);
+		if(usuario==null) {
 			response.setEstadoPeticion("KO");
 			response.setDescripcionPeticion(descripcionPeticion);
 		} else {

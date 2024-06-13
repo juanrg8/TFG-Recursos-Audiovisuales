@@ -49,16 +49,16 @@ public class UserAlbumController {
 
 	@PutMapping(path = "/movetostatus")
 	public UserAlbumResponse moveUserAlbumToStatus(@RequestBody UserAlbumRequest request) {
-		return userAlbumFacade.moveUserAlbumToStatus(request.getUsuarioNombre(), request.getAlbumId());
+		return userAlbumFacade.moveUserAlbumToStatus(request.getUsuarioNombre(), request.getTituloAlbum(), request.getStatus());
 	}
 
 	@PutMapping(path = "/updatereview")
 	public UserAlbumResponse updateUserAlbumReview(@RequestBody UserAlbumRequest request) {
-		return userAlbumFacade.updateUserAlbumReview(request.getUsuarioNombre(), request.getAlbumId(), request.getReview());
+		return userAlbumFacade.updateUserAlbumReview(request.getUsuarioNombre(), request.getTituloAlbum(), request.getReview());
 	}
 
 	@PutMapping(path = "/updaterating")
 	public UserAlbumResponse updateUserAlbumRating(@RequestBody UserAlbumRequest request) {
-		return userAlbumFacade.updateUserAlbumRating(request.getUsuarioNombre(), request.getAlbumId(), request.getRating());
+		return userAlbumFacade.updateUserAlbumRating(request.getUsuarioNombre(), request.getTituloAlbum(), request.getRating());
 	}
 }

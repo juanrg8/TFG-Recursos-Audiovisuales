@@ -9,38 +9,41 @@
       <li v-if="isAuthenticated"><router-link to="/useralbums">Mis álbumes</router-link></li>
       <li v-if="!isAuthenticated"><button @click="navigateTo('/login')"><span class="text">Inicia
             sesión/Regístrate</span></button></li>
+      <li v-if="isAuthenticated"><router-link
+          :to="{ name: 'UserDetails', params: { userName: this.$cookies.get('user').username } }">{{
+      nombreUsuario }}</router-link></li>
       <li v-if="isAuthenticated"><a href="#" @click="logout">Logout</a></li>
     </ul>
   </nav>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
 
 export default {
-  computed: {
-    ...mapState(['sharedVariable']) // Mapea la variable del estado de Vuex a una propiedad computada
-  },
   data() {
     return {
       isAuthenticated: false,
+      nombreUsuario: ''
     };
+  },
+  mounted() {
+    if (this.isAuthenticated) {
+      let userInfo = this.$cookies.get('user');
+      this.nombreUsuario = userInfo.nombre
+    }
+
   },
   created() {
     this.checkAuthentication();
   },
   methods: {
-    ...mapActions(['updateSharedVariable']), // Mapea la acción de Vuex a un método local
-    cambiarValor() {
-      this.updateSharedVariable(''); // Llama a la acción para actualizar el valor
-    },
     checkAuthentication() {
       const token = localStorage.getItem('token');
       this.isAuthenticated = !!token;
     },
     logout() {
       localStorage.removeItem('token');
-      this.cambiarValor();
+      this.$cookies.remove('user')
       this.isAuthenticated = false;
       this.$router.push('/'); // Redirige a la página principal
     },

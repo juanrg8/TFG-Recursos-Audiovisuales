@@ -1,6 +1,6 @@
 package com.juanromero.tfg.gestionrecursosaudiovisuales.initializer;
 
-import java.math.BigDecimal;
+import java.math.BigDecimal; 
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -18,7 +18,6 @@ import com.juanromero.tfg.gestionrecursosaudiovisuales.repository.user.UserVideo
 
 import org.springframework.boot.ApplicationArguments;
 
-@Component
 public class UserVideogameInitializer implements ApplicationRunner {
 
     @Autowired

@@ -16,8 +16,9 @@ public class UserRequest {
 	private String password;
 	private String email;
 	private Rol rol;
+	private String image;
 
-	public UserRequest(Integer id, String username, String nombre, String bio, String password, String email, Rol rol) {
+	public UserRequest(Integer id, String username, String nombre, String bio, String password, String email, Rol rol,String image) {
 		super();
 
 		this.setId(id);
@@ -27,5 +28,9 @@ public class UserRequest {
 		this.password = password;
 		this.email = email;
 		this.rol = rol;
+		this.image = image;
+	}
+
+	public UserRequest() {
 	}
 }

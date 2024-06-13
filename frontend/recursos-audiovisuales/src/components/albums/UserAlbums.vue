@@ -6,7 +6,7 @@
         <!-- Lista de álbumes -->
         <select @change="filtrarEstado" v-model="albumStatus" class="form-select form-select-lg mb-3"
             aria-label="Large select example">
-            <option selected value="All">Estado</option>
+            <option value="All" selected>Estado</option>
             <option value="PENDING">Pendiente</option>
             <option value="CONSUMED">Escuchado</option>
         </select>
@@ -14,7 +14,7 @@
         <div v-if="this.albums.length > 0">
             <div v-for="album in this.albums" :key="album.id">
                 <!-- Define el componente AlbumCard -->
-                <AlbumCard :album="album" />
+                <AlbumCard :album="album" @deleteEvent="handleDeleteEvent" @updateView="handleDeleteEvent" />
             </div>
         </div>
         <div v-else>
@@ -30,14 +30,11 @@
 // Importa el componente Navbar
 import Navbar from '@/components/Navbar.vue';
 import AlbumCard from './AlbumCard.vue';
-import { mapState } from 'vuex';
 // Define el componente AlbumCard
 export default {
     components: {
         Navbar,
         AlbumCard
-    }, computed: {
-        ...mapState(['sharedVariable']) // Mapea el estado 'sharedVariable' a una propiedad computada
     },
     data() {
         return {
@@ -45,29 +42,47 @@ export default {
             accessToken: '',
             clientId: process.env.VUE_APP_SPOTIFY_CLIENT_ID,
             clientSecret: process.env.VUE_APP_SPOTIFY_CLIENT_SECRET,
-            albumStatus: '',
+            albumStatus: 'All',
             userAlbums: [],
-            albumsCopy: []
+            albumsCopy: [],
+            isAuthenticated: false,
         }
     },
     async mounted() {
-        await this.getToken();
-        this.loadUserAlbums();
+        this.checkAuthentication()
+        if (this.isAuthenticated) {
+            await this.getToken();
+        } else {
+            this.redirectToHome()
+        }
     },
     methods: {
         loadUserAlbums() {
-            fetch(`http://localhost:8082/useralbum/findall/${this.sharedVariable}`)
+            let nombre = this.$cookies.get('user').username
+            fetch(`http://localhost:8082/useralbum/findall/${nombre}`)
                 .then(response => response.json())
                 .then(async data => {
                     // Almacena el token de acceso en la variable accessToken
-                    console.log(data);
                     this.userAlbums = data;
-                    await this.getUserAlbums(data);
-                    this.albumsCopy = this.albums;
+                    if (data.length > 0) {
+                        await this.getUserAlbums(data);
+                        this.albumsCopy = this.albums;
+                    } else {
+                        this.albums = [];
+                        this.albumsCopy = this.albums;
+                    }
+                    console.log("Albumes: " + this.albums);
+
                 })
                 .catch(error => {
                     console.error('Error:', error);
                 });
+        },
+        async handleDeleteEvent() {
+            this.albumStatus = 'All'
+            this.albums = []
+            this.albumsCopy = []
+            await this.getToken();
         },
         async getToken() {
             let authParams = {
@@ -83,6 +98,7 @@ export default {
                 .then(data => {
                     // Almacena el token de acceso en la variable accessToken
                     this.accessToken = data.access_token;
+                    this.loadUserAlbums();
                 })
                 .catch(error => {
                     console.error('Error:', error);
@@ -91,8 +107,9 @@ export default {
             data.forEach(async album => {
                 if (album.spotifyId != null) {
                     let albumspotify = await this.getSpotifyAlbums(album.spotifyId)
-                    this.albums.push(albumspotify);
-                    console.log(this.albums)
+                    if (albumspotify != undefined && albumspotify != null) {
+                        this.albums.push(albumspotify);
+                    }
                 }
             });
         }, async getSpotifyAlbums(id) {
@@ -124,11 +141,15 @@ export default {
                 this.albums = this.albumsCopy
             } else {
                 this.albums = []
-                console.log(this.albumStatus)
                 let filterUserAlbums = this.userAlbums.filter(album => album.status == this.albumStatus)
-                console.log(filterUserAlbums)
+                console.log("Albumes filtrados: " + filterUserAlbums)
                 this.getUserAlbums(filterUserAlbums);
             }
+        }, checkAuthentication() {
+            const token = localStorage.getItem('token');
+            this.isAuthenticated = !!token;
+        }, redirectToHome() {
+            this.$router.push('/'); // Redirige a la página principal
         }
 
 

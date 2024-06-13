@@ -7,6 +7,10 @@ import UserLogin from "../components/auth/UserLogin.vue";
 import HomeScreen from "../components/HomeScreen.vue";
 import Albums from "../components/albums/Albums.vue";
 import UserAlbums from "../components/albums/UserAlbums.vue";
+import AlbumReview from "../components/albums/AlbumReview.vue";
+import AlbumDetails from "../components/albums/AlbumDetails.vue";
+import UserDetails from "../components/user/UserDetails.vue";
+import UserForm from "../components/user/UserForm.vue";
 
 Vue.use(VueRouter);
 
@@ -16,6 +20,26 @@ const routes = [
   { path: "/login", component: UserLogin },
   { path: "/albums", component: Albums },
   { path: "/useralbums", component: UserAlbums },
+  {
+    path: "/useralbums/update/:spotifyId",
+    name: "AlbumReview",
+    component: AlbumReview,
+  },
+  {
+    path: "/useralbums/update/:spotifyId",
+    name: "AlbumDetails",
+    component: AlbumDetails,
+  },
+  {
+    path: "/user/details/:userName",
+    name: "UserDetails",
+    component: UserDetails,
+  },
+  {
+    path: "/user/edit/:userName",
+    name: "UserForm",
+    component: UserForm,
+  },
 ];
 
 const router = new VueRouter({

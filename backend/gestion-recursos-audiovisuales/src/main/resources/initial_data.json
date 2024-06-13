@@ -6,7 +6,8 @@
       "bio": "Apasionado por la lectura y la escritura.",
       "email": "john@example.com",
       "password": "password123",
-      "rol": "USER"
+      "rol": "USER",
+      "image": "https://cdn.britannica.com/70/234870-050-D4D024BB/Orange-colored-cat-yawns-displaying-teeth.jpg"
     },
     {
       "username": "jane_smith",
@@ -14,7 +15,8 @@
       "bio": "Estudiante de literatura y amante de los clásicos.",
       "email": "jane@example.com",
       "password": "qwerty",
-      "rol": "USER"
+      "rol": "USER",
+      "image": "https://t4.ftcdn.net/jpg/02/66/72/41/360_F_266724172_Iy8gdKgMa7XmrhYYxLCxyhx6J7070Pr8.jpg"
     }
   ],
   "libros": [

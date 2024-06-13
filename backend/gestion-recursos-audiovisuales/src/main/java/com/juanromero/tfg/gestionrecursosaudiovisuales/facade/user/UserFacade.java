@@ -12,4 +12,6 @@ public interface UserFacade {
 	public UserResponse updateUser(UserRequest userRequest);
 	
 	public UserResponse findUser();
+
+	public UserResponse findUserByUsername(String username);
 }

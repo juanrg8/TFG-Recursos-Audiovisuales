@@ -1,8 +1,7 @@
 package com.juanromero.tfg.gestionrecursosaudiovisuales.dto.user;
 
-import java.util.List;
+import java.util.List; 
 
-import com.juanromero.tfg.gestionrecursosaudiovisuales.entity.user.User;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,13 +12,15 @@ public class UserResponse {
 	
 	private String estadoPeticion;
 	private String descripcionPeticion;
-	private List<User> listaUsuarios;
+	private List<UserRequest> listaUsuarios;
+	private UserRequest usuario;
 	
-	public UserResponse(String estadoPeticion, String descripcionPeticion, List<User> listaUsuarios) {
+	public UserResponse(String estadoPeticion, String descripcionPeticion, List<UserRequest> listaUsuarios,UserRequest usuario) {
 		super();
 		this.estadoPeticion = estadoPeticion;
 		this.descripcionPeticion = descripcionPeticion;
 		this.listaUsuarios = listaUsuarios;
+		this.usuario = usuario;
 	}
 
 

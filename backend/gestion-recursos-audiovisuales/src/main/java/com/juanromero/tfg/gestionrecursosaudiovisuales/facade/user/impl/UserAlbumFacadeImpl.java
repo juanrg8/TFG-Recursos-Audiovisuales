@@ -38,7 +38,7 @@ public class UserAlbumFacadeImpl implements UserAlbumFacade {
 	private UserRepository userRepository;
 	
 	@Autowired 
-	private AlbumRepository albumRespository; 
+	private AlbumRepository albumRepository; 
 
 	@Override
 	public UserAlbumResponse addUserAlbum(UserAlbumRequest userAlbumRequest) {
@@ -46,8 +46,14 @@ public class UserAlbumFacadeImpl implements UserAlbumFacade {
 		String descripcionPeticion = "";
 		Album album = new Album();
 		album.setTitle(userAlbumRequest.getTituloAlbum());
-		Album albumguardado = albumRespository.save(album);
-		userAlbumRequest.setAlbumId(albumguardado.getId());
+		Album albumTitulo = albumRepository.findByTitle(album.getTitle());
+		if(albumTitulo==null) {
+			Album albumguardado = albumRepository.save(album);
+			userAlbumRequest.setAlbumId(albumguardado.getId());
+		}else {
+			userAlbumRequest.setAlbumId(albumTitulo.getId());
+		}
+		
 		UserAlbum userAlbum = userAlbumMapper.dtoToEntity(userAlbumRequest);
 		descripcionPeticion = userAlbumService.addUserAlbum(userAlbum);
 		response.setDescripcionPeticion(descripcionPeticion);
@@ -71,10 +77,11 @@ public class UserAlbumFacadeImpl implements UserAlbumFacade {
 		UserAlbumResponse response = new UserAlbumResponse();
 		String descripcionPeticion = "";
 		Optional<User> usuarioOpt = userRepository.findByUsername(userAlbumRequest.getUsuarioNombre());
-		if(usuarioOpt.isPresent()) {
+		Album album = albumRepository.findByTitle(userAlbumRequest.getTituloAlbum());
+		if(usuarioOpt.isPresent()&&album!=null) {
 		Integer idUsuario = userRepository.findByUsername(userAlbumRequest.getUsuarioNombre()).get().getId();
 		descripcionPeticion = userAlbumService.deleteUserAlbum(idUsuario,
-				userAlbumRequest.getAlbumId());
+				album.getId());
 		response.setDescripcionPeticion(descripcionPeticion);
 		}
 		if (descripcionPeticion.contains("eliminado")) {
@@ -138,12 +145,13 @@ public class UserAlbumFacadeImpl implements UserAlbumFacade {
 	}
 
 	@Override
-	public UserAlbumResponse moveUserAlbumToStatus(String usuarioNombre, Integer albumId) {
+	public UserAlbumResponse moveUserAlbumToStatus(String usuarioNombre, String albumTitle, AlbumStatus status) {
 		UserAlbumResponse response = new UserAlbumResponse();
 		Optional<User> userOpt = userRepository.findByUsername(usuarioNombre);
-		if(userOpt.isPresent()) {
+		Album album = albumRepository.findByTitle(albumTitle);
+		if(userOpt.isPresent() && album!=null) {
 		
-		Optional<UserAlbum> userAlbumOpt = userAlbumRepository.findByUsuarioIdAndAlbumId(userOpt.get().getId(), albumId);
+		Optional<UserAlbum> userAlbumOpt = userAlbumRepository.findByUsuarioIdAndAlbumId(userOpt.get().getId(), album.getId());
 
 		if (userAlbumOpt.isPresent()) {
 			UserAlbum userAlbum = userAlbumOpt.get();
@@ -154,7 +162,7 @@ public class UserAlbumFacadeImpl implements UserAlbumFacade {
 			}
 
 			// Alternar el estado y guardar el UserAlbum
-			String descripcionPeticion = userAlbumService.moveUserAlbumToStatus(userOpt.get().getId(), albumId);
+			String descripcionPeticion = userAlbumService.moveUserAlbumToStatus(userOpt.get().getId(), album.getId(), status);
 			response.setDescripcionPeticion(descripcionPeticion);
 
 			if (descripcionPeticion.contains("movido")) {
@@ -175,7 +183,7 @@ public class UserAlbumFacadeImpl implements UserAlbumFacade {
 			response.setDescripcionPeticion("El álbum no está en la lista.");
 			response.setEstadoPeticion("KO");
 		}}else {
-			response.setDescripcionPeticion("El usuario no existe.");
+			response.setDescripcionPeticion("El usuario o el album no existe.");
 			response.setEstadoPeticion("KO");
 		}
 
@@ -183,16 +191,17 @@ public class UserAlbumFacadeImpl implements UserAlbumFacade {
 	}
 
     @Override
-    public UserAlbumResponse updateUserAlbumReview(String usuarioNombre, Integer albumId, String review) {
+    public UserAlbumResponse updateUserAlbumReview(String usuarioNombre, String tituloAlbum, String review) {
         UserAlbumResponse response = new UserAlbumResponse();
         String descripcionPeticion = "";
 		Optional<User> userOpt = userRepository.findByUsername(usuarioNombre);
-		if(userOpt.isPresent()) {
+		Album album = albumRepository.findByTitle(tituloAlbum);
+		if(userOpt.isPresent()&&album!=null) {
         // Lógica para actualizar la revisión del álbum de usuario
-        descripcionPeticion = userAlbumService.updateUserAlbumReview(userOpt.get().getId(), albumId, review);
+        descripcionPeticion = userAlbumService.updateUserAlbumReview(userOpt.get().getId(), album.getId(), review);
         response.setDescripcionPeticion(descripcionPeticion);
 		}
-        if (descripcionPeticion.contains("actualizado")) {
+        if (descripcionPeticion.contains("actualizada")) {
             response.setEstadoPeticion("OK");
         } else {
             response.setEstadoPeticion("KO");
@@ -202,16 +211,17 @@ public class UserAlbumFacadeImpl implements UserAlbumFacade {
     }
 
     @Override
-    public UserAlbumResponse updateUserAlbumRating(String usuarioNombre, Integer albumId, BigDecimal rating) {
+    public UserAlbumResponse updateUserAlbumRating(String usuarioNombre, String tituloAlbum, BigDecimal rating) {
         UserAlbumResponse response = new UserAlbumResponse();
         String descripcionPeticion = "";
 		Optional<User> userOpt = userRepository.findByUsername(usuarioNombre);
-		if(userOpt.isPresent()) {
+		Album album = albumRepository.findByTitle(tituloAlbum);
+		if(userOpt.isPresent()&&album!=null) {
         // Lógica para actualizar la calificación del álbum de usuario
-        descripcionPeticion = userAlbumService.updateUserAlbumRating(userOpt.get().getId(), albumId, rating);
+        descripcionPeticion = userAlbumService.updateUserAlbumRating(userOpt.get().getId(), album.getId(), rating);
         response.setDescripcionPeticion(descripcionPeticion);
 		}
-        if (descripcionPeticion.contains("actualizado")) {
+        if (descripcionPeticion.contains("actualizada")) {
             response.setEstadoPeticion("OK");
         } else {
             response.setEstadoPeticion("KO");

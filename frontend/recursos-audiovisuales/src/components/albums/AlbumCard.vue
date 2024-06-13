@@ -4,32 +4,45 @@
     <div class="card" style="width: 18rem;">
       <img :src="album.images[0].url" alt="Album Cover">
       <div class="card-body">
-        <h5 class="card-title">{{ album.name }}</h5>
+        <h5 class="card-title" v-if="album.miAlbum == undefined && album.miAlbum == null">{{ album.name }}</h5>
+        <h5 class="card-title" v-if="album.miAlbum != undefined && album.miAlbum != null"><router-link
+            :to="{ name: 'AlbumDetails', params: { spotifyId: album.id } }">{{ album.name }}</router-link></h5>
         <p class="card-text">{{ album.artist }}</p>
-        <a @click="addAlbumPending(album.id, album.name)" class="btn btn-primary">Pendiente</a>
-        <a href="#" class="btn btn-success">Escuchado</a>
-        <a href="#" class="btn btn-danger" v-if="album.miAlbum != undefined && album.miAlbum != null">Eliminar</a>
+        <a v-if="this.isAuthenticated && album.miAlbum != undefined && album.miAlbum != null"
+          @click="addAlbumPendingStatus(album.name)" class="btn btn-primary">Pendiente</a>
+        <a v-if="this.isAuthenticated && album.miAlbum == undefined || album.miAlbum == null"
+          @click="addAlbumPending(album.id, album.name)" class="btn btn-primary">Pendiente</a>
+        <a v-if="this.isAuthenticated && album.miAlbum != undefined && album.miAlbum != null"
+          class=" btn btn-success"><router-link
+            :to="{ name: 'AlbumReview', params: { spotifyId: album.id } }">Escuchado</router-link></a>
+        <a @click="deleteAlbum(album.name)" class="btn btn-danger"
+          v-if="this.isAuthenticated && album.miAlbum != undefined && album.miAlbum != null">Eliminar</a>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
 
 export default {
+  data() {
+    return {
+      isAuthenticated: false
+    }
+  },
   props: {
     album: {
       type: Object,
       required: true
     }
-  }, computed: {
-    ...mapState(['sharedVariable']) // Mapea el estado 'sharedVariable' a una propiedad computada
+  },
+  mounted() {
+    this.checkAuthentication()
   },
   methods: {
     addAlbumPending(id, name) {
       let request = {
-        usuarioNombre: this.sharedVariable,
+        usuarioNombre: this.$cookies.get('user').username,
         spotifyId: id,  // Puedes cambiar esto a album.id si tienes un ID específico del álbum
         status: "PENDING",
         tituloAlbum: name
@@ -49,6 +62,51 @@ export default {
         .catch(error => {
           console.error('Error:', error);
         });
+    }, addAlbumPendingStatus(title) {
+      let request = {
+        usuarioNombre: this.$cookies.get('user').username,
+        status: "PENDING",
+        tituloAlbum: title
+      };
+      fetch('http://localhost:8082/useralbum/movetostatus', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(request)
+      })
+        .then(response => response.json())
+        .then(data => {
+          // Almacena el token de acceso en la variable accessToken
+          console.log(data);
+          this.$emit('updateView', data);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }, deleteAlbum(title) {
+      let request = {
+        usuarioNombre: this.$cookies.get('user').username,
+        tituloAlbum: title
+      };
+      fetch('http://localhost:8082/useralbum/delete', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(request)
+      })
+        .then(response => response.json())
+        .then(data => {
+          // Almacena el token de acceso en la variable accessToken
+          this.$emit('deleteEvent', data);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }, checkAuthentication() {
+      const token = localStorage.getItem('token');
+      this.isAuthenticated = !!token;
     }
   }
 };

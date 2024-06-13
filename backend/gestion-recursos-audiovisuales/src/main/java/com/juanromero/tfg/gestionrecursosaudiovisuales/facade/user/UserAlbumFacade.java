@@ -16,9 +16,9 @@ public interface UserAlbumFacade {
 
     UserAlbumResponse findUserAlbumsByStatus(String usuarioNombre, AlbumStatus status);
 
-    UserAlbumResponse moveUserAlbumToStatus(String usuarioNombre, Integer albumId);
+    UserAlbumResponse moveUserAlbumToStatus(String usuarioNombre, String albumTitle,AlbumStatus status);
     
-    UserAlbumResponse updateUserAlbumReview(String usuarioNombre, Integer albumId, String review);
+    UserAlbumResponse updateUserAlbumReview(String usuarioNombre, String string, String review);
 
-    UserAlbumResponse updateUserAlbumRating(String usuarioNombre, Integer albumId, BigDecimal rating);
+    UserAlbumResponse updateUserAlbumRating(String usuarioNombre, String string, BigDecimal rating);
 }

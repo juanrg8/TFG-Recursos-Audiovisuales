@@ -59,6 +59,9 @@ public class User {
     @Column(name = "rol")
     @NotNull(message = "Role cannot be null")
     private Rol rol;
+    
+    @Column(name = "image")
+    private String image;
 	
     @OneToMany(mappedBy = "usuario")
     private List<UserAlbum> userAlbums;
