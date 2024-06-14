@@ -6,15 +6,16 @@
       <div class="card-body">
         <h5 class="card-title" v-if="album.miAlbum == undefined && album.miAlbum == null">{{ album.name }}</h5>
         <h5 class="card-title" v-if="album.miAlbum != undefined && album.miAlbum != null"><router-link
-            :to="{ name: 'AlbumDetails', params: { spotifyId: album.id } }">{{ album.name }}</router-link></h5>
+            :to="{ name: 'AlbumDetails', params: { spotifyId: album.id } }" class="router-link-custom">{{ album.name
+            }}</router-link></h5>
         <p class="card-text">{{ album.artist }}</p>
         <a v-if="this.isAuthenticated && album.miAlbum != undefined && album.miAlbum != null"
           @click="addAlbumPendingStatus(album.name)" class="btn btn-primary">Pendiente</a>
         <a v-if="this.isAuthenticated && album.miAlbum == undefined || album.miAlbum == null"
           @click="addAlbumPending(album.id, album.name)" class="btn btn-primary">Pendiente</a>
         <a v-if="this.isAuthenticated && album.miAlbum != undefined && album.miAlbum != null"
-          class=" btn btn-success"><router-link
-            :to="{ name: 'AlbumReview', params: { spotifyId: album.id } }">Escuchado</router-link></a>
+          class=" btn btn-success"><router-link :to="{ name: 'AlbumReview', params: { spotifyId: album.id } }"
+            class="router-link-custom-white">Escuchado</router-link></a>
         <a @click="deleteAlbum(album.name)" class="btn btn-danger"
           v-if="this.isAuthenticated && album.miAlbum != undefined && album.miAlbum != null">Eliminar</a>
       </div>
@@ -113,5 +114,27 @@ export default {
 </script>
 
 <style scoped>
-/* Aquí puedes agregar estilos para tu componente */
+/* Estilos adicionales específicos para el componente */
+
+/* Estilo personalizado para el router-link */
+.router-link-custom {
+  color: rgb(0, 0, 0);
+  /* Color del texto en blanco */
+  text-decoration: none;
+  /* Elimina el subrayado */
+}
+
+/* Elimina el subrayado en hover y focus */
+.router-link-custom:hover,
+.router-link-custom:focus {
+  text-decoration: none;
+  color: rgb(107, 27, 173);
+}
+
+.router-link-custom-white {
+  color: rgb(255, 255, 255);
+  /* Color del texto en blanco */
+  text-decoration: none;
+  /* Elimina el subrayado */
+}
 </style>

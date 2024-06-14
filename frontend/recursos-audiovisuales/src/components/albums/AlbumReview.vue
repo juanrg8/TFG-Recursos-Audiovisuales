@@ -1,34 +1,36 @@
 <template>
-    <Navbar />
-    <div class="container d-flex justify-content-center align-items-center min-vh-100">
-        <div class="row justify-content-center w-100">
-            <div class="col-md-8 col-lg-6">
-                <div class="card p-4">
-                    <form class="form-horizontal" @submit.prevent="updateAlbumReview">
-                        <fieldset>
-                            <legend class="text-center header">Reseña Album</legend>
+    <div class="background-image">
+        <Navbar class="navbar" />
+        <div class="container d-flex justify-content-center align-items-center min-vh-100">
+            <div class="row justify-content-center w-100">
+                <div class="col-md-8 col-lg-6">
+                    <div class="card p-4">
+                        <form class="form-horizontal" @submit.prevent="updateAlbumReview">
+                            <fieldset>
+                                <legend class="text-center header">Reseña Album</legend>
 
-                            <div class="form-group row">
-                                <div class="col-md-10 text-center ms-5">
-                                    <input v-model="rating" id="rating" name="rating" type="number" min="0" max="10"
-                                        step="0.01" placeholder="Puntuación" class="form-control">
+                                <div class="form-group row">
+                                    <div class="col-md-10 text-center ms-5">
+                                        <input v-model="rating" id="rating" name="rating" type="number" min="0" max="10"
+                                            step="0.01" placeholder="Puntuación" class="form-control">
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="form-group row">
-                                <div class="col-md-10 text-center ms-5">
-                                    <textarea v-model="review" class="form-control" id="review" name="review"
-                                        placeholder="Escribe tu reseña" rows="7"></textarea>
+                                <div class="form-group row">
+                                    <div class="col-md-10 text-center ms-5">
+                                        <textarea v-model="review" class="form-control" id="review" name="review"
+                                            placeholder="Escribe tu reseña" rows="7"></textarea>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="form-group">
-                                <div class="col-md-12 text-center">
-                                    <button type="submit" class="btn btn-primary btn-lg">Enviar</button>
+                                <div class="form-group">
+                                    <div class="col-md-12 text-center">
+                                        <button type="submit" class="btn btn-primary btn-lg">Enviar</button>
+                                    </div>
                                 </div>
-                            </div>
-                        </fieldset>
-                    </form>
+                            </fieldset>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -220,15 +222,17 @@ export default {
 <style scoped>
 .container {
     min-height: 100vh;
+
 }
 
 .card {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.7);
 }
 
 .header {
-    color: #36A0FF;
+    color: #ffffff;
     font-size: 27px;
     padding: 10px;
 }
@@ -240,5 +244,51 @@ export default {
 
 .form-group {
     margin-bottom: 1.5rem;
+
+}
+
+.background-image {
+    background-image: url('/public/images/background.jpg');
+    /* Asegúrate de usar la ruta correcta de la imagen */
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    /* Asegura que el fondo cubra toda la pantalla */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    /* Asegura que el texto sea legible */
+    position: relative;
+}
+
+.navbar {
+    position: absolute;
+    /* Asegura que la Navbar esté siempre en la parte superior */
+    top: 20px;
+    /* Añade margen superior a la Navbar */
+    width: calc(100% - 40px);
+    /* Añade margen a los lados de la Navbar */
+    background: rgba(0, 0, 0, 0.7);
+    /* Fondo semitransparente para la Navbar */
+    padding: 10px;
+    z-index: 1;
+    /* Asegura que la Navbar esté por encima del resto del contenido */
+    margin: 0 20px;
+    /* Margen de 20px a los lados */
+}
+
+.main-content {
+    width: 100%;
+    max-width: 1845px;
+    /* Ancho máximo del contenido principal */
+    margin-top: 150px;
+    /* Ajusta el margen superior para dejar espacio para la Navbar */
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 </style>

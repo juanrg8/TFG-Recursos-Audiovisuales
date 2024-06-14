@@ -1,27 +1,29 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-    <div>
+    <div class="background-image">
         <!-- Barra de navegación -->
-        <!-- Importa el componente Navbar -->
-        <Navbar />
+        <Navbar class="navbar" />
 
-        <!-- Barra de búsqueda -->
-        <div class="search-bar-container">
-            <div class="search-bar">
-                <input v-model="searchTerm" type="text" placeholder="Buscar álbumes..." class="search-input" />
-                <button @click="search" class="search-button">Buscar</button>
+        <!-- Contenedor principal -->
+        <div class="main-content">
+            <!-- Barra de búsqueda -->
+            <div class="search-bar-container">
+                <div class="search-bar">
+                    <input v-model="searchTerm" type="text" placeholder="Buscar álbumes..." class="search-input" />
+                    <button @click="search" class="search-button">Buscar</button>
+                </div>
             </div>
-        </div>
 
-        <!-- Lista de álbumes -->
-        <div v-if="albums.length > 0">
-            <div v-for="album in albums" :key="album.id">
-                <!-- Define el componente AlbumCard -->
-                <AlbumCard :album="album" />
+            <!-- Lista de álbumes -->
+            <div v-if="albums.length > 0" class="albums-container">
+                <div class="album-card" v-for="album in albums" :key="album.id">
+                    <!-- Define el componente AlbumCard -->
+                    <AlbumCard :album="album" />
+                </div>
             </div>
-        </div>
-        <div v-else>
-            <p>No se encontraron álbumes.</p>
+            <div v-else class="no-albums">
+                <p>Busca algún álbum y añádelo a tu lista!</p>
+            </div>
         </div>
     </div>
 </template>
@@ -92,6 +94,7 @@ export default {
                     const albumData = await albumResponse.json();
                     albums.value = albumData.items; // Actualizar el valor de albums
                 } else {
+                    albums.value = []; // Reiniciar la lista de álbumes si no se encuentran resultados
                     console.log('No se encontraron artistas.');
                 }
             } catch (error) {
@@ -112,34 +115,123 @@ export default {
 <style scoped>
 /* Estilos específicos para esta vista */
 
+.background-image {
+    background-image: url('/public/images/background.jpg');
+    /* Asegúrate de usar la ruta correcta de la imagen */
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    /* Asegura que el fondo cubra toda la pantalla */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    /* Asegura que el texto sea legible */
+    position: relative;
+}
+
+.navbar {
+    position: absolute;
+    /* Asegura que la Navbar esté siempre en la parte superior */
+    top: 20px;
+    /* Añade margen superior a la Navbar */
+    width: calc(100% - 40px);
+    /* Añade margen a los lados de la Navbar */
+    background: rgba(0, 0, 0, 0.7);
+    /* Fondo semitransparente para la Navbar */
+    padding: 10px;
+    z-index: 1;
+    /* Asegura que la Navbar esté por encima del resto del contenido */
+    margin: 0 20px;
+    /* Margen de 20px a los lados */
+}
+
+.main-content {
+    background: rgba(0, 0, 0, 0);
+    width: 100%;
+    max-width: 1845px;
+    /* Ancho máximo del contenido principal */
+    margin-top: 150px;
+    /* Ajusta el margen superior para dejar espacio para la Navbar */
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .search-bar-container {
+    width: 100%;
     display: flex;
     justify-content: center;
-    margin-top: 20px;
-    /* Agrega un poco de espacio entre la barra de navegación y la barra de búsqueda */
+    margin-bottom: 20px;
 }
 
 .search-bar {
     display: flex;
     align-items: center;
+    width: 100%;
+    max-width: 2800px;
+    /* Ajusta el ancho máximo de la barra de búsqueda */
 }
 
 .search-input {
-    width: 300px;
-    height: 35px;
-    border: 1px solid #ccc;
+    flex: 1;
+    height: 50px;
+    background: rgba(0, 0, 0, 0.7);
+    /* Aumenta la altura del input de búsqueda */
+    border: 0px solid #ccc;
     border-radius: 5px;
-    padding-left: 10px;
+    padding: 15px;
+    /* Ajusta el padding del input */
     margin-right: 10px;
+    font-size: 28px;
+    color: white;
+    /* Ajusta el tamaño de fuente */
 }
 
 .search-button {
-    height: 35px;
+    height: 50px;
+    /* Aumenta la altura del botón de búsqueda */
     background-color: #230745;
     color: #fff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    padding: 0 15px;
+    padding: 0 20px;
+    /* Ajusta el padding del botón */
+    font-size: 18px;
+    /* Ajusta el tamaño de fuente */
+}
+
+.albums-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    /* Distribuye las tarjetas de álbumes en 4 columnas */
+    gap: 20px;
+    /* Espacio entre las tarjetas de álbumes */
+    margin-top: 20px;
+    /* Ajusta el margen superior */
+}
+
+.album-card {
+    background: rgba(0, 0, 0, 0.6);
+    /* Fondo semitransparente para mejorar la legibilidad */
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.no-albums {
+    background: rgba(0, 0, 0, 0.7);
+    /* Fondo semitransparente para mejorar la legibilidad */
+    padding: 50px;
+    border-radius: 10px;
+    text-align: center;
+    width: 1825px;
+    /* Ajusta el ancho para que sea igual al de la Navbar */
+    margin: 0px;
+    /* Añade margen alrededor */
+    font-size: 34px;
 }
 </style>

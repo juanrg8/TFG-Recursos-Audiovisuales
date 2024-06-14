@@ -1,29 +1,31 @@
 <template>
-  <div>
-    <Navbar /> <!-- Incluye la barra de navegación -->
-    <div class="main">
-      <div class="register">
-        <form class="form" @submit.prevent="handleRegister">
-          <label>Regístrate</label>
-          <input class="input" type="username" v-model="username" placeholder="Username" required />
-          <input class="input" type="email" v-model="email" placeholder="Email" required />
-          <input class="input" type="password" v-model="password" placeholder="Password" required />
-          <input class="input" type="name" v-model="name" placeholder="Name" required />
-          <input class="input" type="bio" v-model="bio" placeholder="Bio" />
-          <button type="submit">Register</button>
-          <hover-button>
-            <div>
-              <span>
-                <p>Ya está registrado?</p>
-              </span>
-            </div>
-            <div @click="$router.push('/login')">
-              <span>
-                <p>Inicie sesión</p>
-              </span>
-            </div>
-          </hover-button>
-        </form>
+  <div class="background-image">
+    <Navbar class="navbar" />
+    <div class="main-content">
+      <div class="main">
+        <div class="register">
+          <form class="form" @submit.prevent="handleRegister">
+            <label>Regístrate</label>
+            <input class="input" type="username" v-model="username" placeholder="Username" required />
+            <input class="input" type="email" v-model="email" placeholder="Email" required />
+            <input class="input" type="password" v-model="password" placeholder="Password" required />
+            <input class="input" type="name" v-model="name" placeholder="Name" required />
+            <input class="input" type="bio" v-model="bio" placeholder="Bio" />
+            <button type="submit">Register</button>
+            <hover-button>
+              <div>
+                <span>
+                  <p>Ya está registrado?</p>
+                </span>
+              </div>
+              <div @click="$router.push('/login')">
+                <span>
+                  <p>Inicie sesión</p>
+                </span>
+              </div>
+            </hover-button>
+          </form>
+        </div>
       </div>
     </div>
   </div>
@@ -77,6 +79,30 @@ export default {
 </script>
 
 <style scoped>
+.navbar {
+  position: absolute;
+  /* Asegura que la Navbar esté siempre en la parte superior */
+  top: 20px;
+  /* Añade margen superior a la Navbar */
+  width: calc(100% - 40px);
+  /* Añade margen a los lados de la Navbar */
+  background: rgba(0, 0, 0, 0.7);
+  /* Fondo semitransparente para la Navbar */
+  padding: 10px;
+  z-index: 1;
+  /* Asegura que la Navbar esté por encima del resto del contenido */
+  margin: 0 20px;
+  /* Margen de 20px a los lados */
+  border-radius: 15px;
+  /* Bordes redondeados */
+
+  font-size: 28px;
+}
+
+.main-content {
+  background: rgba(0, 0, 0, 0);
+}
+
 .main {
   position: fixed;
   top: 50%;

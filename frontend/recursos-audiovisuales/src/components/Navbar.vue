@@ -64,20 +64,27 @@ export default {
 
 <style scoped>
 nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #230745;
-  /* Cambia el color de fondo */
-  padding: 1em;
+  position: absolute;
+  /* Asegura que la Navbar esté siempre en la parte superior */
+  top: 20px;
+  /* Añade margen superior a la Navbar */
+  width: calc(100% - 40px);
+  /* Añade margen a los lados de la Navbar */
+  background: rgba(0, 0, 0, 0.7);
+  /* Fondo semitransparente para la Navbar */
+  padding: 10px;
+  z-index: 1;
+  /* Asegura que la Navbar esté por encima del resto del contenido */
+  margin: 0 20px;
+  /* Margen de 20px a los lados */
   border-radius: 15px;
   /* Bordes redondeados */
-  margin: 1em;
-  /* Margen alrededor de la navbar */
+
+  font-size: 28px;
 }
 
 nav .logo img {
-  height: 60px;
+  height: 100px;
   /* Ajusta el tamaño del logo según sea necesario */
 }
 
