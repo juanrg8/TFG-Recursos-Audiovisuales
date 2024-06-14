@@ -13,7 +13,6 @@
                     <label for="exampleInputPassword1">Email</label>
                     <input v-model='email' type="email" class="form-control" id="exampleInputPassword1"
                         placeholder="Introduce tu email">
-                    <small id="emailHelp" class="form-text text-muted">No compartiremos tu email con nadie.</small>
                 </div>
                 <div class="form-group">
                     <label for="exampleFormControlTextarea1">Bio</label>

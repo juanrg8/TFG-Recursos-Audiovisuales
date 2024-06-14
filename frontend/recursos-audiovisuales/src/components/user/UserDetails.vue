@@ -4,11 +4,15 @@
         <div class="main-content">
             <h1>Perfil </h1>
             <div class="card mb-3">
-                <img class="card-img-top portada" :src="this.usuario.image" alt="UserProfile">
-                <div class="card-body">
+                <img class="card-img-top portada"
+                    src="https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg"
+                    alt="UserProfile" v-if="this.usuario.image == null || this.usuario.image.length == 0">
+                <img class="card-img-top portada" :src="this.usuario.image" alt="UserProfile"
+                    v-if="this.usuario.image != null && this.usuario.image.length != 0">
+                <div class=" card-body">
                     <h5 class="card-title">Nombre: {{ this.usuario.nombre }}</h5>
                     <h5 class="card-title">Email: {{ this.usuario.email }}</h5>
-                    <h5 class="card-title">Bio: {{ this.usuario.bio }}</h5>
+                    <h5 class="card-title bio-container">Bio: {{ this.usuario.bio }}</h5>
                     <a class=" btn btn-success"><router-link
                             :to="{ name: 'UserForm', params: { userName: this.userNombre } }"
                             class="router-link-custom-white">Editar</router-link></a>
@@ -72,6 +76,10 @@ export default {
 .portada {
     max-width: 500px;
     max-height: 500px;
+}
+
+.bio-container {
+    max-width: 450px;
 }
 
 .card {

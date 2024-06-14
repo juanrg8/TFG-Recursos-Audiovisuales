@@ -216,8 +216,9 @@ export default {
 }
 
 .album-card {
-    background: rgba(0, 0, 0, 0.6);
+    background: rgb(255, 255, 255);
     /* Fondo semitransparente para mejorar la legibilidad */
+    background-size: contain;
     padding: 10px;
     border-radius: 10px;
 }

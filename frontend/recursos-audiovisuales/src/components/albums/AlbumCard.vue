@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- Contenido de tu componente AlbumCard aquí -->
-    <div class="card" style="width: 18rem;">
+    <div class="card custom-card" style="width: 18rem;">
       <img :src="album.images[0].url" alt="Album Cover">
       <div class="card-body">
         <h5 class="card-title" v-if="album.miAlbum == undefined && album.miAlbum == null">{{ album.name }}</h5>
@@ -115,6 +115,9 @@ export default {
 
 <style scoped>
 /* Estilos adicionales específicos para el componente */
+.custom-card {
+  border-color: white;
+}
 
 /* Estilo personalizado para el router-link */
 .router-link-custom {
