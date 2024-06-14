@@ -11,7 +11,7 @@
         <p class="card-text">{{ album.artist }}</p>
         <a v-if="this.isAuthenticated && album.miAlbum != undefined && album.miAlbum != null"
           @click="addAlbumPendingStatus(album.name)" class="btn btn-primary">Pendiente</a>
-        <a v-if="this.isAuthenticated && album.miAlbum == undefined || album.miAlbum == null"
+        <a v-if="this.isAuthenticated && album.miAlbum == undefined && album.miAlbum == null"
           @click="addAlbumPending(album.id, album.name)" class="btn btn-primary">Pendiente</a>
         <a v-if="this.isAuthenticated && album.miAlbum != undefined && album.miAlbum != null"
           class=" btn btn-success"><router-link :to="{ name: 'AlbumReview', params: { spotifyId: album.id } }"

@@ -43,6 +43,7 @@ export default {
     },
     logout() {
       localStorage.removeItem('token');
+      localStorage.removeItem('usuario');
       this.$cookies.remove('user')
       this.isAuthenticated = false;
       this.$router.push('/'); // Redirige a la página principal
