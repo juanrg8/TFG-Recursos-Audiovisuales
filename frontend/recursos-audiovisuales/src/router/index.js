@@ -11,6 +11,7 @@ import AlbumReview from "../components/albums/AlbumReview.vue";
 import AlbumDetails from "../components/albums/AlbumDetails.vue";
 import UserDetails from "../components/user/UserDetails.vue";
 import UserForm from "../components/user/UserForm.vue";
+import Books from "../components/books/BookScreen.vue";
 
 Vue.use(VueRouter);
 
@@ -40,6 +41,7 @@ const routes = [
     name: "UserForm",
     component: UserForm,
   },
+  { path: "/books", component: Books },
 ];
 
 const router = new VueRouter({

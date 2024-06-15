@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- Contenido de tu componente AlbumCard aquí -->
     <div class="card custom-card" style="width: 18rem;">
       <img :src="album.images[0].url" alt="Album Cover">
       <div class="card-body">
@@ -44,7 +43,7 @@ export default {
     addAlbumPending(id, name) {
       let request = {
         usuarioNombre: this.$cookies.get('user').username,
-        spotifyId: id,  // Puedes cambiar esto a album.id si tienes un ID específico del álbum
+        spotifyId: id,
         status: "PENDING",
         tituloAlbum: name
       };
@@ -57,7 +56,6 @@ export default {
       })
         .then(response => response.json())
         .then(data => {
-          // Almacena el token de acceso en la variable accessToken
           console.log(data);
         })
         .catch(error => {
@@ -78,7 +76,6 @@ export default {
       })
         .then(response => response.json())
         .then(data => {
-          // Almacena el token de acceso en la variable accessToken
           console.log(data);
           this.$emit('updateView', data);
         })
@@ -99,7 +96,6 @@ export default {
       })
         .then(response => response.json())
         .then(data => {
-          // Almacena el token de acceso en la variable accessToken
           this.$emit('deleteEvent', data);
         })
         .catch(error => {
@@ -114,20 +110,19 @@ export default {
 </script>
 
 <style scoped>
-/* Estilos adicionales específicos para el componente */
 .custom-card {
   border-color: white;
 }
 
-/* Estilo personalizado para el router-link */
+
 .router-link-custom {
   color: rgb(0, 0, 0);
-  /* Color del texto en blanco */
+
   text-decoration: none;
-  /* Elimina el subrayado */
+
 }
 
-/* Elimina el subrayado en hover y focus */
+
 .router-link-custom:hover,
 .router-link-custom:focus {
   text-decoration: none;
@@ -136,8 +131,8 @@ export default {
 
 .router-link-custom-white {
   color: rgb(255, 255, 255);
-  /* Color del texto en blanco */
+
   text-decoration: none;
-  /* Elimina el subrayado */
+
 }
 </style>

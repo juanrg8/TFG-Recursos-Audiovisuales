@@ -1,8 +1,8 @@
 import VueCookies from "vue-cookies";
 import { createApp } from "vue";
-import { createRouter, createWebHistory } from "vue-router"; // Importa createRouter y createWebHistory desde vue-router
+import { createRouter, createWebHistory } from "vue-router"; 
 import App from "./App.vue";
-import HomeScreen from "./components/HomeScreen.vue"; // Importa tus componentes de pantalla aquí
+import HomeScreen from "./components/HomeScreen.vue"; 
 import Login from "./components/auth/UserLogin.vue";
 import Register from "./components/auth/UserRegister.vue";
 import Albums from "./components/albums/Albums.vue";
@@ -11,6 +11,7 @@ import AlbumReview from "./components/albums/AlbumReview.vue";
 import AlbumDetails from "./components/albums/AlbumDetails.vue";
 import UserDetails from "./components/user/UserDetails.vue";
 import UserForm from "./components/user/UserForm.vue";
+import Books from "./components/books/BookScreen.vue";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 
@@ -41,6 +42,7 @@ const routes = [
     name: "UserForm",
     component: UserForm,
   },
+  { path: "/books", component: Books },
 ];
 
 // Crea el enrutador con la historia de navegación basada en la ubicación web

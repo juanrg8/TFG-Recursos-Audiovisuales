@@ -7,6 +7,7 @@
     <ul>
       <li><router-link to="/albums">Álbumes</router-link></li>
       <li v-if="isAuthenticated"><router-link to="/useralbums">Mis álbumes</router-link></li>
+      <li><router-link to="/books">Libros</router-link></li>
       <li v-if="!isAuthenticated"><button @click="navigateTo('/login')"><span class="text">Inicia
             sesión/Regístrate</span></button></li>
       <li v-if="isAuthenticated"><router-link
