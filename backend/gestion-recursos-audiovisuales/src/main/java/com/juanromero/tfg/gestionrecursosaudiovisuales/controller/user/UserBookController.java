@@ -34,28 +34,28 @@ public class UserBookController {
         return userBookFacade.deleteUserBook(request);
     }
 
-    @GetMapping(path = "/findall/{usuarioId}")
-    public List<UserBookRequest> findAllUserBooks(@PathVariable Integer usuarioId) {
-        return userBookFacade.findAllUserBooks(usuarioId).getListaUserBooks();
+    @GetMapping(path = "/findall/{usuarioNombre}")
+    public List<UserBookRequest> findAllUserBooks(@PathVariable String usuarioNombre) {
+        return userBookFacade.findAllUserBooks(usuarioNombre).getListaUserBooks();
     }
 
-    @GetMapping(path = "/findbystatus/{usuarioId}/{status}")
-    public List<UserBookRequest> findUserBooksByStatus(@PathVariable Integer usuarioId, @PathVariable BookStatus status) {
-        return userBookFacade.findUserBooksByStatus(usuarioId, status).getListaUserBooks();
+    @GetMapping(path = "/findbystatus/{usuarioNombre}/{status}")
+    public List<UserBookRequest> findUserBooksByStatus(@PathVariable String usuarioNombre, @PathVariable BookStatus status) {
+        return userBookFacade.findUserBooksByStatus(usuarioNombre, status).getListaUserBooks();
     }
 
     @PutMapping(path = "/movetostatus")
     public UserBookResponse moveUserBookToStatus(@RequestBody UserBookRequest request) {
-        return userBookFacade.moveUserBookToStatus(request.getUserId(), request.getBookId(), request.getStatus());
+        return userBookFacade.moveUserBookToStatus(request.getUsuarioNombre(), request.getTituloLibro(), request.getStatus());
     }
 
     @PutMapping(path = "/updatereview")
     public UserBookResponse updateUserBookReview(@RequestBody UserBookRequest request) {
-        return userBookFacade.updateUserBookReview(request.getUserId(), request.getBookId(), request.getReview());
+        return userBookFacade.updateUserBookReview(request.getUsuarioNombre(), request.getTituloLibro(), request.getReview());
     }
 
     @PutMapping(path = "/updaterating")
     public UserBookResponse updateUserBookRating(@RequestBody UserBookRequest request) {
-        return userBookFacade.updateUserBookRating(request.getUserId(), request.getBookId(), request.getRating());
+        return userBookFacade.updateUserBookRating(request.getUsuarioNombre(), request.getTituloLibro(), request.getRating());
     }
 }

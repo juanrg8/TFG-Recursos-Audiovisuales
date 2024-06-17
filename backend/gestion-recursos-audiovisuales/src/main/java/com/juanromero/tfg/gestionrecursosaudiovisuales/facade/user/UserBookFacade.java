@@ -12,13 +12,13 @@ public interface UserBookFacade {
 
     UserBookResponse deleteUserBook(UserBookRequest userBookRequest);
 
-    UserBookResponse findAllUserBooks(Integer usuarioId);
+    UserBookResponse findAllUserBooks(String usuarioNombre);
 
-    UserBookResponse findUserBooksByStatus(Integer usuarioId, BookStatus status);
+    UserBookResponse findUserBooksByStatus(String usuarioNombre, BookStatus status);
 
-    UserBookResponse moveUserBookToStatus(Integer usuarioId, Integer bookId, BookStatus status);
+    UserBookResponse moveUserBookToStatus(String usuarioNombre, String bookTitle, BookStatus status);
     
-    UserBookResponse updateUserBookReview(Integer userId, Integer bookId, String review);
+    UserBookResponse updateUserBookReview(String usuarioNombre, String bookTitle, String review);
 
-    UserBookResponse updateUserBookRating(Integer userId, Integer bookId, BigDecimal rating);
+    UserBookResponse updateUserBookRating(String usuarioNombre, String bookTitle, BigDecimal rating);
 }

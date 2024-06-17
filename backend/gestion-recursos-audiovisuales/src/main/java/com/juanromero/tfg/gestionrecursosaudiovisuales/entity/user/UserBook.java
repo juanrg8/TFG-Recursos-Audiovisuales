@@ -25,6 +25,9 @@ public class UserBook {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	@Column(name = "libro_id")
+	private String libroId;
+	
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     @NotNull(message = "User cannot be null")
@@ -53,13 +56,20 @@ public class UserBook {
     @Column(name = "date_read")
     private LocalDate dateRead;
 
-	// Getters y setters
 	public Integer getId() {
 		return id;
 	}
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	
+	public String getLibroId() {
+		return libroId;
+	}
+
+	public void setLibroId(String libroId) {
+		this.libroId = libroId;
 	}
 
 	public User getUsuario() {

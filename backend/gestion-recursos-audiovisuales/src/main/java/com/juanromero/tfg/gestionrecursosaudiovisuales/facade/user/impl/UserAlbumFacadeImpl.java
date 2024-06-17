@@ -197,7 +197,6 @@ public class UserAlbumFacadeImpl implements UserAlbumFacade {
 		Optional<User> userOpt = userRepository.findByUsername(usuarioNombre);
 		Album album = albumRepository.findByTitle(tituloAlbum);
 		if(userOpt.isPresent()&&album!=null) {
-        // Lógica para actualizar la revisión del álbum de usuario
         descripcionPeticion = userAlbumService.updateUserAlbumReview(userOpt.get().getId(), album.getId(), review);
         response.setDescripcionPeticion(descripcionPeticion);
 		}
@@ -217,7 +216,6 @@ public class UserAlbumFacadeImpl implements UserAlbumFacade {
 		Optional<User> userOpt = userRepository.findByUsername(usuarioNombre);
 		Album album = albumRepository.findByTitle(tituloAlbum);
 		if(userOpt.isPresent()&&album!=null) {
-        // Lógica para actualizar la calificación del álbum de usuario
         descripcionPeticion = userAlbumService.updateUserAlbumRating(userOpt.get().getId(), album.getId(), rating);
         response.setDescripcionPeticion(descripcionPeticion);
 		}

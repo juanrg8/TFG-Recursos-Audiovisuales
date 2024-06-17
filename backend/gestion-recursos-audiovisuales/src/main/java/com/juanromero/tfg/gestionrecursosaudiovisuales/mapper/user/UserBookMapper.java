@@ -1,6 +1,6 @@
 package com.juanromero.tfg.gestionrecursosaudiovisuales.mapper.user;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Autowired; 
 import org.springframework.stereotype.Service;
 
 import com.juanromero.tfg.gestionrecursosaudiovisuales.dto.user.UserBookRequest;
@@ -28,9 +28,17 @@ public class UserBookMapper {
         if (dto.getId() != null) {
             entity.setId(dto.getId());
         }
+        
+        // Asignar el ID de Libro si está presente en el DTO
+        if (dto.getLibroId() != null) {
+            entity.setLibroId(dto.getLibroId());
+        }
 
         // Encontrar y asignar el usuario
-        User usuario = userRepository.findById(dto.getUserId()).orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
+        User usuario = userRepository.findByUsername(dto.getUsuarioNombre()).orElse(null);
+        if (usuario == null) {
+            throw new IllegalArgumentException("Usuario no encontrado");
+        }
         entity.setUsuario(usuario);
         
         // Encontrar y asignar el libro
@@ -59,11 +67,24 @@ public class UserBookMapper {
         // Asignar el ID
         dto.setId(entity.getId());
 
-        // Asignar el usuario
-        dto.setUserId(entity.getUsuario().getId());
+        // Asignar el ID de Libro si está presente en el DTO
+        if (entity.getLibroId() != null) {
+            dto.setLibroId(entity.getLibroId());
+        }
         
-        // Asignar el libro
-        dto.setBookId(entity.getBook().getId());
+        // Encontrar y asignar el usuario
+        User usuario = userRepository.findById(entity.getUsuario().getId()).orElse(null);
+        if (usuario == null) {
+            throw new IllegalArgumentException("Usuario no encontrado");
+        }
+        dto.setUsuarioNombre(usuario.getUsername());
+        
+        // Encontrar y asignar el libro
+        Book book = bookRepository.findById(entity.getBook().getId()).orElse(null);
+        if (book == null) {
+            throw new IllegalArgumentException("Libro no encontrado");
+        }
+        dto.setBookId(book.getId());
         
         // Asignar el estado
         dto.setStatus(entity.getStatus());

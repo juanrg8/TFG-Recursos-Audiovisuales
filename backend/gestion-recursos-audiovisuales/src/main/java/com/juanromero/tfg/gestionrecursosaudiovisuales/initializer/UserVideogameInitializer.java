@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.stereotype.Component;
 
 import com.juanromero.tfg.gestionrecursosaudiovisuales.entity.user.User;
 import com.juanromero.tfg.gestionrecursosaudiovisuales.entity.videogame.Videogame;

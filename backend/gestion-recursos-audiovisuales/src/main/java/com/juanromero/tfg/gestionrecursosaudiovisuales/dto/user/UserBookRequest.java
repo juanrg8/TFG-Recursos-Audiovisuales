@@ -1,6 +1,6 @@
 package com.juanromero.tfg.gestionrecursosaudiovisuales.dto.user;
 
-import java.math.BigDecimal;
+import java.math.BigDecimal; 
 import java.time.LocalDate;
 
 import com.juanromero.tfg.gestionrecursosaudiovisuales.entity.user.BookStatus;
@@ -8,7 +8,13 @@ import com.juanromero.tfg.gestionrecursosaudiovisuales.entity.user.BookStatus;
 public class UserBookRequest {
 
 	private Integer id;
-	private Integer userId;
+	private String libroId;
+	private String tituloLibro;
+	private Integer paginas;
+	private LocalDate publishDate;
+	private String author;
+	private String genre;
+	private String usuarioNombre;
 	private Integer bookId;
 	private BookStatus status;
 	private String review;
@@ -16,10 +22,11 @@ public class UserBookRequest {
 	private LocalDate dateStarted;
 	private LocalDate dateRead;
 
-	public UserBookRequest(Integer userId, Integer bookId, BookStatus status, String review, BigDecimal rating,
-			LocalDate dateStarted, LocalDate dateRead) {
-		super();
-		this.userId = userId;
+	public UserBookRequest(Integer id, String libroId, String usuarioNombre, Integer bookId, BookStatus status,
+			String review, BigDecimal rating, LocalDate dateStarted, LocalDate dateRead) {
+		this.id = id;
+		this.libroId = libroId;
+		this.usuarioNombre = usuarioNombre;
 		this.bookId = bookId;
 		this.status = status;
 		this.review = review;
@@ -31,6 +38,18 @@ public class UserBookRequest {
 	public UserBookRequest() {
 	}
 
+	public UserBookRequest(String libroId, BookStatus status, String usuarioNombre, String tituloLibro, Integer paginas, LocalDate publishDate, String author, String genre) {
+		this.libroId = libroId;
+		this.status = status;
+		this.usuarioNombre = usuarioNombre;
+		this.tituloLibro = tituloLibro;
+		this.paginas = paginas;
+		this.publishDate = publishDate;
+		this.author = author;
+		this.genre = genre;
+		
+	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -39,12 +58,60 @@ public class UserBookRequest {
 		this.id = id;
 	}
 
-	public Integer getUserId() {
-		return userId;
+	public String getLibroId() {
+		return libroId;
 	}
 
-	public void setUserId(Integer userId) {
-		this.userId = userId;
+	public void setLibroId(String libroId) {
+		this.libroId = libroId;
+	}
+
+	public String getTituloLibro() {
+		return tituloLibro;
+	}
+
+	public Integer getPaginas() {
+		return paginas;
+	}
+
+	public void setPaginas(Integer paginas) {
+		this.paginas = paginas;
+	}
+
+	public LocalDate getPublishDate() {
+		return publishDate;
+	}
+
+	public void setPublishDate(LocalDate publishDate) {
+		this.publishDate = publishDate;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+
+	public String getGenre() {
+		return genre;
+	}
+
+	public void setGenre(String genre) {
+		this.genre = genre;
+	}
+
+	public void setTituloLibro(String tituloLibro) {
+		this.tituloLibro = tituloLibro;
+	}
+
+	public String getUsuarioNombre() {
+		return usuarioNombre;
+	}
+
+	public void setUsuarioNombre(String usuarioNombre) {
+		this.usuarioNombre = usuarioNombre;
 	}
 
 	public Integer getBookId() {

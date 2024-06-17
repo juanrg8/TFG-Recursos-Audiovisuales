@@ -1,6 +1,6 @@
 package com.juanromero.tfg.gestionrecursosaudiovisuales.facade.user.impl;
 
-import java.math.BigDecimal;
+import java.math.BigDecimal; 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,11 +11,15 @@ import org.springframework.stereotype.Service;
 
 import com.juanromero.tfg.gestionrecursosaudiovisuales.dto.user.UserBookRequest;
 import com.juanromero.tfg.gestionrecursosaudiovisuales.dto.user.UserBookResponse;
+import com.juanromero.tfg.gestionrecursosaudiovisuales.entity.book.Book;
 import com.juanromero.tfg.gestionrecursosaudiovisuales.entity.user.BookStatus;
+import com.juanromero.tfg.gestionrecursosaudiovisuales.entity.user.User;
 import com.juanromero.tfg.gestionrecursosaudiovisuales.entity.user.UserBook;
 import com.juanromero.tfg.gestionrecursosaudiovisuales.facade.user.UserBookFacade;
 import com.juanromero.tfg.gestionrecursosaudiovisuales.mapper.user.UserBookMapper;
+import com.juanromero.tfg.gestionrecursosaudiovisuales.repository.book.BookRepository;
 import com.juanromero.tfg.gestionrecursosaudiovisuales.repository.user.UserBookRepository;
+import com.juanromero.tfg.gestionrecursosaudiovisuales.repository.user.UserRepository;
 import com.juanromero.tfg.gestionrecursosaudiovisuales.service.user.UserBookService;
 
 @Service
@@ -29,12 +33,32 @@ public class UserBookFacadeImpl implements UserBookFacade {
 
     @Autowired
     private UserBookRepository userBookRepository;
+    
+	@Autowired
+	private UserRepository userRepository;
+	
+	@Autowired
+	private BookRepository bookRepository;
 
     @Override
     public UserBookResponse addUserBook(UserBookRequest userBookRequest) {
         UserBookResponse response = new UserBookResponse();
         String descripcionPeticion = "";
 
+		Book book = new Book();
+		book.setTitle(userBookRequest.getTituloLibro());
+		book.setPages(userBookRequest.getPaginas());
+		book.setPublishDate(userBookRequest.getPublishDate());
+		book.setAuthor(userBookRequest.getAuthor());
+		book.setGenre(userBookRequest.getGenre());
+		Book libroTitulo = bookRepository.findByTitle(book.getTitle());
+		if(libroTitulo==null) {
+			Book libroguardado = bookRepository.save(book);
+			userBookRequest.setBookId(libroguardado.getId());
+		}else {
+			userBookRequest.setBookId(libroTitulo.getId());
+		}
+        
         UserBook userBook = userBookMapper.dtoToEntity(userBookRequest);
         descripcionPeticion = userBookService.addUserBook(userBook);
         response.setDescripcionPeticion(descripcionPeticion);
@@ -55,9 +79,14 @@ public class UserBookFacadeImpl implements UserBookFacade {
     public UserBookResponse deleteUserBook(UserBookRequest userBookRequest) {
         UserBookResponse response = new UserBookResponse();
         String descripcionPeticion = "";
-
-        descripcionPeticion = userBookService.deleteUserBook(userBookRequest.getUserId(), userBookRequest.getBookId());
-        response.setDescripcionPeticion(descripcionPeticion);
+		Optional<User> usuarioOpt = userRepository.findByUsername(userBookRequest.getUsuarioNombre());
+		Book book = bookRepository.findByTitle(userBookRequest.getTituloLibro());
+		if(usuarioOpt.isPresent()&&book!=null) {
+		Integer idUsuario = userRepository.findByUsername(userBookRequest.getUsuarioNombre()).get().getId();
+		descripcionPeticion = userBookService.deleteUserBook(idUsuario,
+				book.getId());
+		response.setDescripcionPeticion(descripcionPeticion);
+		}
 
         if (descripcionPeticion.contains("eliminado")) {
             response.setEstadoPeticion("OK");
@@ -68,10 +97,12 @@ public class UserBookFacadeImpl implements UserBookFacade {
     }
 
     @Override
-    public UserBookResponse findAllUserBooks(Integer usuarioId) {
+    public UserBookResponse findAllUserBooks(String usuarioNombre) {
         UserBookResponse response = new UserBookResponse();
         List<UserBookRequest> userBooksDTO = new ArrayList<>();
-        List<UserBook> userBooks = userBookService.findAllUserBooks(usuarioId);
+        Optional<User> userOpt = userRepository.findByUsername(usuarioNombre);
+        if(userOpt.isPresent()) {
+        List<UserBook> userBooks = userBookService.findAllUserBooks(userOpt.get().getId());
         for (UserBook ub: userBooks) {
             userBooksDTO.add(userBookMapper.entityToDto(ub));
         }
@@ -83,16 +114,20 @@ public class UserBookFacadeImpl implements UserBookFacade {
         } else {
             response.setEstadoPeticion("KO");
             response.setDescripcionPeticion("No se encontraron libros para el usuario.");
+        }}else {
+			response.setEstadoPeticion("KO");
+			response.setDescripcionPeticion("No se encontró al usuario.");
         }
 
         return response;
     }
 
     @Override
-    public UserBookResponse findUserBooksByStatus(Integer usuarioId, BookStatus status) {
+    public UserBookResponse findUserBooksByStatus(String usuarioNombre, BookStatus status) {
         UserBookResponse response = new UserBookResponse();
-
-        List<UserBook> userBooks = userBookService.findUserBooksByStatus(usuarioId, status);
+		Optional<User> userOpt = userRepository.findByUsername(usuarioNombre);
+		if(userOpt.isPresent()) {
+        List<UserBook> userBooks = userBookService.findUserBooksByStatus(userOpt.get().getId(), status);
         List<UserBookRequest> userBooksDTO = new ArrayList<>();
         for (UserBook ub: userBooks) {
             userBooksDTO.add(userBookMapper.entityToDto(ub));
@@ -105,15 +140,21 @@ public class UserBookFacadeImpl implements UserBookFacade {
         } else {
             response.setEstadoPeticion("KO");
             response.setDescripcionPeticion("No se encontraron libros para el usuario con el estado especificado.");
-        }
+        }}else {
+			response.setEstadoPeticion("KO");
+			response.setDescripcionPeticion("No se encontró al usuario.");
+		}
 
         return response;
     }
 
     @Override
-    public UserBookResponse moveUserBookToStatus(Integer usuarioId, Integer bookId, BookStatus status) {
+    public UserBookResponse moveUserBookToStatus(String usuarioNombre, String bookTitle, BookStatus status) {
         UserBookResponse response = new UserBookResponse();
-        Optional<UserBook> userBookOpt = userBookRepository.findByUsuarioIdAndBookId(usuarioId, bookId);
+		Optional<User> userOpt = userRepository.findByUsername(usuarioNombre);
+		Book book = bookRepository.findByTitle(bookTitle);
+		if(userOpt.isPresent() && book!=null) {
+        Optional<UserBook> userBookOpt = userBookRepository.findByUsuarioIdAndBookId(userOpt.get().getId(), book.getId());
         
         if (userBookOpt.isPresent()) {
             UserBook userBook = userBookOpt.get();
@@ -144,17 +185,24 @@ public class UserBookFacadeImpl implements UserBookFacade {
         } else {
             response.setDescripcionPeticion("El libro no está en la lista.");
             response.setEstadoPeticion("KO");
+        }}else {
+			response.setDescripcionPeticion("El usuario o el libro no existe.");
+			response.setEstadoPeticion("KO");
         }
 
         return response;
     }
 
     @Override
-    public UserBookResponse updateUserBookReview(Integer userId, Integer bookId, String review) {
+    public UserBookResponse updateUserBookReview(String usuarioNombre, String bookTitle, String review) {
         UserBookResponse response = new UserBookResponse();
-        String descripcionPeticion = userBookService.updateUserBookReview(userId, bookId, review);
+        String descripcionPeticion = "";
+		Optional<User> userOpt = userRepository.findByUsername(usuarioNombre);
+		Book book = bookRepository.findByTitle(bookTitle);
+		if(userOpt.isPresent()&&book!=null) {
+        descripcionPeticion = userBookService.updateUserBookReview(userOpt.get().getId(), book.getId(), review);
         response.setDescripcionPeticion(descripcionPeticion);
-
+		}
         if (descripcionPeticion.contains("actualizada")) {
             response.setEstadoPeticion("OK");
         } else {
@@ -164,11 +212,15 @@ public class UserBookFacadeImpl implements UserBookFacade {
     }
 
     @Override
-    public UserBookResponse updateUserBookRating(Integer userId, Integer bookId, BigDecimal rating) {
+    public UserBookResponse updateUserBookRating(String usuarioNombre, String bookTitle, BigDecimal rating) {
         UserBookResponse response = new UserBookResponse();
-        String descripcionPeticion = userBookService.updateUserBookRating(userId, bookId, rating);
+        String descripcionPeticion = "";
+		Optional<User> userOpt = userRepository.findByUsername(usuarioNombre);
+		Book book = bookRepository.findByTitle(bookTitle);
+		if(userOpt.isPresent()&&book!=null) {
+        descripcionPeticion = userBookService.updateUserBookRating(userOpt.get().getId(), book.getId(), rating);
         response.setDescripcionPeticion(descripcionPeticion);
-
+		}
         if (descripcionPeticion.contains("actualizada")) {
             response.setEstadoPeticion("OK");
         } else {
