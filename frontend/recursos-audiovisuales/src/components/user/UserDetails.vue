@@ -2,35 +2,22 @@
   <Navbar style="z-index: 9" />
   <section class="vh-100 containerDetail" style="background-color: #f4f5f7">
     <div class="py-5 h-100">
-      <div
-        class="row d-flex justify-content-center align-items-center h-100 customDiv"
-      >
+      <div class="row d-flex justify-content-center align-items-center h-100 customDiv">
         <div class="col col-lg-6 mb-4 mb-lg-0">
           <div class="card mb-3" style="border-radius: 0.5rem">
             <div class="row g-0">
-              <div
-                class="col-md-4 gradient-custom text-center text-white"
-                style="
+              <div class="col-md-4 gradient-custom text-center text-white" style="
                   border-top-left-radius: 0.5rem;
                   border-bottom-left-radius: 0.5rem;
-                "
-              >
-                <img
-                  v-if="this.usuario.image != null && this.usuario.image != ''"
-                  :src="this.usuario.image"
-                  alt="Avatar"
-                  class="img-fluid my-5 imgCustom"
-                />
-                <img
-                  v-if="this.usuario.image == null && this.usuario.image == ''"
+                ">
+                <img v-if="this.usuario.image != null && this.usuario.image != ''" :src="this.usuario.image"
+                  alt="Avatar" class="img-fluid my-5 imgCustom" />
+                <img v-if="this.usuario.image == null || this.usuario.image == ''"
                   src="https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg"
-                  alt="Avatar"
-                  class="img-fluid my-5 imgCustom"
-                />
+                  alt="Avatar" class="img-fluid my-5 imgCustom" />
                 <h5>{{ this.usuario.nombre }}</h5>
-                <router-link :to="{ name: 'UserForm' }" class="routerLinkCustom"
-                  >Editar <i class="bi bi-pencil-square"></i
-                ></router-link>
+                <router-link :to="{ name: 'UserForm' }" class="routerLinkCustom">Editar <i
+                    class="bi bi-pencil-square"></i></router-link>
               </div>
               <div class="col-md-8">
                 <div class="card-body p-4">
@@ -171,16 +158,12 @@ export default {
 .gradient-custom {
   background: #f6d365;
 
-  background: linear-gradient(
-    90deg,
-    rgba(0, 212, 255, 1) 0%,
-    rgba(27, 27, 204, 1) 100%,
-    rgba(2, 0, 36, 1) 100%
-  );
-  background: -webkit-linear-gradient(
-    to right bottom,
-    rgba(0, 212, 255, 1),
-    rgba(27, 27, 204, 1)
-  );
+  background: linear-gradient(90deg,
+      rgba(0, 212, 255, 1) 0%,
+      rgba(27, 27, 204, 1) 100%,
+      rgba(2, 0, 36, 1) 100%);
+  background: -webkit-linear-gradient(to right bottom,
+      rgba(0, 212, 255, 1),
+      rgba(27, 27, 204, 1));
 }
 </style>

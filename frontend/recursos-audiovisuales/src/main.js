@@ -12,6 +12,11 @@ import AlbumDetails from "./components/albums/AlbumDetails.vue";
 import UserDetails from "./components/user/UserDetails.vue";
 import UserForm from "./components/user/UserForm.vue";
 import Books from "./components/books/BookScreen.vue";
+import UserBooks from "./components/books/UserBooks.vue";
+import BookDetails from "./components/books/BookDetails.vue";
+import BookReview from "./components/books/BookReview.vue";
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap-vue/dist/bootstrap-vue.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -44,6 +49,17 @@ const routes = [
     component: UserForm,
   },
   { path: "/books", component: Books },
+  { path: "/userbooks", component: UserBooks },
+  {
+    path: "/userbooks/details/:libroId",
+    name: "BookDetails",
+    component: BookDetails,
+  },
+  {
+    path: "/userbooks/update/:libroId",
+    name: "BookReview",
+    component: BookReview,
+  },
 ];
 
 // Crea el enrutador con la historia de navegación basada en la ubicación web

@@ -3,10 +3,7 @@
   <nav class="nav">
     <div class="container">
       <div class="logo">
-        <a href="#"
-          ><router-link to="/"
-            ><img src="/images/logo.png" class="logoNavbar" /></router-link
-        ></a>
+        <a href="#"><router-link to="/"><img src="/images/logo.png" class="logoNavbar" /></router-link></a>
       </div>
       <div id="mainListDiv" class="main_list">
         <ul class="navlinks">
@@ -15,7 +12,7 @@
               <a>Libros</a>
               <div class="dropdown-content" style="z-index: 10">
                 <a><router-link to="/books">Buscar Libros</router-link></a>
-                <a v-if="isAuthenticated">Mis Libros</a>
+                <a v-if="isAuthenticated"><router-link to="/userbooks">Mis Libros</router-link></a>
               </div>
             </div>
           </li>
@@ -24,47 +21,27 @@
               <a>Álbumes</a>
               <div class="dropdown-content" style="z-index: 9">
                 <a><router-link to="/albums">Buscar Álbumes</router-link></a>
-                <a v-if="this.isAuthenticated"
-                  ><router-link to="/useralbums">Mis álbumes</router-link></a
-                >
+                <a v-if="this.isAuthenticated"><router-link to="/useralbums">Mis álbumes</router-link></a>
               </div>
             </div>
           </li>
           <li v-if="this.isAuthenticated">
             <div class="dropdown">
-              <a
-                ><img
-                  v-if="imgUser != null && imgUser != ''"
-                  class="imgIconNav"
-                  :src="imgUser"
-                />
-                <img
-                  v-if="imgUser == null && imgUser == ''"
-                  class="imgIconNav"
-                  src="https://imgs.search.brave.com/NsCoYsr-Ce_T2Nb7SsSJvFyA16_MwV90qm-RuC_YTLU/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9jZG4u/cGl4YWJheS5jb20v/cGhvdG8vMjAxOC8x/MS8xMy8yMS80My9h/dmF0YXItMzgxNDA0/OV82NDAucG5n"
-                />
-                ></a
-              >
+              <a><img v-if="imgUser != null && imgUser != ''" class="imgIconNav" :src="imgUser" />
+                <img v-if="imgUser == null || imgUser == ''" class="imgIconNav"
+                  src="https://imgs.search.brave.com/NsCoYsr-Ce_T2Nb7SsSJvFyA16_MwV90qm-RuC_YTLU/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9jZG4u/cGl4YWJheS5jb20v/cGhvdG8vMjAxOC8x/MS8xMy8yMS80My9h/dmF0YXItMzgxNDA0/OV82NDAucG5n" />
+                ></a>
               <div class="dropdown-content-user">
-                <a
-                  ><router-link
-                    :to="{
-                      name: 'UserDetails',
-                      params: { userName: this.nombreUsuario },
-                    }"
-                    >Editar Perfil</router-link
-                  ></a
-                >
+                <a><router-link :to="{
+                  name: 'UserDetails',
+                  params: { userName: this.nombreUsuario },
+                }">Editar Perfil</router-link></a>
                 <a @click="logout">Cerrar Sesión</a>
               </div>
             </div>
           </li>
           <li v-if="!this.isAuthenticated">
-            <button
-              class="customButton"
-              alt="Inicia Sesión"
-              @click="navigateTo('/login')"
-            >
+            <button class="customButton" alt="Inicia Sesión" @click="navigateTo('/login')">
               <i>I</i>
               <i>n</i>
               <i>i</i>
@@ -88,49 +65,31 @@
           <li class="liMobile">
             <a><router-link to="/books">Buscar Libros</router-link></a>
           </li>
-          <li class="liMobile"><a v-if="isAuthenticated">Mis Libros</a></li>
+          <li class="liMobile"><a v-if="isAuthenticated"><router-link to="/userbooks">Mis Libros</router-link></a></li>
           <li class="liMobile liTitle mt-4">Álbumes</li>
           <li class="liMobile">
             <a><router-link to="/albums">Buscar Álbumes</router-link></a>
           </li>
           <li class="liMobile">
-            <a v-if="this.isAuthenticated"
-              ><router-link to="/useralbums">Mis álbumes</router-link></a
-            >
+            <a v-if="this.isAuthenticated"><router-link to="/useralbums">Mis álbumes</router-link></a>
           </li>
           <li class="liMobile liTitle mt-4" v-if="this.isAuthenticated">
-            <img
-              v-if="imgUser != null && imgUser != ''"
-              class="imgIconNav"
-              :src="imgUser"
-            />
-            <img
-              v-if="imgUser == null && imgUser == ''"
-              class="imgIconNav"
-              src="https://imgs.search.brave.com/NsCoYsr-Ce_T2Nb7SsSJvFyA16_MwV90qm-RuC_YTLU/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9jZG4u/cGl4YWJheS5jb20v/cGhvdG8vMjAxOC8x/MS8xMy8yMS80My9h/dmF0YXItMzgxNDA0/OV82NDAucG5n"
-            />
+            <img v-if="imgUser != null && imgUser != ''" class="imgIconNav" :src="imgUser" />
+            <img v-if="imgUser == null || imgUser == ''" class="imgIconNav"
+              src="https://imgs.search.brave.com/NsCoYsr-Ce_T2Nb7SsSJvFyA16_MwV90qm-RuC_YTLU/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9jZG4u/cGl4YWJheS5jb20v/cGhvdG8vMjAxOC8x/MS8xMy8yMS80My9h/dmF0YXItMzgxNDA0/OV82NDAucG5n" />
             {{ this.nombreUsuario }}
           </li>
           <li class="liMobile" v-if="this.isAuthenticated">
-            <a
-              ><router-link
-                :to="{
+            <a><router-link :to="{
                   name: 'UserDetails',
                   params: { userName: this.nombreUsuario },
-                }"
-                >Editar Perfil</router-link
-              ></a
-            >
+                }">Editar Perfil</router-link></a>
           </li>
           <li class="liMobile" v-if="this.isAuthenticated">
             <a @click="logout">Cerrar Sesión</a>
           </li>
           <li class="liMobile" v-if="!this.isAuthenticated">
-            <button
-              class="customButton"
-              alt="Inicia Sesión"
-              @click="navigateTo('/login')"
-            >
+            <button class="customButton" alt="Inicia Sesión" @click="navigateTo('/login')">
               <i>I</i>
               <i>n</i>
               <i>i</i>
@@ -231,6 +190,7 @@ export default {
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css?family=Quicksand:400,500,700");
+
 html,
 body {
   margin: 0;
@@ -250,6 +210,7 @@ body {
   font-size: 3rem;
   color: white;
 }
+
 /*-- Inspiration taken from abdo steif -->
 /* --> https://codepen.io/abdosteif/pen/bRoyMb?editors=1100*/
 
@@ -258,6 +219,7 @@ body {
   display: inline-block;
   position: relative;
 }
+
 .dropdown-content {
   display: none;
   position: absolute;
@@ -282,6 +244,7 @@ body {
 .dropdown:hover .dropdown-content {
   display: block;
 }
+
 .dropdown-content a {
   display: block;
   color: white;
@@ -295,6 +258,7 @@ body {
 .dropdown:hover .dropdown-content-user {
   display: block;
 }
+
 .dropdown-content-user a {
   display: block;
   color: white;
@@ -304,6 +268,7 @@ body {
   text-decoration: none;
   font-size: 25px !important;
 }
+
 .nav {
   width: 100%;
   height: 90px;
@@ -395,6 +360,7 @@ body {
   .navTrigger {
     display: block;
   }
+
   .nav div.logo {
     margin-left: 15px;
   }
@@ -408,10 +374,12 @@ body {
     height: 0;
     overflow: hidden;
   }
+
   .nav div.show_list {
     height: auto;
     display: none;
   }
+
   .nav div.main_list ul {
     flex-direction: column;
     width: 100%;
@@ -423,16 +391,19 @@ body {
     /*same background color of navbar*/
     background-position: center top;
   }
+
   .nav div.main_list ul li {
     width: 100%;
     text-align: right;
   }
+
   .nav div.main_list ul li a {
     text-align: center;
     width: 100%;
     font-size: 2rem;
     padding: 20px;
   }
+
   .nav div.media_button {
     display: block;
   }
@@ -497,6 +468,7 @@ body {
   -webkit-animation: inBtm 0.8s forwards;
   animation: inBtm 0.8s forwards;
 }
+
 .imgIconNav {
   width: 50px !important;
   border-radius: 30px !important;
@@ -506,6 +478,7 @@ body {
   50% {
     -webkit-transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(45deg);
   }
@@ -515,6 +488,7 @@ body {
   50% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(45deg);
   }
@@ -524,6 +498,7 @@ body {
   50% {
     -webkit-transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(45deg);
   }
@@ -533,6 +508,7 @@ body {
   50% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(45deg);
   }
@@ -542,9 +518,11 @@ body {
   0% {
     -webkit-transform: translateY(0px) rotate(0deg);
   }
+
   50% {
     -webkit-transform: translateY(9px) rotate(0deg);
   }
+
   100% {
     -webkit-transform: translateY(9px) rotate(135deg);
   }
@@ -554,9 +532,11 @@ body {
   0% {
     transform: translateY(0px) rotate(0deg);
   }
+
   50% {
     transform: translateY(9px) rotate(0deg);
   }
+
   100% {
     transform: translateY(9px) rotate(135deg);
   }
@@ -566,9 +546,11 @@ body {
   0% {
     -webkit-transform: translateY(0px) rotate(0deg);
   }
+
   50% {
     -webkit-transform: translateY(9px) rotate(0deg);
   }
+
   100% {
     -webkit-transform: translateY(9px) rotate(135deg);
   }
@@ -578,9 +560,11 @@ body {
   0% {
     transform: translateY(0px) rotate(0deg);
   }
+
   50% {
     transform: translateY(9px) rotate(0deg);
   }
+
   100% {
     transform: translateY(9px) rotate(135deg);
   }
@@ -590,9 +574,11 @@ body {
   0% {
     -webkit-transform: translateY(0px) rotate(0deg);
   }
+
   50% {
     -webkit-transform: translateY(-9px) rotate(0deg);
   }
+
   100% {
     -webkit-transform: translateY(-9px) rotate(135deg);
   }
@@ -602,9 +588,11 @@ body {
   0% {
     transform: translateY(0px) rotate(0deg);
   }
+
   50% {
     transform: translateY(-9px) rotate(0deg);
   }
+
   100% {
     transform: translateY(-9px) rotate(135deg);
   }
@@ -614,9 +602,11 @@ body {
   0% {
     -webkit-transform: translateY(0px) rotate(0deg);
   }
+
   50% {
     -webkit-transform: translateY(-9px) rotate(0deg);
   }
+
   100% {
     -webkit-transform: translateY(-9px) rotate(135deg);
   }
@@ -626,9 +616,11 @@ body {
   0% {
     transform: translateY(0px) rotate(0deg);
   }
+
   50% {
     transform: translateY(-9px) rotate(0deg);
   }
+
   100% {
     transform: translateY(-9px) rotate(135deg);
   }
@@ -644,12 +636,14 @@ body {
   text-align: center;
   font-size: 4rem;
 }
+
 .myP {
   text-align: justify;
   padding-left: 15%;
   padding-right: 15%;
   font-size: 20px;
 }
+
 @media all and (max-width: 700px) {
   .myP {
     padding: 2%;

@@ -16,19 +16,11 @@ public interface AlbumFacade {
     
     AlbumResponse findAlbumsByTitle(String title);
     
-    AlbumResponse findAlbumsByGenre(String musicGenre);
-    
     AlbumResponse findAlbumsByArtist(String artist);
     
     AlbumResponse findAlbumsByPublishDate(String releaseDate);
     
-    AlbumResponse findAlbumsBySong(String song);
 
-    AlbumResponse addSongToAlbum(Integer albumId, String song);
-
-    AlbumResponse deleteSongFromAlbum(Integer albumId, String song);
-
-    AlbumResponse updateSongInAlbum(Integer albumId, String oldSong, String newSong);
 }
 
 

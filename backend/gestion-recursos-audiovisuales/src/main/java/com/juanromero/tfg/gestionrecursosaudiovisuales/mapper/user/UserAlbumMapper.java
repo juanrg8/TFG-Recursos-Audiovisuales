@@ -46,6 +46,8 @@ public class UserAlbumMapper {
         }
         entity.setAlbum(album);
         
+        entity.setDateListened(dto.getFechaCambioEstado());
+        
         // Asignar el estado
         entity.setStatus(dto.getStatus());
         
@@ -83,7 +85,10 @@ public class UserAlbumMapper {
         }
         dto.setAlbumId(album.getId());
         
+        dto.setFechaCambioEstado(entity.getDateListened());
+        
         // Asignar el estado
+        
         dto.setStatus(entity.getStatus());
         
         dto.setReview(entity.getReview());

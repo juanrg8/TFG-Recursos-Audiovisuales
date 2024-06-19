@@ -46,6 +46,9 @@ public class UserAlbumFacadeImpl implements UserAlbumFacade {
 		String descripcionPeticion = "";
 		Album album = new Album();
 		album.setTitle(userAlbumRequest.getTituloAlbum());
+		album.setArtist(userAlbumRequest.getArtist());
+		album.setTracks(userAlbumRequest.getTracks());
+		album.setPublishDate(userAlbumRequest.getPublishDate());
 		Album albumTitulo = albumRepository.findByTitle(album.getTitle());
 		if(albumTitulo==null) {
 			Album albumguardado = albumRepository.save(album);
@@ -159,6 +162,10 @@ public class UserAlbumFacadeImpl implements UserAlbumFacade {
 			// Guardar la fecha de escucha si se cambia de PENDING a CONSUMED
 			if (userAlbum.getStatus() == AlbumStatus.PENDING) {
 				userAlbum.setDateListened(LocalDate.now());
+			} else {
+				userAlbum.setDateListened(null);
+				userAlbum.setRating(null);
+				userAlbum.setReview(null);
 			}
 
 			// Alternar el estado y guardar el UserAlbum

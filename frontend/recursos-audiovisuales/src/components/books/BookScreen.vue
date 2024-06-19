@@ -1,6 +1,5 @@
 <template>
     <div class="background-image">
-
         <Navbar class="navbar" />
 
         <div class="main-content">
@@ -12,10 +11,9 @@
                 </div>
             </div>
 
-
-            <div v-if="books.length" class="results-container">
+            <div v-if="books.length">
                 <h2>Resultados de la búsqueda:</h2>
-                <div class="book-grid">
+                <div class="results-container ">
                     <BookCard v-for="book in books" :key="book.id" :book="book" />
                 </div>
                 <button v-if="showLoadMore" @click="loadMore" class="load-more-button">Cargar más</button>
@@ -154,24 +152,20 @@ export default {
     width: 100%;
     max-width: 1845px;
     box-sizing: border-box;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    /* Distribuye las tarjetas de álbumes en 4 columnas */
+    gap: 20px;
+    /* Espacio entre las tarjetas de álbumes */
+    margin-top: 20px;
+    /* Ajusta el margen superior */
+
 }
 
 .results-container h2 {
     margin-bottom: 20px;
 }
 
-.book-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
-}
-
-.results-container li {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 10px;
-}
 
 .load-more-button {
     background-color: #230745;

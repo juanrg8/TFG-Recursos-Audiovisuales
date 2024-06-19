@@ -10,6 +10,9 @@ public class UserAlbumRequest {
 	private Integer id;
 	private String spotifyId;
 	private String tituloAlbum;
+	private Integer tracks;
+	private LocalDate publishDate;
+	private String artist;
 	private String usuarioNombre;
 	private Integer albumId;
 	private AlbumStatus status;
@@ -33,11 +36,14 @@ public class UserAlbumRequest {
 
 	}
 
-	public UserAlbumRequest(String spotifyId, AlbumStatus status, String usuarioNombre, String tituloAlbum) {
+	public UserAlbumRequest(String spotifyId, AlbumStatus status, String usuarioNombre, String tituloAlbum,Integer tracks,LocalDate publishDate,String artist) {
 		this.spotifyId = spotifyId;
 		this.status = status;
 		this.usuarioNombre = usuarioNombre;
 		this.tituloAlbum = tituloAlbum;
+		this.tracks = tracks;
+		this.publishDate = publishDate;
+		this.artist = artist;
 	}
 	
 	public Integer getId() {
@@ -62,6 +68,30 @@ public class UserAlbumRequest {
 
 	public void setTituloAlbum(String tituloAlbum) {
 		this.tituloAlbum = tituloAlbum;
+	}
+	
+	public Integer getTracks() {
+		return tracks;
+	}
+
+	public void setTracks(Integer tracks) {
+		this.tracks = tracks;
+	}
+
+	public LocalDate getPublishDate() {
+		return publishDate;
+	}
+
+	public void setPublishDate(LocalDate publishDate) {
+		this.publishDate = publishDate;
+	}
+
+	public String getArtist() {
+		return artist;
+	}
+
+	public void setArtist(String artist) {
+		this.artist = artist;
 	}
 
 	public String getUsuarioNombre() {

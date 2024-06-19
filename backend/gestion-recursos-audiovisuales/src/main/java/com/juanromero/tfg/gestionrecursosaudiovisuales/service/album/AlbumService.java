@@ -18,19 +18,11 @@ public interface AlbumService {
     
     Album findAlbumsByTitle(String title);
     
-    List<Album> findAlbumsByGenre(String musicGenre);
-    
     List<Album> findAlbumsByArtist(String artist);
     
     List<Album> findAlbumsByPublishDate(String releaseDate);
     
-    List<Album> findAlbumsBySong(String song);
 
-    String addSongToAlbum(Integer albumId, String song);
-
-    String deleteSongFromAlbum(Integer albumId, String song);
-
-    String updateSongInAlbum(Integer albumId, String oldSong, String newSong);
 }
 
 

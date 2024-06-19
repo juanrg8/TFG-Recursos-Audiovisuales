@@ -1,12 +1,10 @@
 package com.juanromero.tfg.gestionrecursosaudiovisuales.controller.album;
 
-import java.util.List; 
-import java.util.Map; 
+import java.util.List;  
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,25 +25,6 @@ public class AlbumController {
     @PostMapping(path="/addalbum")
     public AlbumResponse addAlbum(@RequestBody AlbumRequest request) {
         return albumFacade.addAlbum(request);
-    }
-
-    @PostMapping(path="/{albumId}/addsong")
-    public AlbumResponse addSongToAlbum(@PathVariable Integer albumId, @RequestBody Map<String, String> requestBody) {
-        String songTitle = requestBody.get("songTitle");
-        return albumFacade.addSongToAlbum(albumId, songTitle);
-    }
-
-    @DeleteMapping(path="/{albumId}/deletesong")
-    public AlbumResponse deleteSongFromAlbum(@PathVariable Integer albumId, @RequestBody Map<String, String> requestBody) {
-        String songTitle = requestBody.get("songTitle");
-        return albumFacade.deleteSongFromAlbum(albumId, songTitle);
-    }
-
-    @PutMapping(path="/{albumId}/updatesong")
-    public AlbumResponse updateSongInAlbum(@PathVariable Integer albumId, @RequestBody Map<String, String> requestBody) {
-        String oldSongTitle = requestBody.get("oldSongTitle");
-        String newSongTitle = requestBody.get("newSongTitle");
-        return albumFacade.updateSongInAlbum(albumId, oldSongTitle, newSongTitle);
     }
 
 
@@ -69,10 +48,6 @@ public class AlbumController {
         return albumFacade.findAlbumsByTitle(request.getTitle()).getListaAlbumes();
     }
     
-    @GetMapping(path="/genre")
-    public List<AlbumRequest> findAlbumsByGenre(@RequestBody AlbumRequest request) {
-        return albumFacade.findAlbumsByGenre(request.getMusicGenre()).getListaAlbumes();
-    }
     
     @GetMapping(path="/artist")
     public List<AlbumRequest> findAlbumsByArtist(@RequestBody AlbumRequest request) {
@@ -84,9 +59,5 @@ public class AlbumController {
         return albumFacade.findAlbumsByPublishDate(request.getPublishDate().toString()).getListaAlbumes();
     }
     
-    @GetMapping(path="/song")
-    public List<AlbumRequest> findAlbumsBySong(@RequestBody AlbumRequest request) {
-        return albumFacade.findAlbumsBySong(request.getSongTrack().get(0)).getListaAlbumes();
-    }
 }
 

@@ -66,19 +66,15 @@
   "albums": [
     {
       "title": "Dark Side of the Moon",
-      "duration": 43,
+      "tracks": 43,
       "artist": "Pink Floyd",
-      "publishDate": "1973-03-01",
-      "musicGenre": "Rock",
-      "songTrack": ["Speak to Me", "Breathe", "On the Run", "Time", "The Great Gig in the Sky"]
+      "publishDate": "1973-03-01"
     },
     {
       "title": "Abbey Road",
-      "duration": 47,
+      "tracks": 47,
       "artist": "The Beatles",
-      "publishDate": "1969-09-26",
-      "musicGenre": "Rock",
-      "songTrack": ["Come Together", "Something", "Maxwell's Silver Hammer", "Oh! Darling", "Octopus's Garden"]
+      "publishDate": "1969-09-26"
     }
   ],
   "peliculas": [

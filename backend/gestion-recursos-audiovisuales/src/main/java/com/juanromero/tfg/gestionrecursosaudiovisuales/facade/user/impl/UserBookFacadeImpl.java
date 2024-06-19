@@ -158,10 +158,20 @@ public class UserBookFacadeImpl implements UserBookFacade {
         
         if (userBookOpt.isPresent()) {
             UserBook userBook = userBookOpt.get();
+            
+            // Si el libro vuelve a estar en pendiente se eliminan los datos asociados a su consumo
+            if(status == BookStatus.PENDING) {
+            	userBook.setDateRead(null);
+            	userBook.setDateStarted(null);
+            	userBook.setRating(null);
+            	userBook.setReview(null);
+            }
 
             // Guardar la fecha de inicio si se cambia a READING
             if (status == BookStatus.READING) {
                 userBook.setDateStarted(LocalDate.now());
+                //Por si se pasa de leido a leyendo de nuevo
+                userBook.setDateRead(null);
             }
 
             // Guardar la fecha de lectura si se cambia a READED

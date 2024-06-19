@@ -15,8 +15,6 @@ public class AlbumMapper {
         entity.setTitle(dto.getTitle());
         entity.setArtist(dto.getArtist());
         entity.setPublishDate(dto.getPublishDate());
-        entity.setMusicGenre(dto.getMusicGenre());
-        entity.setSongTrack(dto.getSongTrack());
 
         return entity;
     }
@@ -28,8 +26,6 @@ public class AlbumMapper {
         dto.setTitle(entity.getTitle());
         dto.setArtist(entity.getArtist());
         dto.setPublishDate(entity.getPublishDate());
-        dto.setMusicGenre(entity.getMusicGenre());
-        dto.setSongTrack(entity.getSongTrack());
 
         return dto;
     }
