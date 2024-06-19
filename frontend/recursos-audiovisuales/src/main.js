@@ -1,8 +1,8 @@
 import VueCookies from "vue-cookies";
 import { createApp } from "vue";
-import { createRouter, createWebHistory } from "vue-router"; 
+import { createRouter, createWebHistory } from "vue-router";
 import App from "./App.vue";
-import HomeScreen from "./components/HomeScreen.vue"; 
+import HomeScreen from "./components/HomeScreen.vue";
 import Login from "./components/auth/UserLogin.vue";
 import Register from "./components/auth/UserRegister.vue";
 import Albums from "./components/albums/Albums.vue";
@@ -12,8 +12,9 @@ import AlbumDetails from "./components/albums/AlbumDetails.vue";
 import UserDetails from "./components/user/UserDetails.vue";
 import UserForm from "./components/user/UserForm.vue";
 import Books from "./components/books/BookScreen.vue";
-import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap-vue/dist/bootstrap-vue.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 // Define tus rutas
 const routes = [
@@ -33,12 +34,12 @@ const routes = [
     component: AlbumDetails,
   },
   {
-    path: "/user/details/:userName",
+    path: "/user/details",
     name: "UserDetails",
     component: UserDetails,
   },
   {
-    path: "/user/edit/:userName",
+    path: "/user/edit",
     name: "UserForm",
     component: UserForm,
   },

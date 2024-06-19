@@ -32,12 +32,12 @@ const routes = [
     component: AlbumDetails,
   },
   {
-    path: "/user/details/:userName",
+    path: "/user/details",
     name: "UserDetails",
     component: UserDetails,
   },
   {
-    path: "/user/edit/:userName",
+    path: "/user/edit",
     name: "UserForm",
     component: UserForm,
   },

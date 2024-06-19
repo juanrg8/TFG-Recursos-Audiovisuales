@@ -1,294 +1,424 @@
 <template>
-    <div class="background-image">
-        <Navbar class="navbar" />
-        <div class="container d-flex justify-content-center align-items-center min-vh-100">
-            <div class="row justify-content-center w-100">
-                <div class="col-md-8 col-lg-6">
-                    <div class="card p-4">
-                        <form class="form-horizontal" @submit.prevent="updateAlbumReview">
-                            <fieldset>
-                                <legend class="text-center header">Reseña Album</legend>
-
-                                <div class="form-group row">
-                                    <div class="col-md-10 text-center ms-5">
-                                        <input v-model="rating" id="rating" name="rating" type="number" min="0" max="10"
-                                            step="0.01" placeholder="Puntuación" class="form-control">
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <div class="col-md-10 text-center ms-5">
-                                        <textarea v-model="review" class="form-control" id="review" name="review"
-                                            placeholder="Escribe tu reseña" rows="7"></textarea>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="col-md-12 text-center">
-                                        <button type="submit" class="btn btn-primary btn-lg">Enviar</button>
-                                    </div>
-                                </div>
-                            </fieldset>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <Navbar style="z-index: 9" />
+  <!-- Container Principal -->
+  <div class="containerCard">
+    <div class="responsive">
+      <div class="card">
+        <span class="titulo">¡Dejanos tu opinión!</span>
+        <form class="formulario" @submit.prevent="updateAlbumReview">
+          <div class="ratingContainer">
+            <span class="labbel">Puntuación</span>
+          </div>
+          <div class="rating">
+            <input
+              v-model="rating"
+              value="5"
+              name="rating"
+              id="star5"
+              type="radio"
+            />
+            <label for="star5"></label>
+            <input
+              v-model="rating"
+              value="4"
+              name="rating"
+              id="star4"
+              type="radio"
+            />
+            <label for="star4"></label>
+            <input
+              v-model="rating"
+              value="3"
+              name="rating"
+              id="star3"
+              type="radio"
+            />
+            <label for="star3"></label>
+            <input
+              v-model="rating"
+              value="2"
+              name="rating"
+              id="star2"
+              type="radio"
+            />
+            <label for="star2"></label>
+            <input
+              v-model="rating"
+              value="1"
+              name="rating"
+              id="star1"
+              type="radio"
+            />
+            <label for="star1"></label>
+          </div>
+          <div class="group">
+            <textarea
+              v-model="review"
+              placeholder=""
+              id="rese"
+              name="rese"
+              rows="5"
+              required=""
+            ></textarea>
+            <label for="comment">Reseña</label>
+          </div>
+          <button type="submit">Enviar</button>
+        </form>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
-import Navbar from '@/components/Navbar.vue';
+import Navbar from "@/components/Navbar.vue";
+import $ from "jquery";
 
 export default {
-    components: {
-        Navbar,
-    },
-    name: 'AlbumReview',
-    props: ['spotifyId'],
-    data() {
-        return {
-            album: {},
-            rating: null,
-            review: '',
-            accessToken: '',
-            clientId: process.env.VUE_APP_SPOTIFY_CLIENT_ID,
-            clientSecret: process.env.VUE_APP_SPOTIFY_CLIENT_SECRET,
-            userAlbumUser: {},
-            isAuthenticated: false,
-        };
-    }, async mounted() {
-        this.checkAuthentication()
-        if (this.isAuthenticated) {
-            await this.getToken()
-            await this.loadUserAlbums()
-            this.updateAlbumState()
-            console.table(this.album)
-            this.rating = this.userAlbumUser.rating
-            this.review = this.userAlbumUser.review
-        } else {
-            this.redirectToHome()
-        }
-    },
-    computed: {
-        id() {
-            console.log(this.$route.params.spotifyId);
-            return this.$route.params.spotifyId;
-        },
-    },
-    methods: {
-        async loadUserAlbums() {
-            let nombre = this.$cookies.get('user').username
-            await fetch(`http://localhost:8082/useralbum/findall/${nombre}`)
-                .then(response => response.json())
-                .then(async data => {
-                    let userAlbum = data.filter(a => a.spotifyId == this.id)[0]
-                    this.userAlbumUser = userAlbum
-                    let spotifyAlbum = await this.getSpotifyAlbums(userAlbum.spotifyId)
-                    if (spotifyAlbum != null && spotifyAlbum != undefined) {
-                        this.album = spotifyAlbum
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        }, updateAlbumState() {
-            let request = {
-                usuarioNombre: this.$cookies.get('user').username,
-                status: "CONSUMED",
-                tituloAlbum: this.album.name
-            };
-            fetch('http://localhost:8082/useralbum/movetostatus', {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(request)
-            })
-                .then(response => response.json())
-                .then(data => {
-                    // Almacena el token de acceso en la variable accessToken
-                    console.log(data);
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        },
-        updateAlbumReview() {
-            console.log(this.id);
-            // Obtener los valores de los inputs
-            console.log('Rating:', this.rating);
-            console.log('Review:', this.review);
+  components: {
+    Navbar,
+  },
+  name: "AlbumReview",
+  props: ["spotifyId"],
+  data() {
+    return {
+      album: {},
+      rating: null,
+      review: "",
+      accessToken: "",
+      clientId: process.env.VUE_APP_SPOTIFY_CLIENT_ID,
+      clientSecret: process.env.VUE_APP_SPOTIFY_CLIENT_SECRET,
+      userAlbumUser: {},
+      isAuthenticated: false,
+    };
+  },
+  async mounted() {
+    this.checkAuthentication();
+    if (this.isAuthenticated) {
+      await this.getToken();
+      await this.loadUserAlbums();
+      this.updateAlbumState();
+      console.table(this.album);
+      this.rating = this.userAlbumUser.rating;
+      this.review = this.userAlbumUser.review;
 
-            let request = {
-                usuarioNombre: this.$cookies.get('user').username,
-                tituloAlbum: this.album.name,
-                review: this.review
-            };
-            fetch('http://localhost:8082/useralbum/updatereview', {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(request)
-            })
-                .then(response => response.json())
-                .then(data => {
-                    // Almacena el token de acceso en la variable accessToken
-                    console.log(data);
-                    this.updateAlbumRating()
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        },
-        updateAlbumRating() {
-            console.log(this.id);
-            // Obtener los valores de los inputs
-            console.log('Rating:', this.rating);
-            console.log('Review:', this.review);
-
-            let request = {
-                usuarioNombre: this.$cookies.get('user').username,
-                tituloAlbum: this.album.name,
-                rating: this.rating
-            };
-            fetch('http://localhost:8082/useralbum/updaterating', {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(request)
-            })
-                .then(response => response.json())
-                .then(data => {
-                    // Almacena el token de acceso en la variable accessToken
-                    console.log(data)
-                    this.$router.push({ name: 'AlbumDetails', params: { spotifyId: this.id } });
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        },
-        async getSpotifyAlbums(id) {
-            try {
-                let artistParams = {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + this.accessToken,
-                    },
-                };
-
-                // Realiza la solicitud GET para buscar artistas en Spotify
-                const response = await fetch(`https://api.spotify.com/v1/albums/${id}`, artistParams);
-                const data = await response.json();
-                let album = {
-                    name: data.name,
-                    id: data.id
-                }
-                return album;
-            } catch (error) {
-                console.error('Error al buscar albumes:', error);
-            }
-        }, async getToken() {
-            let authParams = {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: `grant_type=client_credentials&client_id=${this.clientId}&client_secret=${this.clientSecret}`,
-            };
-
-            await fetch('https://accounts.spotify.com/api/token', authParams)
-                .then(response => response.json())
-                .then(data => {
-                    // Almacena el token de acceso en la variable accessToken
-                    this.accessToken = data.access_token;
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        }, checkAuthentication() {
-            const token = localStorage.getItem('token');
-            this.isAuthenticated = !!token;
-        }, redirectToHome() {
-            this.$router.push('/'); // Redirige a la página principal
-        }
+      if (
+        this.userAlbumUser.rating != null ||
+        this.userAlbumUser.rating != undefined
+      ) {
+        $("#star" + this.userAlbumUser.rating).prop("checked", true);
+      }
+    } else {
+      this.redirectToHome();
     }
+  },
+  computed: {
+    id() {
+      console.log(this.$route.params.spotifyId);
+      return this.$route.params.spotifyId;
+    },
+  },
+  methods: {
+    async loadUserAlbums() {
+      let nombre = this.$cookies.get("user").username;
+      await fetch(`http://localhost:8082/useralbum/findall/${nombre}`)
+        .then((response) => response.json())
+        .then(async (data) => {
+          let userAlbum = data.filter((a) => a.spotifyId == this.id)[0];
+          this.userAlbumUser = userAlbum;
+          let spotifyAlbum = await this.getSpotifyAlbums(userAlbum.spotifyId);
+          if (spotifyAlbum != null && spotifyAlbum != undefined) {
+            this.album = spotifyAlbum;
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    },
+    updateAlbumState() {
+      let request = {
+        usuarioNombre: this.$cookies.get("user").username,
+        status: "CONSUMED",
+        tituloAlbum: this.album.name,
+      };
+      fetch("http://localhost:8082/useralbum/movetostatus", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(request),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          // Almacena el token de acceso en la variable accessToken
+          console.log(data);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    },
+    updateAlbumReview() {
+      console.log(this.id);
+      // Obtener los valores de los inputs
+      console.log("Rating:", this.rating);
+      console.log("Review:", this.review);
+
+      let request = {
+        usuarioNombre: this.$cookies.get("user").username,
+        tituloAlbum: this.album.name,
+        review: this.review,
+      };
+      fetch("http://localhost:8082/useralbum/updatereview", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(request),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          // Almacena el token de acceso en la variable accessToken
+          console.log(data);
+          this.updateAlbumRating();
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    },
+    updateAlbumRating() {
+      console.log(this.id);
+      // Obtener los valores de los inputs
+      console.log("Rating:", this.rating);
+      console.log("Review:", this.review);
+
+      let request = {
+        usuarioNombre: this.$cookies.get("user").username,
+        tituloAlbum: this.album.name,
+        rating: this.rating,
+      };
+      fetch("http://localhost:8082/useralbum/updaterating", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(request),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          // Almacena el token de acceso en la variable accessToken
+          console.log(data);
+          this.$router.push({
+            name: "AlbumDetails",
+            params: { spotifyId: this.id },
+          });
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    },
+    async getSpotifyAlbums(id) {
+      try {
+        let artistParams = {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + this.accessToken,
+          },
+        };
+
+        // Realiza la solicitud GET para buscar artistas en Spotify
+        const response = await fetch(
+          `https://api.spotify.com/v1/albums/${id}`,
+          artistParams
+        );
+        const data = await response.json();
+        let album = {
+          name: data.name,
+          id: data.id,
+        };
+        return album;
+      } catch (error) {
+        console.error("Error al buscar albumes:", error);
+      }
+    },
+    async getToken() {
+      let authParams = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: `grant_type=client_credentials&client_id=${this.clientId}&client_secret=${this.clientSecret}`,
+      };
+
+      await fetch("https://accounts.spotify.com/api/token", authParams)
+        .then((response) => response.json())
+        .then((data) => {
+          // Almacena el token de acceso en la variable accessToken
+          this.accessToken = data.access_token;
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    },
+    checkAuthentication() {
+      const token = localStorage.getItem("token");
+      this.isAuthenticated = !!token;
+    },
+    redirectToHome() {
+      this.$router.push("/"); // Redirige a la página principal
+    },
+  },
 };
 </script>
 
 <style scoped>
-.container {
-    min-height: 100vh;
-
+.ratingContainer {
+  display: flex;
+  justify-content: center;
 }
 
 .card {
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background: rgba(0, 0, 0, 0.7);
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  -webkit-box-shadow: -4px 5px 59px 10px rgba(0, 0, 0, 0.73);
+  -moz-box-shadow: -4px 5px 59px 10px rgba(0, 0, 0, 0.73);
+  box-shadow: -4px 5px 59px 10px rgba(0, 0, 0, 0.73);
 }
 
-.header {
-    color: #ffffff;
-    font-size: 27px;
-    padding: 10px;
+.nav {
+  width: 100%;
+  height: 90px;
+  position: fixed;
+  line-height: 65px;
+  text-align: center;
 }
 
-.bigicon {
-    font-size: 35px;
-    color: #36A0FF;
+.titulo {
+  font-size: 24px;
+  font-weight: 600;
+  text-align: center;
 }
 
-.form-group {
-    margin-bottom: 1.5rem;
-
+.labbel {
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
 }
 
-.background-image {
-    background-image: url('/public/images/background.jpg');
-    /* Asegúrate de usar la ruta correcta de la imagen */
-    background-size: cover;
-    background-position: center;
-    min-height: 100vh;
-    /* Asegura que el fondo cubra toda la pantalla */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    /* Asegura que el texto sea legible */
-    position: relative;
+.formulario {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
-.navbar {
-    position: absolute;
-    /* Asegura que la Navbar esté siempre en la parte superior */
-    top: 20px;
-    /* Añade margen superior a la Navbar */
-    width: calc(100% - 40px);
-    /* Añade margen a los lados de la Navbar */
-    background: rgba(0, 0, 0, 0.7);
-    /* Fondo semitransparente para la Navbar */
-    padding: 10px;
-    z-index: 1;
-    /* Asegura que la Navbar esté por encima del resto del contenido */
-    margin: 0 20px;
-    /* Margen de 20px a los lados */
+.group {
+  position: relative;
 }
 
-.main-content {
-    width: 100%;
-    max-width: 1845px;
-    /* Ancho máximo del contenido principal */
-    margin-top: 150px;
-    /* Ajusta el margen superior para dejar espacio para la Navbar */
-    padding: 10px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.formulario .group label {
+  font-size: 14px;
+  color: rgb(99, 102, 102);
+  position: absolute;
+  top: -10px;
+  left: 10px;
+  background-color: #fff;
+  transition: all 0.3s ease;
+}
+
+.formulario .group input,
+.formulario .group textarea {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px;
+  outline: 0;
+  width: 100%;
+  background-color: transparent;
+}
+
+.formulario .group input:placeholder-shown + label,
+.formulario .group textarea:placeholder-shown + label {
+  top: 10px;
+  background-color: transparent;
+}
+
+.formulario .group input:focus,
+.formulario .group textarea:focus {
+  border-color: #3366cc;
+}
+
+.formulario .group input:focus + label,
+.formulario .group textarea:focus + label {
+  top: -10px;
+  left: 10px;
+  background-color: #fff;
+  color: #3366cc;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.formulario .group textarea {
+  resize: none;
+  height: 100px;
+}
+
+.formulario button {
+  background-color: #3366cc;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.formulario button:hover {
+  background-color: #27408b;
+}
+
+.rating {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  flex-direction: row-reverse;
+}
+
+.rating input {
+  display: none;
+}
+
+.rating label {
+  float: right;
+  cursor: pointer;
+  color: #ccc;
+  transition: color 0.3s;
+}
+
+.rating label:before {
+  content: "\2605";
+  font-size: 30px;
+}
+
+.rating input:checked ~ label,
+.rating label:hover,
+.rating label:hover ~ label {
+  color: hsl(210deg 100% 44%);
+  transition: color 0.3s;
+}
+
+.containerCard {
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+}
+
+.responsive {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

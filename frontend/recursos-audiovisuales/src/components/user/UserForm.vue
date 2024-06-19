@@ -1,157 +1,291 @@
 <template>
-    <div class="background-image">
-        <Navbar class="navbar" />
-        <div class="main-content">
-            <h1>Editar Perfil </h1>
-            <form @submit.prevent="updateUser" class="form">
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Nombre</label>
-                    <input v-model='nombre' type="text" class="form-control" id="exampleInputEmail1"
-                        aria-describedby="emailHelp" placeholder="Introduce tu nombre">
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputPassword1">Email</label>
-                    <input v-model='email' type="email" class="form-control" id="exampleInputPassword1"
-                        placeholder="Introduce tu email">
-                </div>
-                <div class="form-group">
-                    <label for="exampleFormControlTextarea1">Bio</label>
-                    <textarea v-model='bio' class="form-control" id="exampleFormControlTextarea1"
-                        placeholder="Introduce tu bio" rows="3"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Imagen</label>
-                    <input v-model='imagen' type="text" class="form-control" id="exampleInputEmail1"
-                        aria-describedby="emailHelp" placeholder="Copia el link de la imagen">
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-        </div>
+  <Navbar style="z-index: 9" />
+  <div class="customFormContainer">
+    <div class="responsiveForm">
+      <form class="form" @submit.prevent="updateUser">
+        <p class="title">Editar</p>
+        <label>
+          <input
+            v-model="nombre"
+            required=""
+            placeholder=""
+            type="text"
+            class="input"
+          />
+          <span>Nombre</span>
+        </label>
+
+        <label>
+          <input
+            v-model="email"
+            required=""
+            placeholder=""
+            type="email"
+            class="input"
+          />
+          <span>Email</span>
+        </label>
+        <label>
+          <input
+            v-model="bio"
+            required=""
+            placeholder=""
+            type="text"
+            class="input"
+          />
+          <span>Biografia</span>
+        </label>
+        <label>
+          <input
+            v-model="imagen"
+            required=""
+            placeholder=""
+            type="text"
+            class="input"
+          />
+          <span>Imagen</span>
+        </label>
+        <button class="submit">Editar</button>
+      </form>
     </div>
+  </div>
 </template>
 
 <script>
-import Navbar from '@/components/Navbar.vue';
+import Navbar from "@/components/Navbar.vue";
 
 export default {
-    name: 'UserForm',
-    props: ['userName'],
-    components: {
-        Navbar
-    }, data() {
-        return {
-            isAuthenticated: false,
-            usuario: {},
-            nombre: '',
-            email: '',
-            bio: '',
-            imagen: ''
-        };
-    },
-    computed: {
-        nombreUsuario() {
-            console.log(this.$route.params.userName);
-            return this.$route.params.userName;
-        }
-    }, mounted() {
-        this.checkAuthentication()
-        if (this.isAuthenticated) {
-            this.usuario = this.$cookies.get('user');
-            this.nombre = this.usuario.nombre
-            this.bio = this.usuario.bio
-            this.email = this.usuario.email
-            this.imagen = this.usuario.image
-        } else {
-            this.redirectToHome()
-        }
-
-    }, methods: {
-        checkAuthentication() {
-            const token = localStorage.getItem('token');
-            this.isAuthenticated = !!token;
-        }, redirectToHome() {
-            this.$router.push('/'); // Redirige a la página principal
-        }, updateUser() {
-            let request = {
-                username: this.nombreUsuario,
-                email: this.email,
-                bio: this.bio,
-                nombre: this.nombre,
-                image: this.imagen
-            };
-            fetch('http://localhost:8082/user/updateuser', {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(request)
-            })
-                .then(response => response.json())
-                .then(data => {
-                    // Almacena el token de acceso en la variable accessToken
-                    console.log(data);
-                    this.$router.push({ name: 'UserDetails', params: { userName: this.nombreUsuario } });
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        }
+  name: "UserForm",
+  components: {
+    Navbar,
+  },
+  data() {
+    return {
+      isAuthenticated: false,
+      usuario: {},
+      nombre: "",
+      email: "",
+      bio: "",
+      imagen: "",
+    };
+  },
+  mounted() {
+    this.checkAuthentication();
+    if (this.isAuthenticated) {
+      this.usuario = this.$cookies.get("user");
+      this.nombre = this.usuario.nombre;
+      this.bio = this.usuario.bio;
+      this.email = this.usuario.email;
+      this.imagen = this.usuario.image;
+    } else {
+      this.redirectToHome();
     }
-}
+  },
+  methods: {
+    checkAuthentication() {
+      const token = localStorage.getItem("token");
+      this.isAuthenticated = !!token;
+    },
+    redirectToHome() {
+      this.$router.push("/"); // Redirige a la página principal
+    },
+    updateUser() {
+      let request = {
+        username: this.usuario.username,
+        email: this.email,
+        bio: this.bio,
+        nombre: this.nombre,
+        image: this.imagen,
+      };
+      fetch("http://localhost:8082/user/updateuser", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(request),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          // Almacena el token de acceso en la variable accessToken
+          console.log(data);
+          this.$router.push({
+            name: "UserDetails",
+          });
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    },
+  },
+};
 </script>
 
 <style>
-.background-image {
-    background-image: url('/public/images/background.jpg');
-    /* Asegúrate de usar la ruta correcta de la imagen */
-    background-size: cover;
-    background-position: center;
-    min-height: 100vh;
-    /* Asegura que el fondo cubra toda la pantalla */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    /* Asegura que el texto sea legible */
-    position: relative;
+.customFormContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 }
 
-.navbar {
-    position: absolute;
-    /* Asegura que la Navbar esté siempre en la parte superior */
-    top: 0px;
-    /* Añade margen superior a la Navbar */
-    width: calc(100% - 40px);
-    /* Añade margen a los lados de la Navbar */
-    background: rgba(0, 0, 0, 0.7);
-    /* Fondo semitransparente para la Navbar */
-    padding: 10px;
-    z-index: 1;
-    /* Asegura que la Navbar esté por encima del resto del contenido */
-    margin: 0 20px;
-    /* Margen de 20px a los lados */
+.responsiveForm {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-
-.main-content {
-    background: rgba(0, 0, 0, 0.7);
-    background-size: 0px;
-    width: 100%;
-    max-width: 500px;
-    /* Ancho máximo del contenido principal */
-    margin-top: 150px;
-    /* Ajusta el margen superior para dejar espacio para la Navbar */
-    padding: 10px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border-radius: 15px;
+@media (max-width: 1400px) {
+  .form {
+    max-width: 100%; /* Esto hace que el formulario ocupe todo el ancho disponible */
+    padding: 20px; /* Ajusta el padding si es necesario */
+    margin: 0 20px; /* Añade margen para espaciar el formulario del borde */
+    height: auto;
+  }
 }
 
-.btn {
-    margin-top: 10px;
-    background-color: rgb(33, 13, 53);
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 800px;
+  width: 500px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 20px;
+  position: relative;
+  -webkit-box-shadow: -4px 5px 59px 10px rgba(0, 0, 0, 0.73);
+  -moz-box-shadow: -4px 5px 59px 10px rgba(0, 0, 0, 0.73);
+  box-shadow: -4px 5px 59px 10px rgba(0, 0, 0, 0.73);
+}
+
+.title {
+  font-size: 28px;
+  color: royalblue;
+  font-weight: 600;
+  letter-spacing: -1px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-left: 30px;
+}
+
+.title::before,
+.title::after {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  left: 0px;
+  background-color: royalblue;
+}
+
+.title::before {
+  width: 18px;
+  height: 18px;
+  background-color: royalblue;
+}
+
+.title::after {
+  width: 18px;
+  height: 18px;
+  animation: pulse 1s linear infinite;
+}
+
+.message,
+.signin {
+  color: rgba(88, 87, 87, 0.822);
+  font-size: 14px;
+}
+
+.signin {
+  text-align: center;
+}
+
+.signin a {
+  color: royalblue;
+}
+
+.signin a:hover {
+  text-decoration: underline royalblue;
+}
+
+.flex {
+  display: flex;
+  width: 100%;
+  gap: 6px;
+}
+
+.form label {
+  position: relative;
+}
+
+.form label .input {
+  width: 100%;
+  padding: 10px 10px 20px 10px;
+  outline: 0;
+  border: 1px solid rgba(105, 105, 105, 0.397);
+  border-radius: 10px;
+}
+
+.form label .input + span {
+  position: absolute;
+  left: 10px;
+  top: 15px;
+  color: grey;
+  font-size: 0.9em;
+  cursor: text;
+  transition: 0.3s ease;
+}
+
+.form label .input:placeholder-shown + span {
+  top: 15px;
+  font-size: 0.9em;
+}
+
+.form label .input:focus + span,
+.form label .input:valid + span {
+  top: 30px;
+  font-size: 0.7em;
+  font-weight: 600;
+}
+
+.form label .input:valid + span {
+  color: green;
+}
+
+.submit {
+  border: none;
+  outline: none;
+  background-color: royalblue;
+  padding: 10px;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 16px;
+  transform: 0.3s ease;
+}
+
+.nav {
+  width: 100%;
+  height: 90px;
+  position: fixed;
+  line-height: 65px;
+  text-align: center;
+}
+
+.submit:hover {
+  background-color: rgb(56, 90, 194);
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(0.9);
+    opacity: 1;
+  }
+
+  to {
+    transform: scale(1.8);
+    opacity: 0;
+  }
 }
 </style>

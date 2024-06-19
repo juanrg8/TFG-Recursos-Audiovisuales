@@ -1,142 +1,186 @@
 <template>
-    <div class="background-image">
-        <Navbar class="navbar" />
-        <div class="main-content">
-            <h1>Perfil </h1>
-            <div class="card mb-3">
-                <img class="card-img-top portada"
-                    src="https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg"
-                    alt="UserProfile" v-if="this.usuario.image == null || this.usuario.image.length == 0">
-                <img class="card-img-top portada" :src="this.usuario.image" alt="UserProfile"
-                    v-if="this.usuario.image != null && this.usuario.image.length != 0">
-                <div class=" card-body">
-                    <h5 class="card-title">Nombre: {{ this.usuario.nombre }}</h5>
-                    <h5 class="card-title">Email: {{ this.usuario.email }}</h5>
-                    <h5 class="card-title bio-container">Bio: {{ this.usuario.bio }}</h5>
-                    <a class=" btn btn-success"><router-link
-                            :to="{ name: 'UserForm', params: { userName: this.userNombre } }"
-                            class="router-link-custom-white">Editar</router-link></a>
+  <Navbar style="z-index: 9" />
+  <section class="vh-100 containerDetail" style="background-color: #f4f5f7">
+    <div class="py-5 h-100">
+      <div
+        class="row d-flex justify-content-center align-items-center h-100 customDiv"
+      >
+        <div class="col col-lg-6 mb-4 mb-lg-0">
+          <div class="card mb-3" style="border-radius: 0.5rem">
+            <div class="row g-0">
+              <div
+                class="col-md-4 gradient-custom text-center text-white"
+                style="
+                  border-top-left-radius: 0.5rem;
+                  border-bottom-left-radius: 0.5rem;
+                "
+              >
+                <img
+                  v-if="this.usuario.image != null && this.usuario.image != ''"
+                  :src="this.usuario.image"
+                  alt="Avatar"
+                  class="img-fluid my-5 imgCustom"
+                />
+                <img
+                  v-if="this.usuario.image == null && this.usuario.image == ''"
+                  src="https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg"
+                  alt="Avatar"
+                  class="img-fluid my-5 imgCustom"
+                />
+                <h5>{{ this.usuario.nombre }}</h5>
+                <router-link :to="{ name: 'UserForm' }" class="routerLinkCustom"
+                  >Editar <i class="bi bi-pencil-square"></i
+                ></router-link>
+              </div>
+              <div class="col-md-8">
+                <div class="card-body p-4">
+                  <h6>Información</h6>
+                  <hr class="mt-0 mb-4" />
+                  <div class="row pt-1" style="width: 300px">
+                    <div class="col-6 mb-3 customCol">
+                      <h6>Email</h6>
+                      <p class="text-muted">{{ this.usuario.email }}</p>
+                    </div>
+                  </div>
+                  <h6>Biografía</h6>
+                  <hr class="mt-0 mb-4" />
+                  <div class="row pt-1" style="width: 360px">
+                    <div class="col-6 mb-3 customCol">
+                      <p class="text-muted">{{ this.usuario.bio }}</p>
+                    </div>
+                  </div>
                 </div>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
     </div>
+  </section>
 </template>
 
 <script>
-import Navbar from '@/components/Navbar.vue';
+import Navbar from "@/components/Navbar.vue";
 
 export default {
-    name: 'UserDetails',
-    props: ['userName'],
-    components: {
-        Navbar
-    }, data() {
-        return {
-            isAuthenticated: false,
-            usuario: {}
-        };
-    },
-    computed: {
-        userNombre() {
-            console.log(this.$route.params.userName);
-            return this.$route.params.userName;
-        }
-    }, async mounted() {
-        this.checkAuthentication()
-        if (this.isAuthenticated) {
-            this.usuario = this.$cookies.get('user');
-            await this.getUsuario()
-        } else {
-            this.redirectToHome()
-        }
-
-    }, methods: {
-        checkAuthentication() {
-            const token = localStorage.getItem('token');
-            this.isAuthenticated = !!token;
-        }, redirectToHome() {
-            this.$router.push('/'); // Redirige a la página principal
-        }, async getUsuario() {
-            await fetch(`http://localhost:8082/user/finduser/${this.userNombre}`)
-                .then(response => response.json())
-                .then(async data => {
-                    this.$cookies.remove('user')
-                    this.$cookies.set('user', JSON.stringify(data.usuario));
-                    this.usuario = data.usuario
-
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        }
+  name: "UserDetails",
+  components: {
+    Navbar,
+  },
+  data() {
+    return {
+      isAuthenticated: false,
+      usuario: {},
+    };
+  },
+  async mounted() {
+    this.checkAuthentication();
+    if (this.isAuthenticated) {
+      this.usuario = this.$cookies.get("user");
+      await this.getUsuario();
+    } else {
+      this.redirectToHome();
     }
-}
+  },
+  methods: {
+    checkAuthentication() {
+      const token = localStorage.getItem("token");
+      this.isAuthenticated = !!token;
+    },
+    redirectToHome() {
+      this.$router.push("/"); // Redirige a la página principal
+    },
+    async getUsuario() {
+      await fetch(
+        `http://localhost:8082/user/finduser/${this.usuario.username}`
+      )
+        .then((response) => response.json())
+        .then(async (data) => {
+          this.$cookies.remove("user");
+          this.$cookies.set("user", JSON.stringify(data.usuario));
+          this.usuario = data.usuario;
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    },
+  },
+};
 </script>
 <style scoped>
-.portada {
-    max-width: 500px;
-    max-height: 500px;
+.containerDetail {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.bio-container {
-    max-width: 450px;
+.customCol {
+  width: 100%;
 }
 
-.card {
-    background: rgba(0, 0, 0, 0.7);
-    color: rgb(255, 255, 255);
+.routerLinkCustom {
+  text-decoration: none;
+  color: white;
+  font-weight: bolder;
 }
 
-.background-image {
-    background-image: url('/public/images/background.jpg');
-    /* Asegúrate de usar la ruta correcta de la imagen */
-    background-size: cover;
-    background-position: center;
-    min-height: 100vh;
-    /* Asegura que el fondo cubra toda la pantalla */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    /* Asegura que el texto sea legible */
-    position: relative;
+.vh-90 {
+  height: 90.1vh !important;
 }
 
-.navbar {
-    position: absolute;
-    /* Asegura que la Navbar esté siempre en la parte superior */
-    top: 20px;
-    /* Añade margen superior a la Navbar */
-    width: calc(100% - 40px);
-    /* Añade margen a los lados de la Navbar */
-    background: rgba(0, 0, 0, 0.7);
-    /* Fondo semitransparente para la Navbar */
-    padding: 10px;
-    z-index: 1;
-    /* Asegura que la Navbar esté por encima del resto del contenido */
-    margin: 0 20px;
-    /* Margen de 20px a los lados */
+.nav {
+  width: 100%;
+  height: 90px;
+  position: fixed;
+  line-height: 65px;
+  text-align: center;
 }
 
-.main-content {
-    background: rgba(0, 0, 0, 0);
-    width: 100%;
-    max-width: 1845px;
-    /* Ancho máximo del contenido principal */
-    margin-top: 150px;
-    /* Ajusta el margen superior para dejar espacio para la Navbar */
-    padding: 10px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+@media (max-width: 1400px) {
+  .customDiv {
+    margin-left: 0px !important;
+  }
 }
 
-.router-link-custom-white {
-    color: rgb(255, 255, 255);
-    /* Color del texto en blanco */
-    text-decoration: none;
-    /* Elimina el subrayado */
+@media (max-width: 1000px) {
+  .customDiv {
+    width: 400px !important;
+  }
+}
+
+@media (max-width: 770px) {
+  .customHeight {
+    height: 650px !important;
+  }
+}
+
+.customDiv {
+  width: 1200px;
+  margin-right: 0px !important;
+}
+
+.imgCustom {
+  width: 150px;
+  border-radius: 20px;
+}
+
+.my-5 {
+  margin-bottom: 2rem !important;
+}
+
+.gradient-custom {
+  background: #f6d365;
+
+  background: linear-gradient(
+    90deg,
+    rgba(0, 212, 255, 1) 0%,
+    rgba(27, 27, 204, 1) 100%,
+    rgba(2, 0, 36, 1) 100%
+  );
+  background: -webkit-linear-gradient(
+    to right bottom,
+    rgba(0, 212, 255, 1),
+    rgba(27, 27, 204, 1)
+  );
 }
 </style>
