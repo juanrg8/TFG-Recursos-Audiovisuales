@@ -25,6 +25,9 @@
               </div>
             </div>
           </li>
+          <li>
+            <a v-if="this.isAuthenticated && this.rol == 'ADMIN'"><router-link to="/admin">Admin</router-link></a>
+          </li>
           <li v-if="this.isAuthenticated">
             <div class="dropdown">
               <a><img v-if="imgUser != null && imgUser != ''" class="imgIconNav" :src="imgUser" />
@@ -79,6 +82,9 @@
               src="https://imgs.search.brave.com/NsCoYsr-Ce_T2Nb7SsSJvFyA16_MwV90qm-RuC_YTLU/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9jZG4u/cGl4YWJheS5jb20v/cGhvdG8vMjAxOC8x/MS8xMy8yMS80My9h/dmF0YXItMzgxNDA0/OV82NDAucG5n" />
             {{ this.nombreUsuario }}
           </li>
+          <li class="liMobile" v-if="this.isAuthenticated && this.rol == 'ADMIN'">
+            <a><router-link to="/admin">Admin</router-link></a>
+          </li>
           <li class="liMobile" v-if="this.isAuthenticated">
             <a><router-link :to="{
                   name: 'UserDetails',
@@ -126,6 +132,7 @@ export default {
       dropdownOpen: false,
       imgUser: null,
       username: "",
+      rol: ""
     };
   },
   mounted() {
@@ -135,6 +142,7 @@ export default {
       this.nombreUsuario = userInfo.nombre;
       this.imgUser = userInfo.image;
       this.username = userInfo.username;
+      this.rol = userInfo.rol;
     }
     $(".navTrigger").on("click", this.handleClick);
     $(window).resize(this.handleResize);

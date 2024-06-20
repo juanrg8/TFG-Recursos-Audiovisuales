@@ -13,6 +13,7 @@ import Books from "../components/books/BookScreen.vue";
 import UserBooks from "../components/books/UserBooks.vue";
 import BookDetails from "../components/books/BookDetails.vue";
 import BookReview from "../components/books/BookReview.vue";
+import AdminPanel from "../components/user/AdminPanel.vue";
 
 Vue.use(VueRouter);
 
@@ -20,6 +21,7 @@ const routes = [
   { path: "/", component: HomeScreen },
   { path: "/register", component: UserRegister },
   { path: "/login", component: UserLogin },
+  { path: "/admin", component: AdminPanel },
   { path: "/albums", component: Albums },
   { path: "/useralbums", component: UserAlbums },
   {

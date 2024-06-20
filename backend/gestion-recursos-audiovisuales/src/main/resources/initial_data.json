@@ -17,6 +17,14 @@
       "password": "qwerty",
       "rol": "USER",
       "image": "https://t4.ftcdn.net/jpg/02/66/72/41/360_F_266724172_Iy8gdKgMa7XmrhYYxLCxyhx6J7070Pr8.jpg"
+    },    {
+      "username": "admin_user",
+      "nombre": "Administrador",
+      "bio": "Soy el admin de la página, también me gustan los libros y la música.",
+      "email": "admin@goodtaste.com",
+      "password": "admin_user",
+      "rol": "ADMIN",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Illuminati_triangle_eye.png/1200px-Illuminati_triangle_eye.png"
     }
   ],
   "libros": [

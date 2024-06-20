@@ -15,6 +15,7 @@ import Books from "./components/books/BookScreen.vue";
 import UserBooks from "./components/books/UserBooks.vue";
 import BookDetails from "./components/books/BookDetails.vue";
 import BookReview from "./components/books/BookReview.vue";
+import AdminPanel from "./components/user/AdminPanel.vue";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -26,6 +27,7 @@ const routes = [
   { path: "/", component: HomeScreen },
   { path: "/login", component: Login },
   { path: "/register", component: Register },
+  { path: "/admin", component: AdminPanel },
   { path: "/albums", component: Albums },
   { path: "/useralbums", component: UserAlbums },
   {

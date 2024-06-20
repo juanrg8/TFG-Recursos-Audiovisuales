@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.juanromero.tfg.gestionrecursosaudiovisuales.entity.user.Rol;
 import com.juanromero.tfg.gestionrecursosaudiovisuales.entity.user.User;
 import com.juanromero.tfg.gestionrecursosaudiovisuales.repository.user.UserRepository;
 import com.juanromero.tfg.gestionrecursosaudiovisuales.service.user.UserService;
@@ -36,7 +37,11 @@ public class UserServiceImpl implements UserService {
 	public String deleteUser(User user) {
 	    Optional<User> usuario = userRepository.findByUsername(user.getUsername());
 	    if (usuario.isPresent()) {
+	    	if(usuario.get().getRol()!= Rol.ADMIN) {
 	        userRepository.delete(usuario.get());
+	    	}else {
+	    		return "No se puede eliminar a un administrador";
+	    	}
 	        // Intentar cargar el usuario borrado nuevamente
 	        Optional<User> usuarioBorradoOpt = userRepository.findByUsername(user.getUsername());
 	        if (!usuarioBorradoOpt.isPresent()) {

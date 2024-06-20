@@ -28,6 +28,7 @@ public class UserMapper {
 		dto.setBio(entity.getBio());
 		dto.setEmail(entity.getEmail());
 		dto.setImage(entity.getImage());
+		dto.setRol(entity.getRol());
 		return dto;
 	}
 }
