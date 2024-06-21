@@ -3,7 +3,10 @@
   <nav class="nav">
     <div class="container">
       <div class="logo">
-        <a href="#"><router-link to="/"><img src="/images/logo.png" class="logoNavbar" /></router-link></a>
+        <a href="#"
+          ><router-link to="/"
+            ><img src="/images/logo.png" class="logoNavbar" /></router-link
+        ></a>
       </div>
       <div id="mainListDiv" class="main_list">
         <ul class="navlinks">
@@ -12,7 +15,9 @@
               <a>Libros</a>
               <div class="dropdown-content" style="z-index: 10">
                 <a><router-link to="/books">Buscar Libros</router-link></a>
-                <a v-if="isAuthenticated"><router-link to="/userbooks">Mis Libros</router-link></a>
+                <a v-if="isAuthenticated"
+                  ><router-link to="/userbooks">Mis Libros</router-link></a
+                >
               </div>
             </div>
           </li>
@@ -21,7 +26,9 @@
               <a>Álbumes</a>
               <div class="dropdown-content" style="z-index: 9">
                 <a><router-link to="/albums">Buscar Álbumes</router-link></a>
-                <a v-if="this.isAuthenticated"><router-link to="/useralbums">Mis álbumes</router-link></a>
+                <a v-if="this.isAuthenticated"
+                  ><router-link to="/useralbums">Mis álbumes</router-link></a
+                >
               </div>
             </div>
           </li>
@@ -30,21 +37,39 @@
           </li>
           <li v-if="this.isAuthenticated">
             <div class="dropdown">
-              <a><img v-if="imgUser != null && imgUser != ''" class="imgIconNav" :src="imgUser" />
-                <img v-if="imgUser == null || imgUser == ''" class="imgIconNav"
-                  src="https://imgs.search.brave.com/NsCoYsr-Ce_T2Nb7SsSJvFyA16_MwV90qm-RuC_YTLU/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9jZG4u/cGl4YWJheS5jb20v/cGhvdG8vMjAxOC8x/MS8xMy8yMS80My9h/dmF0YXItMzgxNDA0/OV82NDAucG5n" />
-                ></a>
+              <a
+                ><img
+                  v-if="imgUser != null && imgUser != ''"
+                  class="imgIconNav"
+                  :src="imgUser"
+                />
+                <img
+                  v-if="imgUser == null || imgUser == ''"
+                  class="imgIconNav"
+                  src="https://imgs.search.brave.com/NsCoYsr-Ce_T2Nb7SsSJvFyA16_MwV90qm-RuC_YTLU/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9jZG4u/cGl4YWJheS5jb20v/cGhvdG8vMjAxOC8x/MS8xMy8yMS80My9h/dmF0YXItMzgxNDA0/OV82NDAucG5n"
+                />
+                ></a
+              >
               <div class="dropdown-content-user">
-                <a><router-link :to="{
-                  name: 'UserDetails',
-                  params: { userName: this.nombreUsuario },
-                }">Editar Perfil</router-link></a>
+                <a
+                  ><router-link
+                    :to="{
+                      name: 'UserDetails',
+                      params: { userName: this.nombreUsuario },
+                    }"
+                    >Editar Perfil</router-link
+                  ></a
+                >
                 <a @click="logout">Cerrar Sesión</a>
               </div>
             </div>
           </li>
           <li v-if="!this.isAuthenticated">
-            <button class="customButton" alt="Inicia Sesión" @click="navigateTo('/login')">
+            <button
+              class="customButton"
+              alt="Inicia Sesión"
+              @click="navigateTo('/login')"
+            >
               <i>I</i>
               <i>n</i>
               <i>i</i>
@@ -68,34 +93,56 @@
           <li class="liMobile">
             <a><router-link to="/books">Buscar Libros</router-link></a>
           </li>
-          <li class="liMobile"><a v-if="isAuthenticated"><router-link to="/userbooks">Mis Libros</router-link></a></li>
+          <li class="liMobile">
+            <a v-if="isAuthenticated"
+              ><router-link to="/userbooks">Mis Libros</router-link></a
+            >
+          </li>
           <li class="liMobile liTitle mt-4">Álbumes</li>
           <li class="liMobile">
             <a><router-link to="/albums">Buscar Álbumes</router-link></a>
           </li>
           <li class="liMobile">
-            <a v-if="this.isAuthenticated"><router-link to="/useralbums">Mis álbumes</router-link></a>
+            <a v-if="this.isAuthenticated"
+              ><router-link to="/useralbums">Mis álbumes</router-link></a
+            >
           </li>
           <li class="liMobile liTitle mt-4" v-if="this.isAuthenticated">
-            <img v-if="imgUser != null && imgUser != ''" class="imgIconNav" :src="imgUser" />
-            <img v-if="imgUser == null || imgUser == ''" class="imgIconNav"
-              src="https://imgs.search.brave.com/NsCoYsr-Ce_T2Nb7SsSJvFyA16_MwV90qm-RuC_YTLU/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9jZG4u/cGl4YWJheS5jb20v/cGhvdG8vMjAxOC8x/MS8xMy8yMS80My9h/dmF0YXItMzgxNDA0/OV82NDAucG5n" />
+            <img
+              v-if="imgUser != null && imgUser != ''"
+              class="imgIconNav"
+              :src="imgUser"
+            />
+            <img
+              v-if="imgUser == null || imgUser == ''"
+              class="imgIconNav"
+              src="https://imgs.search.brave.com/NsCoYsr-Ce_T2Nb7SsSJvFyA16_MwV90qm-RuC_YTLU/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9jZG4u/cGl4YWJheS5jb20v/cGhvdG8vMjAxOC8x/MS8xMy8yMS80My9h/dmF0YXItMzgxNDA0/OV82NDAucG5n"
+            />
             {{ this.nombreUsuario }}
           </li>
           <li class="liMobile" v-if="this.isAuthenticated && this.rol == 'ADMIN'">
             <a><router-link to="/admin">Admin</router-link></a>
           </li>
           <li class="liMobile" v-if="this.isAuthenticated">
-            <a><router-link :to="{
+            <a
+              ><router-link
+                :to="{
                   name: 'UserDetails',
                   params: { userName: this.nombreUsuario },
-                }">Editar Perfil</router-link></a>
+                }"
+                >Editar Perfil</router-link
+              ></a
+            >
           </li>
           <li class="liMobile" v-if="this.isAuthenticated">
             <a @click="logout">Cerrar Sesión</a>
           </li>
           <li class="liMobile" v-if="!this.isAuthenticated">
-            <button class="customButton" alt="Inicia Sesión" @click="navigateTo('/login')">
+            <button
+              class="customButton"
+              alt="Inicia Sesión"
+              @click="navigateTo('/login')"
+            >
               <i>I</i>
               <i>n</i>
               <i>i</i>

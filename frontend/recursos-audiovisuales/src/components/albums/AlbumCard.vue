@@ -1,34 +1,87 @@
 <template>
   <div>
     <div class="card">
-      <img :src="album.images[0].url" class="card-img-top" alt="Fissure in Sandstone" />
+      <img
+        :src="album.images[0].url"
+        class="card-img-top"
+        alt="Fissure in Sandstone"
+      />
       <div class="card-body">
-        <h5 class="card-title" v-if="album.miAlbum == undefined && album.miAlbum == null">
+        <h5
+          class="card-title"
+          v-if="album.miAlbum == undefined && album.miAlbum == null"
+        >
           {{ album.name }}
         </h5>
-        <h5 class="card-title" v-if="album.miAlbum != undefined && album.miAlbum != null">
-          <router-link :to="{ name: 'AlbumDetails', params: { spotifyId: album.id } }" class="router-link-custom">{{
-        album.name }}</router-link>
+        <h5
+          class="card-title"
+          v-if="album.miAlbum != undefined && album.miAlbum != null"
+        >
+          <router-link
+            :to="{ name: 'AlbumDetails', params: { spotifyId: album.id } }"
+            class="router-link-custom"
+            >{{ album.name }}</router-link
+          >
         </h5>
-        <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+        <p
+          class="card-text"
+          v-if="album.artists != undefined && album.artists != null"
+        >
+          {{ album.artists[0].name }}
+        </p>
+        <p class="card-text" v-else>{{ album.artist }}</p>
         <div class="card-buttons">
-          <a v-if="this.isAuthenticated &&
-        album.miAlbum != undefined &&
-        album.miAlbum != null
-        " @click="addAlbumPendingStatus(album.name)" class="btn btn-primary me-2">Pendiente</a>
-          <a v-if="this.isAuthenticated &&
-        album.miAlbum == undefined &&
-        album.miAlbum == null
-        " @click="addAlbumPending(album.id, album.name)" class="btn btn-primary me-2">Pendiente</a>
-          <a v-if="this.isAuthenticated &&
-        album.miAlbum != undefined &&
-        album.miAlbum != null
-        " class="btn btn-success me-2"><router-link :to="{ name: 'AlbumReview', params: { spotifyId: album.id } }"
-              class="router-link-custom-white">Escuchado</router-link></a>
-          <a v-if="this.isAuthenticated &&
-        album.miAlbum != undefined &&
-        album.miAlbum != null
-        " @click="deleteAlbum(album.name)" class="btn btn-danger">Eliminar</a>
+          <a
+            v-if="
+              this.isAuthenticated &&
+              album.miAlbum != undefined &&
+              album.miAlbum != null
+            "
+            @click="addAlbumPendingStatus(album.name)"
+            class="btn btn-primary me-2"
+            >Pendiente</a
+          >
+          <a
+            v-if="
+              this.isAuthenticated &&
+              album.miAlbum == undefined &&
+              album.miAlbum == null
+            "
+            @click="
+              addAlbumPending(
+                album.id,
+                album.name,
+                album.artists[0].name,
+                album.release_date,
+                album.total_tracks
+              )
+            "
+            class="btn btn-primary me-2"
+            >Pendiente</a
+          >
+          <a
+            v-if="
+              this.isAuthenticated &&
+              album.miAlbum != undefined &&
+              album.miAlbum != null
+            "
+            class="btn btn-success me-2"
+            ><router-link
+              :to="{ name: 'AlbumReview', params: { spotifyId: album.id } }"
+              class="router-link-custom-white"
+              >Escuchado</router-link
+            ></a
+          >
+          <a
+            v-if="
+              this.isAuthenticated &&
+              album.miAlbum != undefined &&
+              album.miAlbum != null
+            "
+            @click="deleteAlbum(album.name)"
+            class="btn btn-danger"
+            >Eliminar</a
+          >
         </div>
       </div>
     </div>
@@ -60,7 +113,7 @@ export default {
         tituloAlbum: name,
         artist: artist,
         publishDate: date,
-        tracks: tracks
+        tracks: tracks,
       };
       fetch("http://localhost:8082/useralbum/add", {
         method: "POST",

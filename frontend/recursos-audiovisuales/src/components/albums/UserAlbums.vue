@@ -18,7 +18,7 @@
           <select
             @change="filtrarEstado"
             v-model="albumStatus"
-            class="form-select form-select-lg mb-3 filter_select"
+            class="form-select form-select-lg mb-3 filter_select paddingTopCustom"
             aria-label="Large select example"
           >
             <option value="All" selected>Todos</option>
@@ -230,6 +230,10 @@ export default {
   position: fixed;
   line-height: 65px;
   text-align: center;
+}
+
+.paddingTopCustom {
+  margin-top: 0px !important;
 }
 
 .no-albums {
