@@ -1,6 +1,5 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
-import UserRegister from "../components/UserRegister.vue";
+import { createRouter, createWebHistory } from "vue-router";
+import UserRegister from "../components/auth/UserRegister.vue";
 import UserLogin from "../components/auth/UserLogin.vue";
 import HomeScreen from "../components/HomeScreen.vue";
 import Albums from "../components/albums/Albums.vue";
@@ -14,8 +13,6 @@ import UserBooks from "../components/books/UserBooks.vue";
 import BookDetails from "../components/books/BookDetails.vue";
 import BookReview from "../components/books/BookReview.vue";
 import AdminPanel from "../components/user/AdminPanel.vue";
-
-Vue.use(VueRouter);
 
 const routes = [
   { path: "/", component: HomeScreen },
@@ -58,9 +55,8 @@ const routes = [
   },
 ];
 
-const router = new VueRouter({
-  mode: "history",
-  base: process.env.BASE_URL,
+const router = createRouter({
+  history: createWebHistory(),
   routes,
 });
 

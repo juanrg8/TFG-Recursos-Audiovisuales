@@ -49,7 +49,7 @@ public class BookController {
     }
     
     @GetMapping(path="/author")
-    public List<BookRequest> findBooksByArtist(@RequestBody BookRequest request) {
+    public List<BookRequest> findBooksByAuthor(@RequestBody BookRequest request) {
         return bookFacade.findByAuthor(request.getAuthor()).getListaLibros();
     }
     

@@ -1,24 +1,30 @@
 package com.juanromero.tfg.gestionrecursosaudiovisuales.dto.auth;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+
 public class AuthRequest {
 
-    private String username;
-    private String password;
-    private String bio;
-    private String email;
-    private String name;
+	@NotNull(message = "Username cannot be null")
+	@NotEmpty(message = "Username cannot be empty")
+	private String username;
 
-    public AuthRequest() {
-    }
+	@NotNull(message = "Password cannot be null")
+	@NotEmpty(message = "Password cannot be empty")
+	private String password;
+	private String bio;
+	private String email;
+	private String name;
 
-    public AuthRequest(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
-    
-    
+	public AuthRequest() {
+	}
 
-    public AuthRequest(String username, String password, String bio, String email, String name) {
+	public AuthRequest(String username, String password) {
+		this.username = username;
+		this.password = password;
+	}
+
+	public AuthRequest(String username, String password, String bio, String email, String name) {
 		this.username = username;
 		this.password = password;
 		this.bio = bio;
@@ -27,21 +33,21 @@ public class AuthRequest {
 	}
 
 	// Getters y setters
-    public String getUsername() {
-        return username;
-    }
+	public String getUsername() {
+		return username;
+	}
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
 	public String getBio() {
 		return bio;
@@ -66,7 +72,5 @@ public class AuthRequest {
 	public void setName(String name) {
 		this.name = name;
 	}
-    
-    
-    
+
 }
