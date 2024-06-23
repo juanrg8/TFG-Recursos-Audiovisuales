@@ -1,5 +1,6 @@
 package com.juanromero.tfg.gestionrecursosaudiovisuales.user;
 
+import com.juanromero.tfg.gestionrecursosaudiovisuales.dto.user.ChangePasswordRequest;
 import com.juanromero.tfg.gestionrecursosaudiovisuales.entity.user.Rol;
 import com.juanromero.tfg.gestionrecursosaudiovisuales.entity.user.User;
 import com.juanromero.tfg.gestionrecursosaudiovisuales.repository.user.UserRepository;
@@ -10,6 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.ArrayList;
@@ -17,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -24,251 +27,324 @@ import static org.mockito.Mockito.*;
 @ActiveProfiles("test")
 public class UserServiceTest {
 
-    @InjectMocks
-    private UserServiceImpl userService;
+	@InjectMocks
+	private UserServiceImpl userService;
 
-    @Mock
-    private UserRepository userRepository;
+	@Mock
+	private UserRepository userRepository;
 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
+	@Mock
+	private PasswordEncoder passwordEncoder;
 
-    @Test
-    void testAddUser() {
-        User user = new User();
-        user.setId(1);
-        user.setUsername("testuser");
-        user.setNombre("Test User");
-        user.setPassword("password");
-        user.setEmail("testuser@example.com");
-        user.setRol(Rol.USER);
+	@BeforeEach
+	void setUp() {
+		MockitoAnnotations.openMocks(this);
+	}
 
-        when(userRepository.findByUsername("testuser")).thenReturn(Optional.empty());
-        when(userRepository.save(any(User.class))).thenReturn(user);
+	@Test
+	void testAddUser() {
+		User user = new User();
+		user.setId(1);
+		user.setUsername("testuser");
+		user.setNombre("Test User");
+		user.setPassword("password");
+		user.setEmail("testuser@example.com");
+		user.setRol(Rol.USER);
 
-        String result = userService.addUser(user);
+		when(userRepository.findByUsername("testuser")).thenReturn(Optional.empty());
+		when(userRepository.save(any(User.class))).thenReturn(user);
 
-        verify(userRepository, times(1)).findByUsername("testuser");
-        verify(userRepository, times(1)).save(any(User.class));
+		String result = userService.addUser(user);
 
-        assertEquals("Usuario guardado con exito", result);
-    }
+		verify(userRepository, times(1)).findByUsername("testuser");
+		verify(userRepository, times(1)).save(any(User.class));
 
-    @Test
-    void testAddUser_DuplicateUser() {
-        User user = new User();
-        user.setId(1);
-        user.setUsername("testuser");
-        user.setNombre("Test User");
-        user.setPassword("password");
-        user.setEmail("testuser@example.com");
-        user.setRol(Rol.USER);
+		assertEquals("Usuario guardado con exito", result);
+	}
 
-        when(userRepository.findByUsername("testuser")).thenReturn(Optional.of(user));
+	@Test
+	void testAddUser_DuplicateUser() {
+		User user = new User();
+		user.setId(1);
+		user.setUsername("testuser");
+		user.setNombre("Test User");
+		user.setPassword("password");
+		user.setEmail("testuser@example.com");
+		user.setRol(Rol.USER);
 
-        String result = userService.addUser(user);
+		when(userRepository.findByUsername("testuser")).thenReturn(Optional.of(user));
 
-        verify(userRepository, times(1)).findByUsername("testuser");
-        verify(userRepository, never()).save(any(User.class));
+		String result = userService.addUser(user);
 
-        assertEquals("No ha sido posible guardar el usuario, usuario duplicado", result);
-    }
+		verify(userRepository, times(1)).findByUsername("testuser");
+		verify(userRepository, never()).save(any(User.class));
 
-    @Test
-    void testDeleteUser() {
-        User userToDelete = new User();
-        userToDelete.setUsername("testuser");
-        userToDelete.setRol(Rol.USER); 
+		assertEquals("No ha sido posible guardar el usuario, usuario duplicado", result);
+	}
 
-        Optional<User> optionalUserBeforeDelete = Optional.of(userToDelete);
-        when(userRepository.findByUsername("testuser")).thenReturn(optionalUserBeforeDelete);
+	@Test
+	void testDeleteUser() {
+		User userToDelete = new User();
+		userToDelete.setUsername("testuser");
+		userToDelete.setRol(Rol.USER);
 
-        userService.deleteUser(userToDelete);
+		Optional<User> optionalUserBeforeDelete = Optional.of(userToDelete);
+		when(userRepository.findByUsername("testuser")).thenReturn(optionalUserBeforeDelete);
 
-        verify(userRepository, times(2)).findByUsername("testuser");
+		userService.deleteUser(userToDelete);
 
-        verify(userRepository, times(1)).delete(any(User.class));
+		verify(userRepository, times(2)).findByUsername("testuser");
 
-        when(userRepository.findByUsername("testuser")).thenReturn(Optional.empty());
+		verify(userRepository, times(1)).delete(any(User.class));
 
-        String resultAfterDelete = userService.deleteUser(userToDelete);
+		when(userRepository.findByUsername("testuser")).thenReturn(Optional.empty());
 
-        verify(userRepository, times(3)).findByUsername("testuser");
+		String resultAfterDelete = userService.deleteUser(userToDelete);
+
+		verify(userRepository, times(3)).findByUsername("testuser");
 
-        // El método siempre va a devolver que no se ha podido borrar porque al 
-        //ser un test no accede realmente a base de datos, de modo que se llama 
-        //2 veces a borrar esperando que en la segunda llamada no esté el usuario
-        assertEquals("Error: El usuario no existe.", resultAfterDelete);
-    }
+		// El método siempre va a devolver que no se ha podido borrar porque al
+		// ser un test no accede realmente a base de datos, de modo que se llama
+		// 2 veces a borrar esperando que en la segunda llamada no esté el usuario
+		assertEquals("Error: El usuario no existe.", resultAfterDelete);
+	}
+
+	@Test
+	void testDeleteUser_AdminUser() {
+		User user = new User();
+		user.setId(1);
+		user.setUsername("adminuser");
+		user.setNombre("Admin User");
+		user.setPassword("password");
+		user.setEmail("adminuser@example.com");
+		user.setRol(Rol.ADMIN);
+
+		when(userRepository.findByUsername("adminuser")).thenReturn(Optional.of(user));
+
+		String result = userService.deleteUser(user);
 
+		verify(userRepository, times(1)).findByUsername("adminuser");
+		verify(userRepository, never()).delete(any(User.class));
+
+		assertEquals("No se puede eliminar a un administrador", result);
+	}
+
+	@Test
+	void testDeleteUser_UserNotFound() {
+		User user = new User();
+		user.setId(1);
+		user.setUsername("unknownuser");
+		user.setNombre("Unknown User");
+		user.setPassword("password");
+		user.setEmail("unknownuser@example.com");
+		user.setRol(Rol.USER);
+
+		when(userRepository.findByUsername("unknownuser")).thenReturn(Optional.empty());
+
+		String result = userService.deleteUser(user);
+
+		verify(userRepository, times(1)).findByUsername("unknownuser");
+		verify(userRepository, never()).delete(any(User.class));
+
+		assertEquals("Error: El usuario no existe.", result);
+	}
+
+	@Test
+	void testUpdateUser() {
+		User user = new User();
+		user.setId(1);
+		user.setUsername("testuser");
+		user.setNombre("Test User");
+		user.setPassword("password");
+		user.setEmail("testuser@example.com");
+		user.setRol(Rol.USER);
+
+		when(userRepository.findById(1)).thenReturn(Optional.of(user));
+		when(userRepository.save(any(User.class))).thenReturn(user);
+
+		String result = userService.updateUser(user);
+
+		verify(userRepository, times(1)).findById(1);
+		verify(userRepository, times(1)).save(any(User.class));
 
+		assertEquals("El usuario se ha actualizado correctamente.", result);
+	}
 
+	@Test
+	void testUpdateUser_UserNotFound() {
+		User user = new User();
+		user.setId(1);
+		user.setUsername("unknownuser");
+		user.setNombre("Unknown User");
+		user.setPassword("password");
+		user.setEmail("unknownuser@example.com");
+		user.setRol(Rol.USER);
+
+		when(userRepository.findById(1)).thenReturn(Optional.empty());
+
+		String result = userService.updateUser(user);
+
+		verify(userRepository, times(1)).findById(1);
+		verify(userRepository, never()).save(any(User.class));
+
+		assertEquals("Error: El usuario no existe.", result);
+	}
+
+	@Test
+	void testFindAllUsers() {
+		// Configurar datos de prueba
+		User user1 = new User();
+		user1.setId(1);
+		user1.setUsername("user1");
+		user1.setNombre("Nombre1");
+		user1.setPassword("password1");
+		user1.setEmail("user1@example.com");
+		user1.setRol(Rol.USER);
+
+		User user2 = new User();
+		user2.setId(2);
+		user2.setUsername("user2");
+		user2.setNombre("Nombre2");
+		user2.setPassword("password2");
+		user2.setEmail("user2@example.com");
+		user2.setRol(Rol.USER);
 
+		List<User> userList = new ArrayList<>();
+		userList.add(user1);
+		userList.add(user2);
+
+		// Configurar el mock del repositorio
+		when(userRepository.findAll()).thenReturn(userList);
 
+		// Llamar al método del servicio que debe interactuar con el repositorio
+		List<User> result = userService.findAllUsers();
+
+		// Verificar que se llamó al método findAll del repositorio exactamente una vez
+		verify(userRepository, times(1)).findAll();
+
+		// Verificar el resultado esperado de la prueba
+		assertEquals(userList.size(), result.size());
+		assertEquals(userList.get(0).getUsername(), result.get(0).getUsername());
+		assertEquals(userList.get(1).getUsername(), result.get(1).getUsername());
+	}
 
+	@Test
+	void testFindAllUsers_NoUsersFound() {
+		when(userRepository.findAll()).thenReturn(null);
 
+		List<User> result = userService.findAllUsers();
 
+		verify(userRepository, times(1)).findAll();
 
-    @Test
-    void testDeleteUser_AdminUser() {
-        User user = new User();
-        user.setId(1);
-        user.setUsername("adminuser");
-        user.setNombre("Admin User");
-        user.setPassword("password");
-        user.setEmail("adminuser@example.com");
-        user.setRol(Rol.ADMIN);
+		assertEquals(null, result);
+	}
 
-        when(userRepository.findByUsername("adminuser")).thenReturn(Optional.of(user));
+	@Test
+	void testFindUserByUsername() {
+		User user = new User();
+		user.setId(1);
+		user.setUsername("testuser");
+		user.setNombre("Test User");
+		user.setPassword("password");
+		user.setEmail("testuser@example.com");
+		user.setRol(Rol.USER);
 
-        String result = userService.deleteUser(user);
+		when(userRepository.findByUsername("testuser")).thenReturn(Optional.of(user));
 
-        verify(userRepository, times(1)).findByUsername("adminuser");
-        verify(userRepository, never()).delete(any(User.class));
-
-        assertEquals("No se puede eliminar a un administrador", result);
-    }
-
-    @Test
-    void testDeleteUser_UserNotFound() {
-        User user = new User();
-        user.setId(1);
-        user.setUsername("unknownuser");
-        user.setNombre("Unknown User");
-        user.setPassword("password");
-        user.setEmail("unknownuser@example.com");
-        user.setRol(Rol.USER);
+		User result = userService.findUserByUsername("testuser");
 
-        when(userRepository.findByUsername("unknownuser")).thenReturn(Optional.empty());
+		verify(userRepository, times(1)).findByUsername("testuser");
 
-        String result = userService.deleteUser(user);
+		assertEquals("testuser", result.getUsername());
+	}
 
-        verify(userRepository, times(1)).findByUsername("unknownuser");
-        verify(userRepository, never()).delete(any(User.class));
-
-        assertEquals("Error: El usuario no existe.", result);
-    }
-
-    @Test
-    void testUpdateUser() {
-        User user = new User();
-        user.setId(1);
-        user.setUsername("testuser");
-        user.setNombre("Test User");
-        user.setPassword("password");
-        user.setEmail("testuser@example.com");
-        user.setRol(Rol.USER);
+	@Test
+	void testFindUserByUsername_UserNotFound() {
+		when(userRepository.findByUsername("unknownuser")).thenReturn(Optional.empty());
 
-        when(userRepository.findById(1)).thenReturn(Optional.of(user));
-        when(userRepository.save(any(User.class))).thenReturn(user);
+		User result = userService.findUserByUsername("unknownuser");
 
-        String result = userService.updateUser(user);
+		verify(userRepository, times(1)).findByUsername("unknownuser");
 
-        verify(userRepository, times(1)).findById(1);
-        verify(userRepository, times(1)).save(any(User.class));
+		assertEquals(null, result);
+	}
 
-        assertEquals("El usuario se ha actualizado correctamente.", result);
-    }
+	@Test
+	void testChangePassword() {
+	    
+	    ChangePasswordRequest request = new ChangePasswordRequest();
+	    request.setUsername("testuser");
+	    request.setCurrentPassword("oldpassword");
+	    request.setNewPassword("newpassword");
 
-    @Test
-    void testUpdateUser_UserNotFound() {
-        User user = new User();
-        user.setId(1);
-        user.setUsername("unknownuser");
-        user.setNombre("Unknown User");
-        user.setPassword("password");
-        user.setEmail("unknownuser@example.com");
-        user.setRol(Rol.USER);
+	    
+	    User user = new User();
+	    user.setId(1);
+	    user.setUsername("testuser");
+	    user.setPassword("$2a$10$Gfz4xxndjMnX.Y08eHTDxeixE3tGpG5AQO9KfHffY04rUGe0kbyoG"); // Contraseña codificada
 
-        when(userRepository.findById(1)).thenReturn(Optional.empty());
+	    
+	    when(userRepository.findByUsername("testuser")).thenReturn(Optional.of(user));
+	    when(userRepository.save(any(User.class))).thenReturn(user);
 
-        String result = userService.updateUser(user);
+	    
+	    when(passwordEncoder.encode(any(CharSequence.class))).thenReturn("$2a$10$Gfz4xxndjMnX.Y08eHTDxeixE3tGpG5AQO9KfHffY04rUGe0kbyoG");
+	    when(passwordEncoder.matches("oldpassword", user.getPassword())).thenReturn(true);
+	    when(passwordEncoder.matches("newpassword", user.getPassword())).thenReturn(false); // Esto debe devolver false, ya que no es la contraseña actual
 
-        verify(userRepository, times(1)).findById(1);
-        verify(userRepository, never()).save(any(User.class));
+	    
+	    String result = userService.changePassword(request);
 
-        assertEquals("Error: El usuario no existe.", result);
-    }
+	    
+	    verify(userRepository, times(1)).findByUsername("testuser");
+	    verify(userRepository, times(1)).save(any(User.class));
 
-    @Test
-    void testFindAllUsers() {
-        // Configurar datos de prueba
-        User user1 = new User();
-        user1.setId(1);
-        user1.setUsername("user1");
-        user1.setNombre("Nombre1");
-        user1.setPassword("password1");
-        user1.setEmail("user1@example.com");
-        user1.setRol(Rol.USER);
+	    
+	    assertEquals("Contraseña cambiada con éxito.", result);
+	}
 
-        User user2 = new User();
-        user2.setId(2);
-        user2.setUsername("user2");
-        user2.setNombre("Nombre2");
-        user2.setPassword("password2");
-        user2.setEmail("user2@example.com");
-        user2.setRol(Rol.USER);
 
-        List<User> userList = new ArrayList<>();
-        userList.add(user1);
-        userList.add(user2);
 
-        // Configurar el mock del repositorio
-        when(userRepository.findAll()).thenReturn(userList);
 
-        // Llamar al método del servicio que debe interactuar con el repositorio
-        List<User> result = userService.findAllUsers();
+	@Test
+	void testChangePassword_WrongCurrentPassword() {
+		ChangePasswordRequest request = new ChangePasswordRequest();
+		request.setUsername("testuser");
+		request.setCurrentPassword("wrongpassword");
+		request.setNewPassword("newpassword");
 
-        // Verificar que se llamó al método findAll del repositorio exactamente una vez
-        verify(userRepository, times(1)).findAll();
+		User user = new User();
+		user.setId(1);
+		user.setUsername("testuser");
+		user.setPassword("$2a$10$3O7f6T7j3QzI8uL/JeAWjue8EjvZm.BP8z8TSD9Xz2FSXjJm1t4Ne"); // Password encoded:
+																							// oldpassword
+		user.setRol(Rol.USER);
 
-        // Verificar el resultado esperado de la prueba
-        assertEquals(userList.size(), result.size());
-        assertEquals(userList.get(0).getUsername(), result.get(0).getUsername());
-        assertEquals(userList.get(1).getUsername(), result.get(1).getUsername());
-    }
+		when(userRepository.findByUsername("testuser")).thenReturn(Optional.of(user));
 
+		String result = userService.changePassword(request);
 
-    @Test
-    void testFindAllUsers_NoUsersFound() {
-        when(userRepository.findAll()).thenReturn(null);
+		verify(userRepository, times(1)).findByUsername("testuser");
+		verify(userRepository, never()).save(any(User.class));
 
-        List<User> result = userService.findAllUsers();
+		assertEquals("Error: La contraseña actual no es correcta", result);
+	}
 
-        verify(userRepository, times(1)).findAll();
+	@Test
+	void testChangePassword_UserNotFound() {
+		ChangePasswordRequest request = new ChangePasswordRequest();
+		request.setUsername("unknownuser");
+		request.setCurrentPassword("oldpassword");
+		request.setNewPassword("newpassword");
 
-        assertEquals(null, result);
-    }
+		when(userRepository.findByUsername("unknownuser")).thenReturn(Optional.empty());
 
-    @Test
-    void testFindUserByUsername() {
-        User user = new User();
-        user.setId(1);
-        user.setUsername("testuser");
-        user.setNombre("Test User");
-        user.setPassword("password");
-        user.setEmail("testuser@example.com");
-        user.setRol(Rol.USER);
+		String result = userService.changePassword(request);
 
-        when(userRepository.findByUsername("testuser")).thenReturn(Optional.of(user));
+		verify(userRepository, times(1)).findByUsername("unknownuser");
+		verify(userRepository, never()).save(any(User.class));
 
-        User result = userService.findUserByUsername("testuser");
+		assertEquals("Error: El usuario no existe", result);
+	}
 
-        verify(userRepository, times(1)).findByUsername("testuser");
-
-        assertEquals("testuser", result.getUsername());
-    }
-
-    @Test
-    void testFindUserByUsername_UserNotFound() {
-        when(userRepository.findByUsername("unknownuser")).thenReturn(Optional.empty());
-
-        User result = userService.findUserByUsername("unknownuser");
-
-        verify(userRepository, times(1)).findByUsername("unknownuser");
-
-        assertEquals(null, result);
-    }
 }

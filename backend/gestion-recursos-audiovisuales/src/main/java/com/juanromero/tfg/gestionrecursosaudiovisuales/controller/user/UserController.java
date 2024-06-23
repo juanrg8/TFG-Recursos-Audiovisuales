@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.juanromero.tfg.gestionrecursosaudiovisuales.dto.user.ChangePasswordRequest;
 import com.juanromero.tfg.gestionrecursosaudiovisuales.dto.user.UserRequest;
 import com.juanromero.tfg.gestionrecursosaudiovisuales.dto.user.UserResponse;
 import com.juanromero.tfg.gestionrecursosaudiovisuales.facade.user.UserFacade;
@@ -40,4 +41,9 @@ public class UserController {
 	public UserResponse findUsers(@PathVariable String usuarioNombre) {
 		return userFacade.findUserByUsername(usuarioNombre);
 	}
+	
+    @PutMapping("/changePassword")
+    public UserResponse changePassword(@RequestBody ChangePasswordRequest request) {
+        return userFacade.changePassword(request);
+    }
 }

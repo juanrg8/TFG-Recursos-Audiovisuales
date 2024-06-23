@@ -1,8 +1,9 @@
 package com.juanromero.tfg.gestionrecursosaudiovisuales.service.user;
 
 
-import java.util.List;  
+import java.util.List;
 
+import com.juanromero.tfg.gestionrecursosaudiovisuales.dto.user.ChangePasswordRequest;
 import com.juanromero.tfg.gestionrecursosaudiovisuales.entity.user.User;
 
 
@@ -17,6 +18,8 @@ public interface UserService {
 	public List<User> findAllUsers();
 
 	public User findUserByUsername(String username);
+
+	public String changePassword(ChangePasswordRequest request);
 	
     
 }

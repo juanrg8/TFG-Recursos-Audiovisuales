@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.juanromero.tfg.gestionrecursosaudiovisuales.dto.user.ChangePasswordRequest;
 import com.juanromero.tfg.gestionrecursosaudiovisuales.dto.user.UserRequest;
 import com.juanromero.tfg.gestionrecursosaudiovisuales.dto.user.UserResponse;
 import com.juanromero.tfg.gestionrecursosaudiovisuales.entity.user.User;
@@ -30,26 +31,26 @@ public class UserFacadeImpl implements UserFacade {
 	private static final String response_borrado_ok = "El usuario se ha borrado correctamente.";
 	private static final String response_actualizado_ok = "El usuario se ha actualizado correctamente.";
 	private static final String response_encontrado_ok = "Usuarios encontrados correctamente.";
-
+	private static final String response_password_cambiada_ok = "Contraseña cambiada con éxito.";
 	@Override
 	public UserResponse addUser(UserRequest userRequest) {
 	    UserResponse response = new UserResponse();
 	    String descripcionPeticion = "";
 
-	    // Obtener la contraseña del UserRequest
+	    
 	    String password = userRequest.getPassword();
 
-	    // Codificar la contraseña
+	    
 	    String encodedPassword = passwordEncoder.encode(password);
 
-	    // Crear un nuevo usuario con la contraseña codificada
+	    
 	    User usuario = userMapper.dtoToEntity(userRequest);
 	    usuario.setPassword(encodedPassword);
 
-	    // Llamar al método addUser en UserService
+	    
 	    descripcionPeticion = userService.addUser(usuario);
 
-	    // Configurar la respuesta según el resultado
+	    
 	    response.setDescripcionPeticion(descripcionPeticion);
 	    if (descripcionPeticion.equalsIgnoreCase(response_guardado_ok)) {
 	        response.setEstadoPeticion("OK");
@@ -144,5 +145,19 @@ public class UserFacadeImpl implements UserFacade {
 		
 		return response;
 	}
+
+
+    @Override
+    public UserResponse changePassword(ChangePasswordRequest request) {
+        UserResponse response = new UserResponse();
+        String descripcionPeticion = userService.changePassword(request);
+        response.setDescripcionPeticion(descripcionPeticion);
+        if (descripcionPeticion.equalsIgnoreCase(response_password_cambiada_ok)) {
+            response.setEstadoPeticion("OK");
+        } else {
+            response.setEstadoPeticion("KO");
+        }
+        return response;
+    }
 
 }

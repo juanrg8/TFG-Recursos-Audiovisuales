@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import com.juanromero.tfg.gestionrecursosaudiovisuales.controller.user.UserController;
+import com.juanromero.tfg.gestionrecursosaudiovisuales.dto.user.ChangePasswordRequest;
 import com.juanromero.tfg.gestionrecursosaudiovisuales.dto.user.UserRequest;
 import com.juanromero.tfg.gestionrecursosaudiovisuales.dto.user.UserResponse;
 import com.juanromero.tfg.gestionrecursosaudiovisuales.facade.user.UserFacade;
@@ -127,6 +128,27 @@ public class UserControllerTest {
         assertEquals(userRequest, response.getUsuario());
     }
 
+
+    @Test
+    void testChangePassword() {
+        ChangePasswordRequest request = new ChangePasswordRequest();
+        request.setUsername("testuser");
+        request.setCurrentPassword("oldpassword");
+        request.setNewPassword("newpassword");
+
+        UserResponse expectedResponse = new UserResponse("OK", "Contraseña cambiada correctamente", new ArrayList<>(), null);
+
+        when(userFacade.changePassword(any(ChangePasswordRequest.class))).thenReturn(expectedResponse);
+
+        UserResponse response = userController.changePassword(request);
+
+        verify(userFacade).changePassword(any(ChangePasswordRequest.class));
+
+        assertEquals("OK", response.getEstadoPeticion());
+        assertEquals("Contraseña cambiada correctamente", response.getDescripcionPeticion());
+        assertEquals(null, response.getUsuario()); // No se espera usuario en esta respuesta
+        assertEquals(Collections.emptyList(), response.getListaUsuarios());
+    }
     
 }
 

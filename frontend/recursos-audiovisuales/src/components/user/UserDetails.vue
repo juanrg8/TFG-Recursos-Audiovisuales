@@ -10,12 +10,12 @@
                   border-top-left-radius: 0.5rem;
                   border-bottom-left-radius: 0.5rem;
                 ">
-                <img v-if="this.usuario.image != null && this.usuario.image != ''" :src="this.usuario.image"
-                  alt="Avatar" class="img-fluid my-5 imgCustom" />
-                <img v-if="this.usuario.image == null || this.usuario.image == ''"
+                <img v-if="usuario.image != null && usuario.image != ''" :src="usuario.image" alt="Avatar"
+                  class="img-fluid my-5 imgCustom" />
+                <img v-else
                   src="https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg"
                   alt="Avatar" class="img-fluid my-5 imgCustom" />
-                <h5>{{ this.usuario.nombre }}</h5>
+                <h5>{{ usuario.nombre }}</h5>
                 <router-link :to="{ name: 'UserForm' }" class="routerLinkCustom">Editar <i
                     class="bi bi-pencil-square"></i></router-link>
               </div>
@@ -26,15 +26,51 @@
                   <div class="row pt-1" style="width: 300px">
                     <div class="col-6 mb-3 customCol">
                       <h6>Email</h6>
-                      <p class="text-muted">{{ this.usuario.email }}</p>
+                      <p class="text-muted">{{ usuario.email }}</p>
                     </div>
                   </div>
                   <h6>Biografía</h6>
                   <hr class="mt-0 mb-4" />
                   <div class="row pt-1" style="width: 360px">
                     <div class="col-6 mb-3 customCol">
-                      <p class="text-muted">{{ this.usuario.bio }}</p>
+                      <p class="text-muted">{{ usuario.bio }}</p>
                     </div>
+                  </div>
+                  <button class="btn btn-primary mt-3" @click="toggleChangePasswordForm">
+                    {{ showChangePasswordForm ? 'Cancelar' : 'Cambiar Contraseña' }}
+                  </button>
+                  <div v-if="showChangePasswordForm" class="mt-3">
+                    <h6>Cambiar Contraseña</h6>
+                    <form @submit.prevent="changePassword">
+                      <div class="mb-3">
+                        <label for="currentPassword" class="form-label">Contraseña Actual</label>
+                        <div class="input-group">
+                          <input :type="showCurrentPassword ? 'text' : 'password'" v-model="currentPassword"
+                            class="form-control" id="currentPassword" required>
+                          <button type="button" class="btn btn-outline-secondary" @click="toggleShowCurrentPassword">
+                            {{ showCurrentPassword ? 'Ocultar' : 'Mostrar' }}
+                          </button>
+                        </div>
+                      </div>
+                      <div class="mb-3">
+                        <label for="newPassword" class="form-label">Nueva Contraseña</label>
+                        <div class="input-group">
+                          <input :type="showNewPassword ? 'text' : 'password'" v-model="newPassword"
+                            class="form-control" id="newPassword" required>
+                          <button type="button" class="btn btn-outline-secondary" @click="toggleShowNewPassword">
+                            {{ showNewPassword ? 'Ocultar' : 'Mostrar' }}
+                          </button>
+                        </div>
+                      </div>
+                      <div class="mb-3">
+                        <label for="confirmNewPassword" class="form-label">Confirmar Nueva Contraseña</label>
+                        <div class="input-group">
+                          <input :type="showConfirmNewPassword ? 'text' : 'password'" v-model="confirmNewPassword"
+                            class="form-control" id="confirmNewPassword" required>
+                        </div>
+                      </div>
+                      <button type="submit" class="btn btn-success">Guardar Cambios</button>
+                    </form>
                   </div>
                 </div>
               </div>
@@ -58,6 +94,13 @@ export default {
     return {
       isAuthenticated: false,
       usuario: {},
+      showChangePasswordForm: false,
+      currentPassword: "",
+      newPassword: "",
+      confirmNewPassword: "",
+      showCurrentPassword: false,
+      showNewPassword: false,
+      showConfirmNewPassword: false,
     };
   },
   async mounted() {
@@ -91,9 +134,55 @@ export default {
           console.error("Error:", error);
         });
     },
-  },
+    toggleChangePasswordForm() {
+      this.showChangePasswordForm = !this.showChangePasswordForm;
+    },
+    toggleShowCurrentPassword() {
+      this.showCurrentPassword = !this.showCurrentPassword;
+    },
+    toggleShowNewPassword() {
+      this.showNewPassword = !this.showNewPassword;
+      this.showConfirmNewPassword = this.showNewPassword;
+    },
+    toggleShowConfirmNewPassword() {
+      this.showConfirmNewPassword = !this.showConfirmNewPassword;
+      this.showNewPassword = this.showConfirmNewPassword;
+    },
+    async changePassword() {
+      if (this.newPassword !== this.confirmNewPassword) {
+        alert("Las nuevas contraseñas no coinciden");
+        return;
+      }
+
+      let request = {
+        username: this.usuario.username,
+        currentPassword: this.currentPassword,
+        newPassword: this.newPassword,
+      };
+
+      try {
+        await fetch("http://localhost:8082/user/changePassword", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(request),
+        });
+
+        alert("Contraseña cambiada con éxito");
+        this.showChangePasswordForm = false;
+        this.currentPassword = "";
+        this.newPassword = "";
+        this.confirmNewPassword = "";
+      } catch (error) {
+        console.error("Error:", error);
+        alert("Error al cambiar la contraseña");
+      }
+    }
+  }
 };
 </script>
+
 <style scoped>
 .containerDetail {
   display: flex;
