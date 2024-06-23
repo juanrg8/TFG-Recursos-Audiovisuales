@@ -160,12 +160,14 @@ public class UserAlbumFacadeImpl implements UserAlbumFacade {
 			UserAlbum userAlbum = userAlbumOpt.get();
 
 			// Guardar la fecha de escucha si se cambia de PENDING a CONSUMED
-			if (userAlbum.getStatus() == AlbumStatus.PENDING) {
+			if (status == AlbumStatus.CONSUMED && userAlbum.getStatus()==AlbumStatus.PENDING) {
 				userAlbum.setDateListened(LocalDate.now());
 			} else {
+				if(status == AlbumStatus.PENDING && userAlbum.getStatus()==AlbumStatus.CONSUMED) {
 				userAlbum.setDateListened(null);
 				userAlbum.setRating(null);
 				userAlbum.setReview(null);
+				}
 			}
 
 			// Alternar el estado y guardar el UserAlbum

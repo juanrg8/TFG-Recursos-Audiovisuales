@@ -2,34 +2,22 @@
   <Navbar style="z-index: 9" />
   <section class="vh-100 containerDetail" style="background-color: #f4f5f7">
     <div class="py-5 h-100">
-      <div
-        class="row d-flex justify-content-center align-items-center h-100 customDiv"
-      >
+      <div class="row d-flex justify-content-center align-items-center h-100 customDiv">
         <div class="col col-lg-6 mb-4 mb-lg-0">
           <div class="card mb-3" style="border-radius: 0.5rem">
             <div class="row g-0 customHeight">
               <!-- Lado izquierdo (Foto, titulo y boton editar) -->
-              <div
-                class="col-md-4 gradient-custom text-center text-white"
-                style="
+              <div class="col-md-4 gradient-custom text-center text-white customLeftSide" style="
                   border-top-left-radius: 0.5rem;
                   border-bottom-left-radius: 0.5rem;
-                "
-              >
-                <img
-                  :src="album.images"
-                  alt="Avatar"
-                  class="img-fluid my-5 imgCustom"
-                />
+                ">
+                <img :src="album.images" alt="Avatar" class="img-fluid my-5 imgCustom" />
                 <h5 class="albumName">{{ album.name }}</h5>
-                <router-link
-                  :to="{ name: 'AlbumReview', params: { spotifyId: this.id } }"
-                  class="routerLinkCustom mb-5"
-                  >Editar <i class="bi bi-pencil-square"></i
-                ></router-link>
+                <router-link :to="{ name: 'AlbumReview', params: { spotifyId: this.id } }"
+                  class="routerLinkCustom mb-5">Editar <i class="bi bi-pencil-square"></i></router-link>
               </div>
               <!-- Lado Derecho -->
-              <div class="col-md-8">
+              <div class="col-md-8 customRightSide">
                 <div class="card-body p-4">
                   <h6>Información</h6>
                   <hr class="mt-0 mb-4" />
@@ -37,17 +25,14 @@
                     <div class="col-7 mb-3">Fecha: {{ album.date }}</div>
                     <div class="col-7 mb-3">Artista: {{ album.artist }}</div>
                     <div class="col-7 mb-3">Canciones: {{ album.tracks }}</div>
-                    <div
-                      class="col-7 mb-3"
-                      v-if="userAlbumUser.status == 'CONSUMED'"
-                    >
+                    <div class="col-7 mb-3" v-if="userAlbumUser.status == 'CONSUMED'">
                       Estado: Escuchado
                     </div>
-                    <div
-                      class="col-7 mb-3"
-                      v-if="userAlbumUser.status == 'PENDING'"
-                    >
+                    <div class="col-7 mb-3" v-if="userAlbumUser.status == 'PENDING'">
                       Estado: Pendiente
+                    </div>
+                    <div class="col-7 mb-3" v-if="userAlbumUser.fechaCambioEstado != null">
+                      Fecha de escucha: {{ userAlbumUser.fechaCambioEstado }}
                     </div>
                   </div>
 
@@ -56,45 +41,15 @@
                   <div class="row pt-1" style="width: 300px">
                     <div class="col-6 mb-3">
                       <div class="rating">
-                        <input
-                          value="5"
-                          name="rating"
-                          id="star5"
-                          type="radio"
-                          disabled
-                        />
+                        <input value="5" name="rating" id="star5" type="radio" disabled />
                         <label for="star5"></label>
-                        <input
-                          value="4"
-                          name="rating"
-                          id="star4"
-                          type="radio"
-                          disabled
-                        />
+                        <input value="4" name="rating" id="star4" type="radio" disabled />
                         <label for="star4"></label>
-                        <input
-                          value="3"
-                          name="rating"
-                          id="star3"
-                          type="radio"
-                          disabled
-                        />
+                        <input value="3" name="rating" id="star3" type="radio" disabled />
                         <label for="star3"></label>
-                        <input
-                          value="2"
-                          name="rating"
-                          id="star2"
-                          type="radio"
-                          disabled
-                        />
+                        <input value="2" name="rating" id="star2" type="radio" disabled />
                         <label for="star2"></label>
-                        <input
-                          value="1"
-                          name="rating"
-                          id="star1"
-                          type="radio"
-                          disabled
-                        />
+                        <input value="1" name="rating" id="star1" type="radio" disabled />
                         <label for="star1"></label>
                       </div>
                     </div>
@@ -103,22 +58,14 @@
                   <hr class="mt-0 mb-4" />
                   <div class="row pt-1" style="width: 360px">
                     <div class="col-6 mb-3 customCol">
-                      <p
-                        v-if="
-                          userAlbumUser.review != null &&
-                          userAlbumUser.review != ''
-                        "
-                        class="text-muted"
-                      >
+                      <p v-if="userAlbumUser.review != null &&
+                  userAlbumUser.review != ''
+                  " class="text-muted">
                         {{ userAlbumUser.review }}
                       </p>
-                      <p
-                        v-if="
-                          userAlbumUser.review == null ||
-                          userAlbumUser.review == ''
-                        "
-                        class="text-muted"
-                      >
+                      <p v-if="userAlbumUser.review == null ||
+                  userAlbumUser.review == ''
+                  " class="text-muted">
                         No has añadido una reseña al albúm todavia.
                       </p>
                     </div>
@@ -263,8 +210,19 @@ export default {
 }
 
 .customHeight {
-  height: 499px;
+  display: flex;
+  height: 100%;
 }
+
+.customLeftSide,
+.customRightSide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+
+
 
 .nav {
   width: 100%;
@@ -298,7 +256,7 @@ export default {
   font-size: 30px;
 }
 
-.rating input:checked ~ label {
+.rating input:checked~label {
   color: hsl(210deg 100% 44%);
   transition: color 0.3s;
 }
@@ -345,18 +303,17 @@ export default {
 }
 
 .gradient-custom {
+  height: auto;
+  flex-direction: column;
+  display: flex;
   /* fallback for old browsers */
   background: rgb(0, 212, 255);
-  background: linear-gradient(
-    90deg,
-    rgba(0, 212, 255, 1) 0%,
-    rgba(27, 27, 204, 1) 100%,
-    rgba(2, 0, 36, 1) 100%
-  );
-  background: -webkit-linear-gradient(
-    to right bottom,
-    rgba(0, 212, 255, 1),
-    rgba(27, 27, 204, 1)
-  );
+  background: linear-gradient(90deg,
+      rgba(0, 212, 255, 1) 0%,
+      rgba(27, 27, 204, 1) 100%,
+      rgba(2, 0, 36, 1) 100%);
+  background: -webkit-linear-gradient(to right bottom,
+      rgba(0, 212, 255, 1),
+      rgba(27, 27, 204, 1));
 }
 </style>

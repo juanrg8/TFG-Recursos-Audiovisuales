@@ -5,12 +5,7 @@
     <div>
       <h1>Detalles de libro</h1>
       <div class="card mb-3 customBookCard">
-        <img
-          class="card-img-top portada"
-          :src="book.imageLinks"
-          alt="Book Cover"
-          style="margin-left: 17px"
-        />
+        <img class="card-img-top portada" :src="book.imageLinks" alt="Book Cover" style="margin-left: 17px" />
         <div class="card-body">
           <h5 class="card-title">{{ book.title }}</h5>
           <h5 class="card-title">Autor: {{ book.authors }}</h5>
@@ -37,35 +32,22 @@
           <h5 class="card-title">Descripción:</h5>
           <div class="card-text" v-html="book.description"></div>
           <!-- Usando v-html para renderizar HTML -->
-          <h5
-            class="card-title"
-            v-if="userBookUser.rating != null && userBookUser.rating >= 0"
-          >
+          <h5 class="card-title" v-if="userBookUser.rating != null && userBookUser.rating >= 0">
             Nota: {{ userBookUser.rating }}/5
           </h5>
           <h5 class="card-title" v-if="userBookUser.rating == null">
             No hay nota
           </h5>
           <h5 class="card-title">Reseña:</h5>
-          <p
-            class="card-text"
-            v-if="userBookUser.review != null && userBookUser.review != ''"
-          >
+          <p class="card-text" v-if="userBookUser.review != null && userBookUser.review != ''">
             {{ userBookUser.review }}
           </p>
-          <p
-            class="card-text"
-            v-if="userBookUser.review == null || userBookUser.review == ''"
-          >
+          <p class="card-text" v-if="userBookUser.review == null || userBookUser.review == ''">
             No ha escrito reseña del libro
           </p>
-          <a class="btn btn-success"
-            ><router-link
-              :to="{ name: 'BookReview', params: { libroId: this.id } }"
-              class="router-link-custom-white"
-              >Editar</router-link
-            ></a
-          >
+          <a class="btn btn-success"><router-link
+              :to="{ name: 'BookReview', params: { libroId: this.id, status: userBookUser.status } }"
+              class="router-link-custom-white">Editar</router-link></a>
         </div>
       </div>
     </div>
