@@ -5,63 +5,42 @@
       <p class="title">Registro</p>
       <p class="message">Registrate y obten todo el acceso a la aplicación.</p>
       <label>
-        <input
-          v-model="name"
-          required=""
-          placeholder=""
-          type="text"
-          class="input"
-        />
+        <input v-model="name" required="" placeholder="" type="text" class="input" />
         <span>Nombre</span>
       </label>
 
       <label>
-        <input
-          v-model="email"
-          required=""
-          placeholder=""
-          type="email"
-          class="input"
-        />
+        <input v-model="email" required="" placeholder="" type="email" class="input" />
         <span>Email</span>
       </label>
 
       <label>
-        <input
-          v-model="username"
-          required=""
-          placeholder=""
-          type="text"
-          class="input"
-        />
+        <input v-model="username" required="" placeholder="" type="text" class="input" />
         <span>Nombre de usuario</span>
       </label>
 
       <label>
-        <input
-          v-model="password"
-          required=""
-          placeholder=""
-          type="password"
-          class="input"
-        />
+        <input v-model="password" required="" placeholder="" :type="showPassword ? 'text' : 'password'" class="input" />
         <span>Contraseña</span>
+        <button type="button" class="togglePasswordButton" @click="togglePasswordVisibility">
+          {{ showPassword ? 'Ocultar' : 'Mostrar' }}
+        </button>
       </label>
 
       <label>
-        <input
-          v-model="bio"
-          required=""
-          placeholder=""
-          type="text"
-          class="input"
-        />
+        <input v-model="confirmPassword" required="" placeholder="" :type="showPassword ? 'text' : 'password'"
+          class="input" />
+        <span>Confirmar Contraseña</span>
+      </label>
+
+      <label>
+        <input v-model="bio" required="" placeholder="" type="text" class="input" />
         <span>Biografia</span>
       </label>
       <button class="submit">Registrarse</button>
       <p class="signin">
         ¿Tienes ya una cuenta?
-        <a><router-link to="/login">Inicia Sesión</router-link></a>
+        <router-link to="/login">Inicia Sesión</router-link>
       </p>
     </form>
   </div>
@@ -80,14 +59,21 @@ export default {
     return {
       username: "",
       password: "",
+      confirmPassword: "",
       email: "",
       name: "",
       bio: "",
+      showPassword: false,
     };
   },
   methods: {
     async handleRegister() {
       try {
+        // Verifica si las contraseñas coinciden
+        if (this.password !== this.confirmPassword) {
+          throw new Error("Las contraseñas no coinciden");
+        }
+
         const response = await register({
           username: this.username,
           password: this.password,
@@ -113,6 +99,9 @@ export default {
         alert(errorMessage);
       }
     },
+    togglePasswordVisibility() {
+      this.showPassword = !this.showPassword;
+    },
   },
 };
 </script>
@@ -120,9 +109,12 @@ export default {
 <style scoped>
 @media (max-width: 1400px) {
   .form {
-    max-width: 100%; /* Esto hace que el formulario ocupe todo el ancho disponible */
-    padding: 20px; /* Ajusta el padding si es necesario */
-    margin: 0 20px; /* Añade margen para espaciar el formulario del borde */
+    max-width: 100%;
+    /* Esto hace que el formulario ocupe todo el ancho disponible */
+    padding: 20px;
+    /* Ajusta el padding si es necesario */
+    margin: 0 20px;
+    /* Añade margen para espaciar el formulario del borde */
     height: auto;
   }
 }
@@ -228,7 +220,7 @@ export default {
   border-radius: 10px;
 }
 
-.form label .input + span {
+.form label .input+span {
   position: absolute;
   left: 10px;
   top: 15px;
@@ -238,19 +230,19 @@ export default {
   transition: 0.3s ease;
 }
 
-.form label .input:placeholder-shown + span {
+.form label .input:placeholder-shown+span {
   top: 15px;
   font-size: 0.9em;
 }
 
-.form label .input:focus + span,
-.form label .input:valid + span {
+.form label .input:focus+span,
+.form label .input:valid+span {
   top: 30px;
   font-size: 0.7em;
   font-weight: 600;
 }
 
-.form label .input:valid + span {
+.form label .input:valid+span {
   color: green;
 }
 
@@ -267,6 +259,22 @@ export default {
 
 .submit:hover {
   background-color: rgb(56, 90, 194);
+}
+
+.togglePasswordButton {
+  border: none;
+  background-color: transparent;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 0.8em;
+  color: grey;
+}
+
+.togglePasswordButton:hover {
+  color: royalblue;
 }
 
 @keyframes pulse {
