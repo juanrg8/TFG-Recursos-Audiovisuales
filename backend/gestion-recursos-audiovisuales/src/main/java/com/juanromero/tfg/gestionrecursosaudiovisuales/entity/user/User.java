@@ -1,9 +1,9 @@
 package com.juanromero.tfg.gestionrecursosaudiovisuales.entity.user;
 
 
-import java.util.List;
+import java.util.List; 
 
-
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

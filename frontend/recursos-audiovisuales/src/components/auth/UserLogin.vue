@@ -2,7 +2,7 @@
   <Navbar style="z-index: 9" />
   <div>
     <div class="customFormContainer">
-      <form class="form_main" action="" @submit.prevent="handleLogin">
+      <form v-if="!showResetForm" class="form_main" @submit.prevent="handleLogin">
         <p class="heading">¡Bienvenido!</p>
         <div class="inputContainer">
           <svg viewBox="0 0 16 16" fill="#2e2e2e" height="16" width="16" xmlns="http://www.w3.org/2000/svg"
@@ -30,8 +30,31 @@
 
         <button id="button">Iniciar Sesión</button>
         <div class="signupContainer">
-          <p>¿No estas registrado?</p>
-          <a @click="$router.push('/register')">Registrate</a>
+          <p>¿No estás registrado?</p>
+          <a @click="$router.push('/register')">Regístrate</a>
+        </div>
+        <div class="signupContainer">
+          <p>¿Olvidaste tu contraseña?</p>
+          <a @click="toggleForm">Restablecer Contraseña</a>
+        </div>
+      </form>
+
+
+      <form v-else class="form_main" @submit.prevent="handleResetPassword">
+        <p class="heading">Restablecer Contraseña</p>
+        <div class="inputContainer">
+          <svg viewBox="0 0 16 16" fill="#2e2e2e" height="16" width="16" xmlns="http://www.w3.org/2000/svg"
+            class="inputIcon">
+            <path
+              d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z">
+            </path>
+          </svg>
+          <input v-model="resetEmail" placeholder="Correo Electrónico" id="resetEmail" class="inputField"
+            type="email" />
+        </div>
+        <button id="button">Enviar Solicitud de Restablecimiento</button>
+        <div class="signupContainer">
+          <a @click="toggleForm">Volver a Iniciar Sesión</a>
         </div>
       </form>
     </div>
@@ -39,19 +62,21 @@
 </template>
 
 <script>
-import { login } from "../../services/authService";
-import Navbar from "@/components/Navbar.vue"; // Importa el componente Navbar
+import { login, resetPassword } from "../../services/authService";
+import Navbar from "@/components/Navbar.vue";
 
 export default {
   name: "UserLogin",
   components: {
-    Navbar, // Registra el componente Navbar en el componente UserLogin
+    Navbar,
   },
   data() {
     return {
       username: "",
       password: "",
       showPassword: false,
+      resetEmail: "",
+      showResetForm: false,
     };
   },
   methods: {
@@ -67,7 +92,7 @@ export default {
           localStorage.setItem("token", response.data.token);
           await this.buscarUsuario(response.data.username);
           console.table(response);
-          this.$router.push("/"); // Redirige a la página principal
+          this.$router.push("/");
         } else {
           throw new Error("Invalid response from server");
         }
@@ -93,9 +118,22 @@ export default {
           console.error("Error:", error);
         });
     },
+    async handleResetPassword() {
+      try {
+        await resetPassword(this.resetEmail);
+        alert("Solicitud de restablecimiento de contraseña enviada correctamente. Por favor, revisa tu correo electrónico.");
+        this.showResetForm = false;
+      } catch (error) {
+        console.error("Error al enviar la solicitud de restablecimiento de contraseña:", error);
+        alert("No se pudo enviar la solicitud de restablecimiento de contraseña. Por favor, inténtalo de nuevo más tarde.");
+      }
+    },
     togglePasswordVisibility() {
       this.showPassword = !this.showPassword;
     },
+    toggleForm() {
+      this.showResetForm = !this.showResetForm;
+    }
   },
 };
 </script>
@@ -223,11 +261,12 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 20px;
+  gap: 2px;
 }
 
 .signupContainer p {
   font-size: 0.9em;
+  margin-top: 10px;
   font-weight: 500;
   color: black;
 }

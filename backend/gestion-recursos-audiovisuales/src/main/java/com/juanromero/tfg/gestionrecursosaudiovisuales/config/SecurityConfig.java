@@ -33,7 +33,7 @@ public class SecurityConfig {
                     .requestMatchers("/auth/**").permitAll()
     				.requestMatchers(HttpMethod.OPTIONS).permitAll().requestMatchers("/**").permitAll()
     				.requestMatchers("/resources/**", "/webjars/**", "/WEB-INF/**", "/static/**").permitAll()
-    				.requestMatchers(HttpMethod.POST, "/auth/login", "/auth/register").anonymous()
+    				.requestMatchers(HttpMethod.POST, "/auth/login", "/auth/register","/auth/reset-password").anonymous()
     				.requestMatchers(HttpMethod.POST, "/book/**", "/videogame/**", "/movie/**", "/album/**").authenticated()
     				.requestMatchers(HttpMethod.PUT, "/book/**", "/videogame/**", "/movie/**", "/album/**").authenticated()
     				.requestMatchers(HttpMethod.DELETE, "/book/**", "/videogame/**", "/movie/**", "/album/**").authenticated()
