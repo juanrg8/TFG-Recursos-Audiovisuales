@@ -1,0 +1,22 @@
+server.port=8082
+
+spring.datasource.url=${DATABASE_URL}
+spring.datasource.username=${DATABASE_USERNAME}
+spring.datasource.password=${DATABASE_PASSWORD}
+spring.datasource.driver-class-name={DATABASE_DRIVER}
+spring.jpa.database-platform={DATABASE_PLATFORM}
+spring.jpa.hibernate.ddl-auto=update
+
+
+# JWT
+# Generar clave: node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+token.secret.key=secret
+token.expiration.ms=86400000
+
+#Correo
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+spring.mail.username=goodtaste.soporte@gmail.com
+spring.mail.password=password
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true

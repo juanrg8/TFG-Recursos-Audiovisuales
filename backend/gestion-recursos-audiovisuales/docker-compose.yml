@@ -1,0 +1,32 @@
+version: "3"
+services:
+  app:
+    container_name: "backcontainer"
+    build: .
+    ports: 
+      - "8082:8082"
+    environment:
+      - SPRING_DATASOURCE_URL= jdbc:mysql://mysqldb:3306/db-recursos?autoReconnect=true&useSSL=false
+      - DATABASE_URL= jdbc:mysql://mysqldb:3306/db-recursos
+      - DATABASE_USERNAME=root
+      - DATABASE_PASSWORD=admin
+    depends_on:
+      - mysqldb
+      
+  mysqldb:
+   container_name: "mysqldb"
+   image: "mysql:5.7"
+   ports:
+     - "3306:3306"
+   volumes:
+     - ./mysql:/var/lib/mysql
+   environment:
+     MYSQL_DATABASE: "db-recursos"
+     MYSQL_USER: "db-recursos"
+     MYSQL_PASSWORD: "admin"
+     MYSQL_ROOT_PASSWORD: "admin"
+     
+volumes:
+  mysql-data:
+    external: false
+     
